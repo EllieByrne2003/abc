@@ -39,6 +39,10 @@ ABC_NAMESPACE_IMPL_START
 ///                     FUNCTION DEFINITIONS                         ///
 ////////////////////////////////////////////////////////////////////////
 
+int Abc_NtkNodeNum( Abc_Ntk_t * pNtk ) {
+    return pNtk->nObjCounts[ABC_OBJ_NODE];  
+}
+
 /**Function*************************************************************
 
   Synopsis    [Creates a new Ntk.]
