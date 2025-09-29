@@ -298,6 +298,11 @@ struct If_Man_t_
     Mem_Fixed_t *      pMemEntries;      // memory manager for hash table entries
     // statistics 
 //    abctime                timeTruth;
+
+    // TODO Ellie, look here
+    // AutoBc addition
+    Vec_Int_t * vMemory;
+    Vec_Int_t * vMemory2;
 };
 
 // priority cut

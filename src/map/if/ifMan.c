@@ -169,6 +169,10 @@ If_Man_t * If_ManStart( If_Par_t * pPars )
     p->pConst1->Type   = IF_CONST1;
     p->pConst1->fPhase = 1;
     p->nObjs[IF_CONST1]++;
+
+    p->vMemory  = Vec_IntAlloc( 1 << 16 );
+    p->vMemory2 = Vec_IntAlloc( 1 << 16 );
+
     return p;
 }
 
@@ -190,6 +194,8 @@ void If_ManRestart( If_Man_t * p )
     Vec_PtrClear( p->vCos );
     Vec_PtrClear( p->vObjs );
     Vec_PtrClear( p->vTemp );
+    Vec_IntClear( p->vMemory );
+    Vec_IntClear( p->vMemory2 );
     Mem_FixedRestart( p->pMemObj );
     // create the constant node
     p->pConst1 = If_ManSetupObj( p );
@@ -492,6 +498,10 @@ void If_ManStop( If_Man_t * p )
     if ( p->pMemEntries )
         Mem_FixedStop( p->pMemEntries, 0 );
     ABC_FREE( p->pName );
+
+    Vec_IntFree( p->vMemory );
+    Vec_IntFree( p->vMemory2 );
+
     ABC_FREE( p );
 }
 

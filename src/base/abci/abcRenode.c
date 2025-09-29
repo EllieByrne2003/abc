@@ -44,8 +44,6 @@ static int Abc_NtkRenodeEvalMv( If_Man_t * p, If_Cut_t * pCut );
 
 static reo_man * s_pReo       = NULL;
 static DdManager * s_pDd      = NULL;
-static Vec_Int_t * s_vMemory  = NULL;
-static Vec_Int_t * s_vMemory2 = NULL;
 
 static int nDsdCounter = 0;
 
@@ -124,12 +122,6 @@ Abc_Ntk_t * Abc_NtkRenode( Abc_Ntk_t * pNtk, int nFaninMax, int nCubeMax, int nF
         s_pReo = Extra_ReorderInit( nFaninMax, 100 );
         pPars->pReoMan  = s_pReo;
     }
-    else
-    {
-        assert( s_vMemory == NULL );
-        s_vMemory  = Vec_IntAlloc( 1 << 16 );
-        s_vMemory2 = Vec_IntAlloc( 1 << 16 );
-    }
 
     // perform mapping/renoding
     pNtkNew = Abc_NtkIf( pNtk, pPars );
@@ -141,13 +133,6 @@ Abc_Ntk_t * Abc_NtkRenode( Abc_Ntk_t * pNtk, int nFaninMax, int nCubeMax, int nF
         Extra_ReorderQuit( s_pReo );
         s_pReo = NULL;
         s_pDd  = NULL;
-    }
-    else
-    {
-        Vec_IntFree( s_vMemory );
-        Vec_IntFree( s_vMemory2 );
-        s_vMemory = NULL;
-        s_vMemory2 = NULL;
     }
 
 //    printf( "Decomposed %d functions.\n", nDsdCounter );
@@ -171,7 +156,7 @@ int Abc_NtkRenodeEvalAig( If_Man_t * p, If_Cut_t * pCut )
     char * pPerm = If_CutPerm( pCut );
     Kit_Graph_t * pGraph;
     int i, nNodes;
-    pGraph = Kit_TruthToGraph( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), s_vMemory );
+    pGraph = Kit_TruthToGraph( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), p->vMemory );
     if ( pGraph == NULL )
     {
         for ( i = 0; i < If_CutLeaveNum(pCut); i++ )
@@ -232,11 +217,11 @@ int Abc_NtkRenodeEvalSop( If_Man_t * p, If_Cut_t * pCut )
     int i, RetValue;
     for ( i = 0; i < If_CutLeaveNum(pCut); i++ )
         pPerm[i] = 1;
-    RetValue = Kit_TruthIsop( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), s_vMemory, 1 );
+    RetValue = Kit_TruthIsop( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), p->vMemory, 1 );
     if ( RetValue == -1 )
         return IF_COST_MAX;
     assert( RetValue == 0 || RetValue == 1 );
-    return Vec_IntSize( s_vMemory );
+    return Vec_IntSize(p-> vMemory );
 }
 
 /**Function*************************************************************
@@ -258,19 +243,19 @@ int Abc_NtkRenodeEvalCnf( If_Man_t * p, If_Cut_t * pCut )
     for ( i = 0; i < If_CutLeaveNum(pCut); i++ )
         pPerm[i] = 1;
     // compute ISOP for the positive phase
-    RetValue = Kit_TruthIsop( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), s_vMemory, 0 );
+    RetValue = Kit_TruthIsop( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), p->vMemory, 0 );
     if ( RetValue == -1 )
         return IF_COST_MAX;
     assert( RetValue == 0 || RetValue == 1 );
-    nClauses = Vec_IntSize( s_vMemory );
+    nClauses = Vec_IntSize( p->vMemory );
     // compute ISOP for the negative phase
     Kit_TruthNot( If_CutTruth(p, pCut), If_CutTruth(p, pCut), If_CutLeaveNum(pCut) );
-    RetValue = Kit_TruthIsop( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), s_vMemory, 0 );
+    RetValue = Kit_TruthIsop( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), p->vMemory, 0 );
     Kit_TruthNot( If_CutTruth(p, pCut), If_CutTruth(p, pCut), If_CutLeaveNum(pCut) );
     if ( RetValue == -1 )
         return IF_COST_MAX;
     assert( RetValue == 0 || RetValue == 1 );
-    nClauses += Vec_IntSize( s_vMemory );
+    nClauses += Vec_IntSize( p->vMemory );
     return nClauses;
 }
 
@@ -293,19 +278,19 @@ int Abc_NtkRenodeEvalMv( If_Man_t * p, If_Cut_t * pCut )
     for ( i = 0; i < If_CutLeaveNum(pCut); i++ )
         pPerm[i] = 1;
     // compute ISOP for the positive phase
-    RetValue = Kit_TruthIsop( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), s_vMemory, 0 );
+    RetValue = Kit_TruthIsop( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), p->vMemory, 0 );
     if ( RetValue == -1 )
         return IF_COST_MAX;
     assert( RetValue == 0 || RetValue == 1 );
     // compute ISOP for the negative phase
     Kit_TruthNot( If_CutTruth(p, pCut), If_CutTruth(p, pCut), If_CutLeaveNum(pCut) );
-    RetValue = Kit_TruthIsop( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), s_vMemory2, 0 );
+    RetValue = Kit_TruthIsop( If_CutTruth(p, pCut), If_CutLeaveNum(pCut), p->vMemory2, 0 );
     Kit_TruthNot( If_CutTruth(p, pCut), If_CutTruth(p, pCut), If_CutLeaveNum(pCut) );
     if ( RetValue == -1 )
         return IF_COST_MAX;
     assert( RetValue == 0 || RetValue == 1 );
     // return the cost of the cut 
-    RetValue = Abc_NodeEvalMvCost( If_CutLeaveNum(pCut), s_vMemory, s_vMemory2 );
+    RetValue = Abc_NodeEvalMvCost( If_CutLeaveNum(pCut), p->vMemory, p->vMemory2 );
     if ( RetValue >= IF_COST_MAX )
         return IF_COST_MAX;
     return RetValue;
