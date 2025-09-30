@@ -30,57 +30,6 @@ ABC_NAMESPACE_IMPL_START
 ///                        DECLARATIONS                              ///
 ////////////////////////////////////////////////////////////////////////
 
-#define RMAN_MAXVARS  12
-#define RMAX_MAXWORD  (RMAN_MAXVARS <= 5 ? 1 : (1 << (RMAN_MAXVARS - 5)))
-
-typedef struct Aig_VSig_t_ Aig_VSig_t;
-struct Aig_VSig_t_
-{
-    int           nOnes;
-    int           nCofOnes[RMAN_MAXVARS];
-};
-
-typedef struct Aig_Tru_t_ Aig_Tru_t;
-struct Aig_Tru_t_
-{
-    Aig_Tru_t *   pNext;
-    int           Id;    
-    unsigned      nVisits : 27;
-    unsigned      nVars   :  5;
-    unsigned      pTruth[0];
-};
-
-typedef struct Aig_RMan_t_ Aig_RMan_t;
-struct Aig_RMan_t_
-{
-    int           nVars;       // the largest variable number
-    Aig_Man_t *   pAig;        // recorded subgraphs
-    // hash table
-    int           nBins;
-    Aig_Tru_t **  pBins;
-    int           nEntries;
-    Aig_MmFlex_t* pMemTrus;
-    // bidecomposion
-    Bdc_Man_t *   pBidec;
-    // temporaries
-    unsigned      pTruthInit[RMAX_MAXWORD]; // canonical truth table
-    unsigned      pTruth[RMAX_MAXWORD];     // current truth table
-    unsigned      pTruthC[RMAX_MAXWORD];    // canonical truth table
-    unsigned      pTruthTemp[RMAX_MAXWORD]; // temporary truth table
-    Aig_VSig_t    pMints[2*RMAN_MAXVARS];   // minterm count
-    char          pPerm[RMAN_MAXVARS];      // permutation
-    char          pPermR[RMAN_MAXVARS];     // reverse permutation
-    // statistics
-    int           nVarFuncs[RMAN_MAXVARS+1];
-    int           nTotal;
-    int           nTtDsd;
-    int           nTtDsdPart;
-    int           nTtDsdNot;
-    int           nUniqueVars;
-};
-
-static Aig_RMan_t * s_pRMan = NULL;
-
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
 ////////////////////////////////////////////////////////////////////////
@@ -251,16 +200,16 @@ int Aig_RManTableFindOrAdd( Aig_RMan_t * p, unsigned * pTruth, int nVars )
 ***********************************************************************/
 void Aig_RManStop( Aig_RMan_t * p )
 {
-    int i;
-    printf( "Total funcs    = %10d\n", p->nTotal );
-    printf( "Full DSD funcs = %10d\n", p->nTtDsd );
-    printf( "Part DSD funcs = %10d\n", p->nTtDsdPart );
-    printf( "Non- DSD funcs = %10d\n", p->nTtDsdNot );
-    printf( "Uniq-var funcs = %10d\n", p->nUniqueVars );
-    printf( "Unique   funcs = %10d\n", p->nEntries );
-    printf( "Distribution of functions:\n" );
-    for ( i = 5; i <= p->nVars; i++ )
-        printf( "%2d = %8d\n", i, p->nVarFuncs[i] );
+    // int i;
+    // printf( "Total funcs    = %10d\n", p->nTotal );
+    // printf( "Full DSD funcs = %10d\n", p->nTtDsd );
+    // printf( "Part DSD funcs = %10d\n", p->nTtDsdPart );
+    // printf( "Non- DSD funcs = %10d\n", p->nTtDsdNot );
+    // printf( "Uniq-var funcs = %10d\n", p->nUniqueVars );
+    // printf( "Unique   funcs = %10d\n", p->nEntries );
+    // printf( "Distribution of functions:\n" );
+    // for ( i = 5; i <= p->nVars; i++ )
+    //     printf( "%2d = %8d\n", i, p->nVarFuncs[i] );
     Aig_MmFlexStop( p->pMemTrus, 0 );
     Aig_ManStop( p->pAig );
     Bdc_ManFree( p->pBidec );
@@ -280,19 +229,19 @@ void Aig_RManStop( Aig_RMan_t * p )
   SeeAlso     []
 
 ***********************************************************************/
-void Aig_RManQuit()
-{
-//    extern void Ioa_WriteAiger( Aig_Man_t * pMan, char * pFileName, int fWriteSymbols, int fCompact );
-    char Buffer[20];
-    if ( s_pRMan == NULL )
-        return;
-    // dump the library file
-    sprintf( Buffer, "aiglib%02d.aig", s_pRMan->nVars );
-    Ioa_WriteAiger( s_pRMan->pAig, Buffer, 0, 1 );
-    // quit the manager
-    Aig_RManStop( s_pRMan );
-    s_pRMan = NULL;
-}
+// void Aig_RManQuit()
+// {
+// //    extern void Ioa_WriteAiger( Aig_Man_t * pMan, char * pFileName, int fWriteSymbols, int fCompact );
+//     char Buffer[20];
+//     if ( s_pRMan == NULL )
+//         return;
+//     // dump the library file
+//     sprintf( Buffer, "aiglib%02d.aig", s_pRMan->nVars );
+//     Ioa_WriteAiger( s_pRMan->pAig, Buffer, 0, 1 );
+//     // quit the manager
+//     Aig_RManStop( s_pRMan );
+//     s_pRMan = NULL;
+// }
 
 /**Function*************************************************************
 
@@ -541,7 +490,7 @@ unsigned Aig_RManSemiCanonicize( unsigned * pOut, unsigned * pIn, int nVars, cha
   SeeAlso     []
 
 ***********************************************************************/
-static inline Aig_Obj_t * Bdc_FunCopyHop( Bdc_Fun_t * pObj )  
+static inline Aig_Obj_t * Bdc_FunCopyHop( Bdc_Fun_t * pObj )  // TODO Ellie Used outside
 { return Aig_NotCond( (Aig_Obj_t *)Bdc_FuncCopy(Bdc_Regular(pObj)), Bdc_IsComplement(pObj) );  }
 
 /**Function*************************************************************
@@ -595,8 +544,9 @@ void Aig_RManSaveOne( Aig_RMan_t * p, unsigned * pTruth, int nVars )
   SeeAlso     []
 
 ***********************************************************************/
-void Aig_RManRecord( unsigned * pTruth, int nVarsInit )
+void Aig_RManRecord( Aig_RMan_t * pRMan, unsigned * pTruth, int nVarsInit ) // TODO Ellie Used outside
 {
+    printf("Function call\n");
     int fVerify = 1;
     Kit_DsdNtk_t * pNtk;
     Kit_DsdObj_t * pObj;
@@ -610,41 +560,41 @@ void Aig_RManRecord( unsigned * pTruth, int nVarsInit )
         return;
     }
 
-    if ( s_pRMan == NULL )
-        s_pRMan = Aig_RManStart();
-    s_pRMan->nTotal++;
+    // if ( s_pRMan == NULL )
+    //     s_pRMan = Aig_RManStart();
+    pRMan->nTotal++;
     // canonicize the function
     pNtk = Kit_DsdDecompose( pTruth, nVarsInit );
     pObj = Kit_DsdNonDsdPrimeMax( pNtk );
     if ( pObj == NULL || pObj->nFans == 3 )
     {
-        s_pRMan->nTtDsd++;
+        pRMan->nTtDsd++;
         Kit_DsdNtkFree( pNtk );
         return;
     }
     nVars = pObj->nFans;
-    s_pRMan->nVarFuncs[nVars]++;
+    pRMan->nVarFuncs[nVars]++;
     if ( nVars < nVarsInit )
-        s_pRMan->nTtDsdPart++;
+        pRMan->nTtDsdPart++;
     else
-        s_pRMan->nTtDsdNot++;
+        pRMan->nTtDsdNot++;
     // compute the number of words
     nWords = Abc_TruthWordNum( nVars );
     // copy the function
-    memcpy( s_pRMan->pTruthInit, Kit_DsdObjTruth(pObj), (size_t)(4*nWords) );
+    memcpy( pRMan->pTruthInit, Kit_DsdObjTruth(pObj), (size_t)(4*nWords) );
     Kit_DsdNtkFree( pNtk );
     // canonicize the output
-    if ( s_pRMan->pTruthInit[0] & 1 )
-        Kit_TruthNot( s_pRMan->pTruthInit, s_pRMan->pTruthInit, nVars );
-    memcpy( s_pRMan->pTruth, s_pRMan->pTruthInit, 4*nWords );
+    if ( pRMan->pTruthInit[0] & 1 )
+        Kit_TruthNot( pRMan->pTruthInit, pRMan->pTruthInit, nVars );
+    memcpy( pRMan->pTruth, pRMan->pTruthInit, 4*nWords );
 
     // canonize the function
     for ( i = 0; i < nVars; i++ )
-        s_pRMan->pPerm[i] = i;
-    uPhaseC = Aig_RManSemiCanonicize( s_pRMan->pTruthTemp, s_pRMan->pTruth, nVars, s_pRMan->pPerm, s_pRMan->pMints, 1 );
+        pRMan->pPerm[i] = i;
+    uPhaseC = Aig_RManSemiCanonicize( pRMan->pTruthTemp, pRMan->pTruth, nVars, pRMan->pPerm, pRMan->pMints, 1 );
     // check unique variables
-    fUniqueVars = Aig_RManVarsAreUnique( s_pRMan->pMints, nVars );
-    s_pRMan->nUniqueVars += fUniqueVars;
+    fUniqueVars = Aig_RManVarsAreUnique( pRMan->pMints, nVars );
+    pRMan->nUniqueVars += fUniqueVars;
 
 /*
     printf( "%4d : ", s_pRMan->nTotal );
@@ -669,23 +619,23 @@ Extra_PrintBinary( stdout, s_pRMan->pTruth, 1<<nVars ); printf( "\n\n" );
 
 //Extra_PrintBinary( stdout, s_pRMan->pTruth, 1<<nVars ); printf( "\n\n" );
 
-    if ( Aig_RManTableFindOrAdd( s_pRMan, s_pRMan->pTruth, nVars ) )
-        Aig_RManSaveOne( s_pRMan, s_pRMan->pTruth, nVars );
+    if ( Aig_RManTableFindOrAdd( pRMan, pRMan->pTruth, nVars ) )
+        Aig_RManSaveOne( pRMan, pRMan->pTruth, nVars );
 
     if ( fVerify )
     {
         // derive reverse permutation
         for ( i = 0; i < nVars; i++ )
-            s_pRMan->pPermR[i] = s_pRMan->pPerm[i];
+            pRMan->pPermR[i] = pRMan->pPerm[i];
         // implement permutation
-        Kit_TruthPermute( s_pRMan->pTruthTemp, s_pRMan->pTruth, nVars, s_pRMan->pPermR, 1 );
+        Kit_TruthPermute( pRMan->pTruthTemp, pRMan->pTruth, nVars, pRMan->pPermR, 1 );
         // implement polarity
         for ( i = 0; i < nVars; i++ )
             if ( uPhaseC & (1 << i) )
-                Kit_TruthChangePhase( s_pRMan->pTruth, nVars, i );
+                Kit_TruthChangePhase( pRMan->pTruth, nVars, i );
 
         // perform verification
-        if ( fUniqueVars && !Kit_TruthIsEqual( s_pRMan->pTruth, s_pRMan->pTruthInit, nVars ) )
+        if ( fUniqueVars && !Kit_TruthIsEqual( pRMan->pTruth, pRMan->pTruthInit, nVars ) )
             printf( "Verification failed.\n" );
     }
 //Aig_RManPrintVarProfile( s_pRMan->pTruth, nVars, s_pRMan->pTruthTemp );

@@ -51,7 +51,8 @@ typedef struct Aig_Man_t_            Aig_Man_t;
 typedef struct Aig_Obj_t_            Aig_Obj_t;
 typedef struct Aig_MmFixed_t_        Aig_MmFixed_t;    
 typedef struct Aig_MmFlex_t_         Aig_MmFlex_t;     
-typedef struct Aig_MmStep_t_         Aig_MmStep_t;     
+typedef struct Aig_MmStep_t_         Aig_MmStep_t;  
+typedef struct Bdc_Man_t_            Bdc_Man_t;
 
 // object types
 typedef enum { 
@@ -204,6 +205,55 @@ struct Aig_ManCut_t_
     int             nTruthWords;     // the number of truth table words
     Aig_MmFixed_t * pMemCuts;        // memory manager for cuts
     unsigned *      puTemp[4];       // used for the truth table computation
+};
+
+#define RMAN_MAXVARS  12
+#define RMAX_MAXWORD  (RMAN_MAXVARS <= 5 ? 1 : (1 << (RMAN_MAXVARS - 5)))
+
+typedef struct Aig_VSig_t_ Aig_VSig_t;
+struct Aig_VSig_t_
+{
+    int           nOnes;
+    int           nCofOnes[RMAN_MAXVARS];
+};
+
+typedef struct Aig_Tru_t_ Aig_Tru_t;
+struct Aig_Tru_t_
+{
+    Aig_Tru_t *   pNext;
+    int           Id;    
+    unsigned      nVisits : 27;
+    unsigned      nVars   :  5;
+    unsigned      pTruth[0];
+};
+
+typedef struct Aig_RMan_t_ Aig_RMan_t;
+struct Aig_RMan_t_
+{
+    int           nVars;       // the largest variable number
+    Aig_Man_t *   pAig;        // recorded subgraphs
+    // hash table
+    int           nBins;
+    Aig_Tru_t **  pBins;
+    int           nEntries;
+    Aig_MmFlex_t* pMemTrus;
+    // bidecomposion
+    Bdc_Man_t *   pBidec;
+    // temporaries
+    unsigned      pTruthInit[RMAX_MAXWORD]; // canonical truth table
+    unsigned      pTruth[RMAX_MAXWORD];     // current truth table
+    unsigned      pTruthC[RMAX_MAXWORD];    // canonical truth table
+    unsigned      pTruthTemp[RMAX_MAXWORD]; // temporary truth table
+    Aig_VSig_t    pMints[2*RMAN_MAXVARS];   // minterm count
+    char          pPerm[RMAN_MAXVARS];      // permutation
+    char          pPermR[RMAN_MAXVARS];     // reverse permutation
+    // statistics
+    int           nVarFuncs[RMAN_MAXVARS+1];
+    int           nTotal;
+    int           nTtDsd;
+    int           nTtDsdPart;
+    int           nTtDsdNot;
+    int           nUniqueVars;
 };
 
 static inline Aig_Cut_t *  Aig_ObjCuts( Aig_ManCut_t * p, Aig_Obj_t * pObj )                         { return p->pCuts[pObj->Id];  }

@@ -1519,8 +1519,9 @@ void Abc_End( Abc_Frame_t * pAbc )
         Dar_LibStop();
     }
     {
-        extern void Aig_RManQuit();
-        Aig_RManQuit();
+        // TODO Ellie, not needed with changes to aigCanon.c
+        // extern void Aig_RManQuit();
+        // Aig_RManQuit();
     }
     {
         extern void Npn_ManClean();

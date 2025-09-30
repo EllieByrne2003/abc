@@ -398,10 +398,10 @@ p->timeMerge += Abc_Clock() - clk;
     }
     if ( p->pParams->fRecordAig )
     {
-        extern void Aig_RManRecord( unsigned * pTruth, int nVarsInit );
+        extern void Aig_RManRecord( Aig_RMan_t *pRMan, unsigned * pTruth, int nVarsInit );
         Cut_ListForEachCut( pList, pCut )
             if ( Cut_CutReadLeaveNum(pCut) > 4 )
-                Aig_RManRecord( Cut_CutReadTruth(pCut), Cut_CutReadLeaveNum(pCut) );
+                Aig_RManRecord( p->pRMan, Cut_CutReadTruth(pCut), Cut_CutReadLeaveNum(pCut) );
     }
     // check if the node is over the list
     if ( p->nNodeCuts == p->pParams->nKeepMax )

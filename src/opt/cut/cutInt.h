@@ -44,6 +44,7 @@ ABC_NAMESPACE_HEADER_START
 ////////////////////////////////////////////////////////////////////////
 
 typedef struct Cut_HashTableStruct_t_ Cut_HashTable_t;
+typedef struct Aig_RMan_t_ Aig_RMan_t;
 
 struct Cut_ManStruct_t_
 { 
@@ -98,6 +99,8 @@ struct Cut_ManStruct_t_
     abctime            timeFilter;
     abctime            timeHash;
     abctime            timeMap;
+    // Recroding Manager (See aigCanon.c for uses)
+    Aig_RMan_t *       pRMan;
 };
 
 // iterator through all the cuts of the list

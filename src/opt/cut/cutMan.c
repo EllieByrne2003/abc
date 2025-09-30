@@ -107,6 +107,10 @@ Cut_Man_t * Cut_ManStart( Cut_Params_t * pParams )
     // memory for cuts
     p->pMmCuts = Extra_MmFixedStart( p->EntrySize );
     p->vTemp = Vec_PtrAlloc( 100 );
+
+    // manager for recording cuts
+    extern Aig_RMan_t * Aig_RManStart();
+    p->pRMan = Aig_RManStart();
     return p;
 }
 
@@ -136,6 +140,9 @@ void Cut_ManStop( Cut_Man_t * p )
     if ( p->vNodeStarts ) Vec_IntFree( p->vNodeStarts );
     if ( p->vCutPairs )   Vec_IntFree( p->vCutPairs );
     if ( p->puTemp[0] )   ABC_FREE( p->puTemp[0] );
+    
+    extern void Aig_RManStop( Aig_RMan_t * p );
+    if ( p->pRMan )       Aig_RManStop( p->pRMan );
 
     Extra_MmFixedStop( p->pMmCuts );
     ABC_FREE( p );
