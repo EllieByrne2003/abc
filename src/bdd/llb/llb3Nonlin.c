@@ -66,7 +66,7 @@ struct Llb_Mnn_t_
 };
 
 // extern abctime timeBuild, timeAndEx, timeOther;
-extern int nSuppMax;
+// extern int nSuppMax;
 
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
@@ -632,7 +632,7 @@ int Llb_NonlinReachability( Llb_Mnn_t * p )
             printf( "(%4d %4d)  ", p->ddLocReos, p->ddLocGrbs );
             printf( "Rea =%6d  ",  Cudd_DagSize(p->ddG->bFunc) );
             printf( "(%4d %4d)  ", Cudd_ReadReorderings(p->ddG), Cudd_ReadGarbageCollections(p->ddG) );
-            printf( "S =%4d ",     nSuppMax );
+            // printf( "S =%4d ",     nSuppMax );
             printf( "cL =%5d ",    NumCmp );
             printf( "cG =%5d ",    Llb_NonlinCompPerms( p->ddG, p->pOrderG ) );
             Abc_PrintTime( 1, "T", Abc_Clock() - clk2 );

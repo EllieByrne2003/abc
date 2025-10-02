@@ -80,7 +80,7 @@ static inline Llb_Prt_t * Llb_MgrPart( Llb_Mgr_t * p, int i )  { return p->pPart
 
 // statistics
 // abctime timeBuild, timeAndEx, timeOther;
-int nSuppMax;
+// int nSuppMax;
 
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
@@ -934,7 +934,7 @@ DdNode * Llb_NonlinImage( Aig_Man_t * pAig, Vec_Ptr_t * vLeaves, Vec_Ptr_t * vRo
         bFunc = Cudd_bddAnd( p->dd, bTemp = bFunc, pPart->bFunc );   Cudd_Ref( bFunc );
         Cudd_RecursiveDeref( p->dd, bTemp );
     }
-    nSuppMax = p->nSuppMax;
+    // nSuppMax = p->nSuppMax;
     Llb_NonlinFree( p );
     // reorder variables
     if ( fReorder )
@@ -1048,7 +1048,7 @@ DdNode * Llb_NonlinImageCompute( DdNode * bCurrent, int fReorder, int fDrop, int
         Cudd_Ref( bFunc );
         Cudd_RecursiveDeref( p->dd, bTemp );
     }
-    nSuppMax = p->nSuppMax;
+    // nSuppMax = p->nSuppMax;
     // reorder variables
 //    if ( fReorder )
 //        Llb_NonlinReorder( p->dd, 0, fVerbose );
