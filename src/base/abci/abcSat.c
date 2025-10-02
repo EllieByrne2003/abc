@@ -38,7 +38,6 @@ ABC_NAMESPACE_IMPL_START
 
 static sat_solver * Abc_NtkMiterSatCreateLogic( Abc_Ntk_t * pNtk, int fAllPrimes );
 extern Vec_Int_t * Abc_NtkGetCiSatVarNums( Abc_Ntk_t * pNtk );
-static int nMuxes;
 
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
@@ -564,8 +563,6 @@ int Abc_NtkMiterSatCreateInt( sat_solver * pSat, Abc_Ntk_t * pNtk )
         // add the clauses
         if ( fUseMuxes && Abc_NodeIsMuxType(pNode) )
         {
-            nMuxes++;
-
             pNodeC = Abc_NodeRecognizeMux( pNode, &pNodeT, &pNodeE );
             Vec_PtrClear( vSuper );
             Vec_PtrPush( vSuper, pNodeC );
@@ -671,7 +668,6 @@ void * Abc_NtkMiterSatCreate( Abc_Ntk_t * pNtk, int fAllPrimes )
     if ( Abc_NtkIsBddLogic(pNtk) )
         return Abc_NtkMiterSatCreateLogic(pNtk, fAllPrimes);
 
-    nMuxes = 0;
     pSat = sat_solver_new();
 //sat_solver_store_alloc( pSat );
     RetValue = Abc_NtkMiterSatCreateInt( pSat, pNtk );
@@ -685,8 +681,7 @@ sat_solver_store_mark_roots( pSat );
         sat_solver_delete(pSat);
         return NULL;
     }
-//    printf( "Ands = %6d.  Muxes = %6d (%5.2f %%).  ", Abc_NtkNodeNum(pNtk), nMuxes, 300.0*nMuxes/Abc_NtkNodeNum(pNtk) );
-//    ABC_PRT( "Creating sat_solver", Abc_Clock() - clk );
+    
     return pSat;
 }
 

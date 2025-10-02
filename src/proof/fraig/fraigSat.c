@@ -45,8 +45,6 @@ static void Fraig_SetActivity( Fraig_Man_t * pMan, Fraig_Node_t * pOld, Fraig_No
 // The best way seems to be fanins followed by fanouts. Slight changes to this order
 // leads to big degradation in quality.
 
-static int nMuxes;
-
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
 ////////////////////////////////////////////////////////////////////////
@@ -345,8 +343,6 @@ int Fraig_NodeIsEquivalent( Fraig_Man_t * p, Fraig_Node_t * pOld, Fraig_Node_t *
     }
 */
 
-    nMuxes = 0;
-
 
     // get the logic cone
 clk = Abc_Clock();
@@ -354,9 +350,6 @@ clk = Abc_Clock();
     Fraig_OrderVariables( p, pOld, pNew );
 //    Fraig_PrepareCones( p, pOld, pNew );
 p->timeTrav += Abc_Clock() - clk;
-
-//    printf( "The number of MUXes detected = %d (%5.2f %% of logic).  ", nMuxes, 300.0*nMuxes/(p->vNodes->nSize - p->vInputs->nSize) );
-//    ABC_PRT( "Time", Abc_Clock() - clk );
 
     if ( fVerbose )
         printf( "%d(%d) - ", Fraig_CountPis(p,p->vVarsInt), Msat_IntVecReadSize(p->vVarsInt) );
@@ -925,8 +918,6 @@ void Fraig_OrderVariables( Fraig_Man_t * pMan, Fraig_Node_t * pOld, Fraig_Node_t
                 Fraig_NodeVecPushUnique( pNode->vFanins, Fraig_Regular(Fraig_Regular(pNode->p2)->p2) );
                 Fraig_SupergateAddClausesMux( pMan, pNode );
 //                Fraig_DetectFanoutFreeConeMux( pMan, pNode );
-
-                nMuxes++;
             }
             else
             {
