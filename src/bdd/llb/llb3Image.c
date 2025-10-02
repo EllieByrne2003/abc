@@ -79,7 +79,7 @@ static inline Llb_Prt_t * Llb_MgrPart( Llb_Mgr_t * p, int i )  { return p->pPart
     for ( i = 0; (i < Vec_IntSize(pVar->vParts)) && (((pPart) = Llb_MgrPart(p, Vec_IntEntry(pVar->vParts,i))), 1); i++ )
 
 // statistics
-abctime timeBuild, timeAndEx, timeOther;
+// abctime timeBuild, timeAndEx, timeOther;
 int nSuppMax;
 
 ////////////////////////////////////////////////////////////////////////
@@ -903,8 +903,8 @@ DdNode * Llb_NonlinImage( Aig_Man_t * pAig, Vec_Ptr_t * vLeaves, Vec_Ptr_t * vRo
     Llb_MgrForEachPart( p, pPart, i )
         if ( Llb_NonlinHasSingletonVars(p, pPart) )
             Llb_NonlinQuantify1( p, pPart, 0 );
-    timeBuild += Abc_Clock() - clk2;
-    timeInside = Abc_Clock() - clk2;
+    // timeBuild += Abc_Clock() - clk2;
+    // timeInside = Abc_Clock() - clk2;
     // compute scores
     Llb_NonlinRecomputeScores( p );
     // save permutation
@@ -920,8 +920,8 @@ DdNode * Llb_NonlinImage( Aig_Man_t * pAig, Vec_Ptr_t * vLeaves, Vec_Ptr_t * vRo
             Llb_NonlinFree( p );
             return NULL;
         }
-        timeAndEx  += Abc_Clock() - clk2;
-        timeInside += Abc_Clock() - clk2;
+        // timeAndEx  += Abc_Clock() - clk2;
+        // timeInside += Abc_Clock() - clk2;
         if ( nReorders < Cudd_ReadReorderings(dd) )
             Llb_NonlinRecomputeScores( p );
 //        else
@@ -939,7 +939,7 @@ DdNode * Llb_NonlinImage( Aig_Man_t * pAig, Vec_Ptr_t * vLeaves, Vec_Ptr_t * vRo
     // reorder variables
     if ( fReorder )
         Llb_NonlinReorder( dd, 0, fVerbose );
-    timeOther += Abc_Clock() - clk - timeInside;
+    // timeOther += Abc_Clock() - clk - timeInside;
     // return
     Cudd_Deref( bFunc );
     return bFunc;
@@ -979,7 +979,7 @@ DdManager * Llb_NonlinImageStart( Aig_Man_t * pAig, Vec_Ptr_t * vLeaves, Vec_Ptr
         p = NULL;
         return NULL;
     }
-    timeBuild += Abc_Clock() - clk;
+    // timeBuild += Abc_Clock() - clk;
 //    if ( !fFirst )
 //        Cudd_AutodynEnable( dd,  CUDD_REORDER_SYMM_SIFT );
     return dd;
@@ -1027,8 +1027,8 @@ DdNode * Llb_NonlinImageCompute( DdNode * bCurrent, int fReorder, int fDrop, int
             Llb_NonlinFree( p );
             return NULL;
         }
-        timeAndEx  += Abc_Clock() - clk2;
-        timeInside += Abc_Clock() - clk2;
+        // timeAndEx  += Abc_Clock() - clk2;
+        // timeInside += Abc_Clock() - clk2;
         if ( nReorders < Cudd_ReadReorderings(p->dd) )
             Llb_NonlinRecomputeScores( p );
 //        else
@@ -1055,7 +1055,7 @@ DdNode * Llb_NonlinImageCompute( DdNode * bCurrent, int fReorder, int fDrop, int
     // save permutation
 //    memcpy( pOrder, p->dd->invperm, sizeof(int) * Cudd_ReadSize(p->dd) );
 
-    timeOther += Abc_Clock() - clk - timeInside;
+    // timeOther += Abc_Clock() - clk - timeInside;
     // return
     Cudd_Deref( bFunc );
     return bFunc;

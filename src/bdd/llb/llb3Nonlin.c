@@ -65,7 +65,7 @@ struct Llb_Mnn_t_
 
 };
 
-extern abctime timeBuild, timeAndEx, timeOther;
+// extern abctime timeBuild, timeAndEx, timeOther;
 extern int nSuppMax;
 
 ////////////////////////////////////////////////////////////////////////
@@ -752,9 +752,9 @@ void Llb_MnnStop( Llb_Mnn_t * p )
         p->timeOther = p->timeTotal - p->timeImage - p->timeTran1 - p->timeTran2 - p->timeGloba;
         p->timeReoG  = Cudd_ReadReorderingTime(p->ddG);
         ABC_PRTP( "Image    ", p->timeImage, p->timeTotal );
-        ABC_PRTP( "  build  ",    timeBuild, p->timeTotal );
-        ABC_PRTP( "  and-ex ",    timeAndEx, p->timeTotal );
-        ABC_PRTP( "  other  ",    timeOther, p->timeTotal );
+        // ABC_PRTP( "  build  ",    timeBuild, p->timeTotal );
+        // ABC_PRTP( "  and-ex ",    timeAndEx, p->timeTotal );
+        // ABC_PRTP( "  other  ",    timeOther, p->timeTotal );
         ABC_PRTP( "Transfer1", p->timeTran1, p->timeTotal );
         ABC_PRTP( "Transfer2", p->timeTran2, p->timeTotal );
         ABC_PRTP( "Global   ", p->timeGloba, p->timeTotal );
