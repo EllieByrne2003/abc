@@ -101,7 +101,7 @@ int main( int argc, char * argv[] )
         {
             extern void Dar_LibStart();
             extern void Dar_LibStop();
-            extern void Cnf_ManFree();
+            // extern void Cnf_ManFree();
 
             Fra_SecSetDefaultParams( pSecPar );
             pSecPar->TimeLimit       = 600;
@@ -112,7 +112,7 @@ int main( int argc, char * argv[] )
             Dar_LibStart();
             RetValue = Fra_FraigSec( pAig, pSecPar, NULL );
             Dar_LibStop();
-            Cnf_ManFree();
+            // Cnf_ManFree();
         }
     }
 

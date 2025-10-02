@@ -1509,7 +1509,7 @@ void Abc_End( Abc_Frame_t * pAbc )
 {
     extern Abc_Frame_t * Abc_FrameGetGlobalFrame();
     Abc_FrameClearDesign();
-    Cnf_ManFree();
+    // Cnf_ManFree();
     {
         extern int Abc_NtkCompareAndSaveBest( Abc_Ntk_t * pNtk );
         Abc_NtkCompareAndSaveBest( NULL );

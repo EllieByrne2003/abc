@@ -27,7 +27,7 @@ ABC_NAMESPACE_IMPL_START
 ///                        DECLARATIONS                              ///
 ////////////////////////////////////////////////////////////////////////
 
-static Cnf_Man_t * s_pManCnf = NULL;
+// static Cnf_Man_t * s_pManCnf = NULL;
 
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
@@ -43,25 +43,25 @@ static Cnf_Man_t * s_pManCnf = NULL;
   SeeAlso     []
 
 ***********************************************************************/
-void Cnf_ManPrepare()
-{
-    if ( s_pManCnf == NULL )
-    {
-//        printf( "\n\nCreating CNF manager!!!!!\n\n" );
-        s_pManCnf = Cnf_ManStart();
-    }
-}
-Cnf_Man_t * Cnf_ManRead()
-{
-    return s_pManCnf;
-}
-void Cnf_ManFree()
-{
-    if ( s_pManCnf == NULL )
-        return;
-    Cnf_ManStop( s_pManCnf );
-    s_pManCnf = NULL;
-}
+// void Cnf_ManPrepare()
+// {
+//     if ( s_pManCnf == NULL )
+//     {
+// //        printf( "\n\nCreating CNF manager!!!!!\n\n" );
+//         s_pManCnf = Cnf_ManStart();
+//     }
+// }
+// Cnf_Man_t * Cnf_ManRead()
+// {
+//     return s_pManCnf;
+// }
+// void Cnf_ManFree()
+// {
+//     if ( s_pManCnf == NULL )
+//         return;
+//     Cnf_ManStop( s_pManCnf );
+//     s_pManCnf = NULL;
+// }
 
 
 /**Function*************************************************************
@@ -164,8 +164,11 @@ p->timeSave = Abc_Clock() - clk;
 }
 Cnf_Dat_t * Cnf_Derive( Aig_Man_t * pAig, int nOutputs )
 {
-    Cnf_ManPrepare();
-    return Cnf_DeriveWithMan( s_pManCnf, pAig, nOutputs );
+    Cnf_Man_t * pManCnf = Cnf_ManStart();
+    Cnf_Dat_t * retValue = Cnf_DeriveWithMan( pManCnf, pAig, nOutputs );
+    Cnf_ManStop( pManCnf );
+
+    return retValue;
 }
  
 /**Function*************************************************************
@@ -218,8 +221,11 @@ p->timeSave = Abc_Clock() - clk;
 }
 Cnf_Dat_t * Cnf_DeriveOther( Aig_Man_t * pAig, int fSkipTtMin )
 {
-    Cnf_ManPrepare();
-    return Cnf_DeriveOtherWithMan( s_pManCnf, pAig, fSkipTtMin );
+    Cnf_Man_t * pManCnf = Cnf_ManStart();
+    Cnf_Dat_t * retValue = Cnf_DeriveOtherWithMan( pManCnf, pAig, fSkipTtMin );
+    Cnf_ManStop( pManCnf );
+
+    return retValue;
 }
 
 #if 0

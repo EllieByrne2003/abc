@@ -311,7 +311,7 @@ static Vec_Int_t * Wlc_NtkGetCoreSels( Gia_Man_t * pFrames, int nFrames, int fir
         Vec_IntFree(vLits);
         Vec_IntFree(vMapVar2Sel);
     }
-    Cnf_ManFree();
+    // Cnf_ManFree();
     sat_solver_delete(pSat);
     Aig_ManStop(pAigFrames);
 
