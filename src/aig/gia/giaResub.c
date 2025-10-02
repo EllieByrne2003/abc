@@ -1534,45 +1534,45 @@ Vec_Int_t * Gia_ManResubOne( Vec_Ptr_t * vDivs, int nWords, int nLimit, int nDiv
   SeeAlso     []
 
 ***********************************************************************/
-static Gia_ResbMan_t * s_pResbMan = NULL;
+// static Gia_ResbMan_t * s_pResbMan = NULL;
 
-void Abc_ResubPrepareManager( int nWords )
-{
-    if ( s_pResbMan != NULL )
-        Gia_ResbFree( s_pResbMan );
-    s_pResbMan = NULL;
-    if ( nWords > 0 )
-        s_pResbMan = Gia_ResbAlloc( nWords );
-}
+// void Abc_ResubPrepareManager( int nWords )
+// {
+//     if ( s_pResbMan != NULL )
+//         Gia_ResbFree( s_pResbMan );
+//     s_pResbMan = NULL;
+//     if ( nWords > 0 )
+//         s_pResbMan = Gia_ResbAlloc( nWords );
+// }
 
-int Abc_ResubComputeFunction( void ** ppDivs, int nDivs, int nWords, int nLimit, int nDivsMax, int iChoice, int fUseXor, int fDebug, int fVerbose, int ** ppArray )
+int Abc_ResubComputeFunction( Gia_ResbMan_t * pResbMan, void ** ppDivs, int nDivs, int nWords, int nLimit, int nDivsMax, int iChoice, int fUseXor, int fDebug, int fVerbose, int ** ppArray )
 {
     Vec_Ptr_t Divs = { nDivs, nDivs, ppDivs };
-    assert( s_pResbMan != NULL ); // first call Abc_ResubPrepareManager()
-    Gia_ManResubPerform( s_pResbMan, &Divs, nWords, nLimit, nDivsMax, iChoice, fUseXor, fDebug, fVerbose==2, 0 );
+    assert( pResbMan != NULL ); // first call Abc_ResubPrepareManager()
+    Gia_ManResubPerform( pResbMan, &Divs, nWords, nLimit, nDivsMax, iChoice, fUseXor, fDebug, fVerbose==2, 0 );
     if ( fVerbose )
     {
-        int nGates = Vec_IntSize(s_pResbMan->vGates)/2;
+        int nGates = Vec_IntSize(pResbMan->vGates)/2;
         if ( nGates )
         {
             printf( "      Gain = %2d  Gates = %2d  __________  F = ", nLimit+1-nGates, nGates );
-            Gia_ManResubPrint( s_pResbMan->vGates, nDivs );
+            Gia_ManResubPrint( pResbMan->vGates, nDivs );
             printf( "\n" );
         }
     }
     if ( fDebug )
     {
-        if ( !Gia_ManResubVerify(s_pResbMan, NULL) )
+        if ( !Gia_ManResubVerify(pResbMan, NULL) )
         {
-            Gia_ManResubPrint( s_pResbMan->vGates, nDivs );
+            Gia_ManResubPrint( pResbMan->vGates, nDivs );
             printf( "Verification FAILED.\n" );
         }
         //else
         //    printf( "Verification succeeded.\n" );
     }
-    *ppArray = Vec_IntArray(s_pResbMan->vGates);
-    assert( Vec_IntSize(s_pResbMan->vGates)/2 <= nLimit );
-    return Vec_IntSize(s_pResbMan->vGates);
+    *ppArray = Vec_IntArray(pResbMan->vGates);
+    assert( Vec_IntSize(pResbMan->vGates)/2 <= nLimit );
+    return Vec_IntSize(pResbMan->vGates);
 }
 
 void Abc_ResubDumpProblem( char * pFileName, void ** ppDivs, int nDivs, int nWords )
@@ -1617,7 +1617,7 @@ void Gia_ManResubTest3()
     int i, k, ArraySize, * pArray; 
     for ( i = 0; i < 6; i++ )
         Vec_PtrPush( vDivs, Divs+i );
-    Abc_ResubPrepareManager( 1 );
+    Gia_ResbMan_t * pResbMan = Gia_ResbAlloc( 1 );
     for ( i = 0; i < (1<<(1<<nVars)); i++ ) //if ( i == 0xCA ) 
     {
         word Truth = Abc_Tt6Stretch( i, nVars );
@@ -1630,7 +1630,7 @@ void Gia_ManResubTest3()
         printf( "           " );
 
         //Abc_ResubDumpProblem( "temp.resub", (void **)Vec_PtrArray(vDivs), Vec_PtrSize(vDivs), 1 );
-        ArraySize = Abc_ResubComputeFunction( (void **)Vec_PtrArray(vDivs), Vec_PtrSize(vDivs), 1, 16, 50, 0, 0, 1, fVerbose, &pArray );
+        ArraySize = Abc_ResubComputeFunction( pResbMan, (void **)Vec_PtrArray(vDivs), Vec_PtrSize(vDivs), 1, 16, 50, 0, 0, 1, fVerbose, &pArray );
         printf( "\n" );
 
         Vec_IntClear( vRes );
@@ -1640,7 +1640,7 @@ void Gia_ManResubTest3()
         if ( i == 1000 )
             break;
     }
-    Abc_ResubPrepareManager( 0 );
+    Gia_ResbFree( pResbMan );
     Vec_IntFree( vRes );
     Vec_PtrFree( vDivs );
 }
@@ -1880,7 +1880,7 @@ void Gia_ManTryResub( Gia_Man_t * p )
     vSims = Gia_ManSimPatSim( p );
     Gia_ManLevelNum(p);
     Gia_ManCreateRefs(p);
-    Abc_ResubPrepareManager( nWords );
+    Gia_ResbMan_t * pResbMan = Gia_ResbAlloc( nWords );
     Gia_ManStaticFanoutStart( p );
     Gia_ManForEachAnd( p, pObj, i )
     {
@@ -1902,7 +1902,7 @@ void Gia_ManTryResub( Gia_Man_t * p )
         if ( fVerbose )
         printf( "%3d : Lev = %2d  Mffc = %2d  Divs = %3d  Tfo = %3d\n", iObj, Level, nMffc, Vec_PtrSize(vvSims)-2, nTfo );
         clk = Abc_Clock();
-        nArray = Abc_ResubComputeFunction( (void **)Vec_PtrArray(vvSims), Vec_PtrSize(vvSims), nWords, Abc_MinInt(nMffc-1, nLimit), nDivsMax, iChoice, fUseXor, fDebug, fVerbose, &pArray );
+        nArray = Abc_ResubComputeFunction( pResbMan, (void **)Vec_PtrArray(vvSims), Vec_PtrSize(vvSims), nWords, Abc_MinInt(nMffc-1, nLimit), nDivsMax, iChoice, fUseXor, fDebug, fVerbose, &pArray );
         clkResub += Abc_Clock() - clk;
         vGates.nSize = vGates.nCap = nArray;
         vGates.pArray = pArray;
@@ -1914,7 +1914,7 @@ void Gia_ManTryResub( Gia_Man_t * p )
     printf( "Total nodes = %5d.  Non-realizable = %5d.  Gain = %6d.  ", Gia_ManAndNum(p), nNonDec, nTotal );
     Abc_PrintTime( 1, "Time", Abc_Clock() - clkStart );
     Abc_PrintTime( 1, "Pure resub time", clkResub );
-    Abc_ResubPrepareManager( 0 );
+    Gia_ResbFree( pResbMan );
     Gia_ManStaticFanoutStop( p );
     Vec_PtrFree( vvSims );
     Vec_WrdFree( vSims );
@@ -2127,10 +2127,10 @@ Gia_Man_t * Gia_ManResubUnateOne( char * pFileName, int nLimit, int nDivMax, int
     int i, k, ArraySize, * pArray; 
     for ( i = 0; i < p->nIns; i++ )
         Vec_PtrPush( vDivs, Vec_WrdEntryP(p->vSimsIn, i*p->nSimWords) );
-    Abc_ResubPrepareManager( p->nSimWords );
+    Gia_ResbMan_t * pResbMan = Gia_ResbAlloc( p->nSimWords );
     if ( fVerbose )
         printf( "The problem has %d divisors and %d outputs.\n", p->nIns, p->nOuts );
-    ArraySize = Abc_ResubComputeFunction( (void **)Vec_PtrArray(vDivs), Vec_PtrSize(vDivs), p->nSimWords, nLimit, nDivMax, 0, 0, 1, fVerbose, &pArray );
+    ArraySize = Abc_ResubComputeFunction( pResbMan, (void **)Vec_PtrArray(vDivs), Vec_PtrSize(vDivs), p->nSimWords, nLimit, nDivMax, 0, 0, 1, fVerbose, &pArray );
     for ( k = 0; k < ArraySize; k++ )
         Vec_IntPush( vRes, pArray[k] );
     if ( ArraySize ) {
@@ -2144,7 +2144,7 @@ Gia_Man_t * Gia_ManResubUnateOne( char * pFileName, int nLimit, int nDivMax, int
     }
     if ( fWriteSol && ArraySize )
         Gia_ManResubRecordSolution( pFileName, vRes, Vec_PtrSize(vDivs) );
-    Abc_ResubPrepareManager( 0 );
+    Gia_ResbFree( pResbMan );
     Vec_IntFree( vRes );   
     Vec_PtrFree( vDivs );
     Abc_RDataStop( p );  

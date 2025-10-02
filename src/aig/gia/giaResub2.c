@@ -31,6 +31,7 @@ ABC_NAMESPACE_IMPL_START
 ////////////////////////////////////////////////////////////////////////
  
 typedef struct Gia_Rsb2Man_t_ Gia_Rsb2Man_t;
+typedef struct GIa_ResbMan_t_ Gia_ResbMan_t;
 struct Gia_Rsb2Man_t_
 {
     // hyper-parameters
@@ -62,8 +63,10 @@ struct Gia_Rsb2Man_t_
     word           CareSet;
 };
 
-extern void Abc_ResubPrepareManager( int nWords );
-extern int Abc_ResubComputeFunction( void ** ppDivs, int nDivs, int nWords, int nLimit, int nDivsMax, int iChoice, int fUseXor, int fDebug, int fVerbose, int ** ppArray );
+// extern void Abc_ResubPrepareManager( int nWords );
+Gia_ResbMan_t * Gia_ResbAlloc( int nWords );
+void Gia_ResbFree( Gia_ResbMan_t * p );
+extern int Abc_ResubComputeFunction( Gia_ResbMan_t * pResbMan, void ** ppDivs, int nDivs, int nWords, int nLimit, int nDivsMax, int iChoice, int fUseXor, int fDebug, int fVerbose, int ** ppArray );
 
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
@@ -431,7 +434,7 @@ int Abc_ResubNodeToTry( Vec_Int_t * vTried, int iFirst, int iLast )
             return iNode;
     return -1;
 }
-int Abc_ResubComputeWindow( int * pObjs, int nObjs, int nDivsMax, int nLevelIncrease, int fUseXor, int fUseZeroCost, int fDebug, int fVerbose, int ** ppArray, int * pnResubs )
+int Abc_ResubComputeWindow( Gia_ResbMan_t * pResbMan, int * pObjs, int nObjs, int nDivsMax, int nLevelIncrease, int fUseXor, int fUseZeroCost, int fDebug, int fVerbose, int ** ppArray, int * pnResubs )
 {
     int iNode, nChanges = 0, RetValue = 0;
     Gia_Rsb2Man_t * p = Gia_Rsb2ManAlloc(); 
@@ -440,7 +443,7 @@ int Abc_ResubComputeWindow( int * pObjs, int nObjs, int nDivsMax, int nLevelIncr
     while ( (iNode = Abc_ResubNodeToTry(&p->vTried, p->nPis+1, p->iFirstPo)) > 0 )
     {
         int nDivs = Gia_Rsb2ManDivs( p, iNode );
-        int * pResub, nResub = Abc_ResubComputeFunction( Vec_PtrArray(&p->vpDivs), nDivs, 1, p->nMffc-1, nDivsMax, 0, fUseXor, fDebug, fVerbose, &pResub );
+        int * pResub, nResub = Abc_ResubComputeFunction( pResbMan, Vec_PtrArray(&p->vpDivs), nDivs, 1, p->nMffc-1, nDivsMax, 0, fUseXor, fDebug, fVerbose, &pResub );
         if ( nResub == 0 )
             Vec_IntPush( &p->vTried, iNode );
         else
@@ -535,10 +538,10 @@ Gia_Man_t * Gia_ManResub2Test( Gia_Man_t * p )
     Gia_Man_t * pNew;
     int nResubs, nObjsNew, * pObjsNew, * pObjs = Gia_ManToResub( p );
 //Gia_ManPrint( p );
-    Abc_ResubPrepareManager( 1 );
-    nObjsNew = Abc_ResubComputeWindow( pObjs, Gia_ManObjNum(p), 1000, -1, 0, 0, 0, 0, &pObjsNew, &nResubs );
+    Gia_ResbMan_t * pResbMan = Gia_ResbAlloc( 1 );
+    nObjsNew = Abc_ResubComputeWindow( pResbMan, pObjs, Gia_ManObjNum(p), 1000, -1, 0, 0, 0, 0, &pObjsNew, &nResubs );
     //printf( "Performed resub %d times.  Reduced %d nodes.\n", nResubs, nObjsNew ? Gia_ManObjNum(p) - nObjsNew : 0 );
-    Abc_ResubPrepareManager( 0 );
+    Gia_ResbFree( pResbMan );
     if ( nObjsNew )
     {
         pNew = Gia_ManFromResub( pObjsNew, nObjsNew, Gia_ManCiNum(p) );
@@ -1503,9 +1506,9 @@ void Gia_RsbTestArray()
             Abc_LitIsCompl(iFan1) ? '!' : ' ', Abc_Lit2Var(iFan1) );
     }
     // run the resub
-    Abc_ResubPrepareManager( 1 );
-    Abc_ResubComputeWindow( Vec_IntArray(vArray), Vec_IntSize(vArray)/2, 10, -1, 0, 0, 1, 1, &pRes, &nResubs );
-    Abc_ResubPrepareManager( 0 );
+    Gia_ResbMan_t * pResbMan = Gia_ResbAlloc( 1 );
+    Abc_ResubComputeWindow( pResbMan, Vec_IntArray(vArray), Vec_IntSize(vArray)/2, 10, -1, 0, 0, 1, 1, &pRes, &nResubs );
+    Gia_ResbFree( pResbMan );
     Vec_IntFree( vArray );
 }
 
