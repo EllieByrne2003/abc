@@ -255,7 +255,6 @@ int Abc_NtkCecFraig1( Abc_Ntk_t * pNtk1, Abc_Ntk_t * pNtk2, int nSeconds, int fV
     // Abc_PrintTime( 1, "Time", Abc_Clock() - clk );
     // if ( pMiter->pModel )
     //     Abc_NtkVerifyReportError( pNtk1, pNtk2, pMiter->pModel );
-    Abc_NtkDelete( pMiter );
 
     if(RetValue == -1) {
         return 2;
@@ -263,11 +262,13 @@ int Abc_NtkCecFraig1( Abc_Ntk_t * pNtk1, Abc_Ntk_t * pNtk2, int nSeconds, int fV
         int * pSimInfo = Abc_NtkVerifySimulatePattern( pMiter, pMiter->pModel );
         if ( pSimInfo[0] != 1 ) {
             ABC_FREE( pSimInfo );
+            Abc_NtkDelete( pMiter );
             return 2;
         }
         else {
-            return 1;
             ABC_FREE( pSimInfo );
+            Abc_NtkDelete( pMiter );
+            return 1;
         }
     } else {
         return 0;
