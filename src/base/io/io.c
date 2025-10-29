@@ -219,8 +219,9 @@ int IoCommandRead( Abc_Frame_t * pAbc, int argc, char ** argv )
     fBarBufs = 0;
     fReadGia = 0;
     glo_fMapped = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "mcbgh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "mcbgh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -242,10 +243,10 @@ int IoCommandRead( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // fix the wrong symbol
     for ( pTemp = pFileName; *pTemp; pTemp++ )
         if ( *pTemp == '>' || *pTemp == '\\' )
@@ -356,8 +357,9 @@ int IoCommandReadAiger( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     fCheck = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -370,10 +372,10 @@ int IoCommandReadAiger( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // read the file using the corresponding file reader
     pNtk = Io_Read( pFileName, IO_FILE_AIGER, fCheck, 0 );
     if ( pNtk == NULL )
@@ -411,8 +413,9 @@ int IoCommandReadBaf( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     fCheck = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -425,10 +428,10 @@ int IoCommandReadBaf( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // read the file using the corresponding file reader
     pNtk = Io_Read( pFileName, IO_FILE_BAF, fCheck, 0 );
     if ( pNtk == NULL )
@@ -466,8 +469,9 @@ int IoCommandReadBblif( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     fCheck = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -480,10 +484,10 @@ int IoCommandReadBblif( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // read the file using the corresponding file reader
     pNtk = Io_Read( pFileName, IO_FILE_BBLIF, fCheck, 0 );
     if ( pNtk == NULL )
@@ -528,8 +532,9 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     fReadAsAig = 0;
     fUseNewParser = 1;
     fSaveNames = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "nmach" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "nmach" ) ) != EOF )
     {
         switch ( c )
         {
@@ -551,10 +556,10 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // read the file using the corresponding file reader
     if ( fReadAsAig )
         pNtk = Io_ReadBlifAsAig( pFileName, fCheck );
@@ -613,8 +618,9 @@ int IoCommandReadBlifMv( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     fCheck = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -627,10 +633,10 @@ int IoCommandReadBlifMv( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // read the file using the corresponding file reader
     pNtk = Io_Read( pFileName, IO_FILE_BLIFMV, fCheck, 0 );
     if ( pNtk == NULL )
@@ -669,8 +675,9 @@ int IoCommandReadBench( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     fCheck = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -683,10 +690,10 @@ int IoCommandReadBench( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // read the file using the corresponding file reader
     pNtk = Io_Read( pFileName, IO_FILE_BENCH, fCheck, 0 );
     if ( pNtk == NULL )
@@ -957,8 +964,9 @@ int IoCommandReadCex( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fOldFormat = 0;
     int verified;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cxh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "cxh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -974,11 +982,11 @@ int IoCommandReadCex( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
 
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = fopen( pFileName, "r" )) == NULL )
     {
         fprintf( pAbc->Err, "Cannot open input file \"%s\". \n", pFileName );
@@ -1050,8 +1058,9 @@ int IoCommandReadDsd( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Abc_Ntk_t * Io_ReadDsd( char * pFormula );
 
     fCheck = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1064,10 +1073,10 @@ int IoCommandReadDsd( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pString = argv[globalUtilOptind];
+    pString = argv[pOpt.optind];
     // read the file using the corresponding file reader
     pNtk = Io_ReadDsd( pString );
     if ( pNtk == NULL )
@@ -1111,8 +1120,9 @@ int IoCommandReadEdif( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     fCheck = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1125,10 +1135,10 @@ int IoCommandReadEdif( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // read the file using the corresponding file reader
     pNtk = Io_Read( pFileName, IO_FILE_EDIF, fCheck, 0 );
     if ( pNtk == NULL )
@@ -1166,8 +1176,9 @@ int IoCommandReadEqn( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     fCheck = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1180,10 +1191,10 @@ int IoCommandReadEqn( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // read the file using the corresponding file reader
     pNtk = Io_Read( pFileName, IO_FILE_EQN, fCheck, 0 );
     if ( pNtk == NULL )
@@ -1220,8 +1231,9 @@ int IoCommandReadFins( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileName;
     int c, fVerbose = 0;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1234,10 +1246,10 @@ int IoCommandReadFins( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // check current network
     if ( pNtk == NULL )
     {
@@ -1280,8 +1292,9 @@ int IoCommandReadInit( Abc_Frame_t * pAbc, int argc, char ** argv )
     pOut = Abc_FrameReadOut(pAbc);
     pErr = Abc_FrameReadErr(pAbc);
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1291,7 +1304,7 @@ int IoCommandReadInit( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind && argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind && argc != pOpt.optind + 1 )
         goto usage;
 
     if ( pNtk == NULL )
@@ -1300,8 +1313,8 @@ int IoCommandReadInit( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
     // get the input file name
-    if ( argc == globalUtilOptind + 1 )
-        pFileName = argv[globalUtilOptind];
+    if ( argc == pOpt.optind + 1 )
+        pFileName = argv[pOpt.optind];
     else if ( pNtk->pSpec )
         pFileName = Extra_FileNameGenericAppend( pNtk->pSpec, ".init" );
     else
@@ -1343,8 +1356,9 @@ int IoCommandReadPla( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileName;
     int c, fZeros = 0, fBoth = 0, fOnDc = 0, fSkipPrepro = 0, fCheck = 1;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "zbdxch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "zbdxch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1369,10 +1383,10 @@ int IoCommandReadPla( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // read the file using the corresponding file reader
     if ( fZeros || fBoth || fOnDc || fSkipPrepro )
     {
@@ -1432,8 +1446,9 @@ int IoCommandReadPlaMo( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Abc_Ntk_t * Mop_ManTest( char * pFileName, int fMerge, int fVerbose );
     Abc_Ntk_t * pNtk;
     int c, fMerge = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "mvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "mvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1449,10 +1464,10 @@ int IoCommandReadPlaMo( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pNtk = Mop_ManTest( argv[globalUtilOptind], fMerge, fVerbose );
+    pNtk = Mop_ManTest( argv[pOpt.optind], fMerge, fVerbose );
     if ( pNtk == NULL )
         return 1;
     // replace the current network
@@ -1490,8 +1505,9 @@ int IoCommandReadTruth( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fFile = 0;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "xfh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "xfh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1508,23 +1524,23 @@ int IoCommandReadTruth( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
 
     if ( fFile )
     {
-        FILE * pFile = fopen( argv[globalUtilOptind], "rb" );
+        FILE * pFile = fopen( argv[pOpt.optind], "rb" );
         if ( pFile == NULL )
         {
-            printf( "The file \"%s\" cannot be found.\n", argv[globalUtilOptind] );
+            printf( "The file \"%s\" cannot be found.\n", argv[pOpt.optind] );
             return 1;
         }
         else 
             fclose( pFile );
-        pStr = Extra_FileReadContents( argv[globalUtilOptind] );
+        pStr = Extra_FileReadContents( argv[pOpt.optind] );
     }
     else
-        pStr = argv[globalUtilOptind];
+        pStr = argv[pOpt.optind];
 
     // convert truth table to SOP
     if ( fHex )
@@ -1583,8 +1599,9 @@ int IoCommandReadCnf( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fMulti = 0;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "mh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "mh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1598,18 +1615,18 @@ int IoCommandReadCnf( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
 
-    pFile = fopen( argv[globalUtilOptind], "rb" );
+    pFile = fopen( argv[pOpt.optind], "rb" );
     if ( pFile == NULL )
     {
-        printf( "The file \"%s\" cannot be found.\n", argv[globalUtilOptind] );
+        printf( "The file \"%s\" cannot be found.\n", argv[pOpt.optind] );
         return 1;
     }
     else 
         fclose( pFile );
-    vSops = Io_FileReadCnf( argv[globalUtilOptind], fMulti );
+    vSops = Io_FileReadCnf( argv[pOpt.optind], fMulti );
     if ( Vec_PtrSize(vSops) == 0 )
     {
         Vec_PtrFreeFree( vSops );
@@ -1658,8 +1675,9 @@ int IoCommandReadVerilog( Abc_Frame_t * pAbc, int argc, char ** argv )
     fCheck = 1;
     fBarBufs = 0;
     glo_fMapped = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "mcbh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "mcbh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1678,10 +1696,10 @@ int IoCommandReadVerilog( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // read the file using the corresponding file reader
     pNtk = Io_Read( pFileName, IO_FILE_VERILOG, fCheck, fBarBufs );
     if ( pNtk == NULL )
@@ -1720,8 +1738,9 @@ int IoCommandReadStatus( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     extern int Abc_NtkReadLogFile( char * pFileName, Abc_Cex_t ** ppCex, int * pnFrames );
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1731,13 +1750,13 @@ int IoCommandReadStatus( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
 
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = fopen( pFileName, "r" )) == NULL )
     {
         fprintf( pAbc->Err, "Cannot open input file \"%s\". \n", pFileName );
@@ -1777,8 +1796,9 @@ int IoCommandReadGig( Abc_Frame_t * pAbc, int argc, char ** argv )
     FILE * pFile;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1788,13 +1808,13 @@ int IoCommandReadGig( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
 
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = fopen( pFileName, "r" )) == NULL )
     {
         fprintf( pAbc->Err, "Cannot open input file \"%s\". \n", pFileName );
@@ -1835,8 +1855,9 @@ int IoCommandReadJson( Abc_Frame_t * pAbc, int argc, char ** argv )
     FILE * pFile;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1846,13 +1867,13 @@ int IoCommandReadJson( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
 
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = fopen( pFileName, "r" )) == NULL )
     {
         fprintf( pAbc->Err, "Cannot open input file \"%s\". \n", pFileName );
@@ -1894,8 +1915,9 @@ int IoCommandReadJsonc( Abc_Frame_t * pAbc, int argc, char ** argv )
     FILE * pFile;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1905,13 +1927,13 @@ int IoCommandReadJsonc( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
 
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = fopen( pFileName, "r" )) == NULL )
     {
         fprintf( pAbc->Err, "Cannot open input file \"%s\". \n", pFileName );
@@ -1950,8 +1972,9 @@ int IoCommandReadSF( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileName, * pFileTemp = "_temp_sf_.pla";
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1961,13 +1984,13 @@ int IoCommandReadSF( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
 
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = fopen( pFileName, "r" )) == NULL )
     {
         fprintf( pAbc->Err, "Cannot open input file \"%s\". \n", pFileName );
@@ -2018,8 +2041,9 @@ int IoCommandReadRom( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileName, * pFileTemp = "_temp_rom_.pla";
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2029,13 +2053,13 @@ int IoCommandReadRom( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
 
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = fopen( pFileName, "r" )) == NULL )
     {
         fprintf( pAbc->Err, "Cannot open input file \"%s\". \n", pFileName );
@@ -2081,8 +2105,9 @@ int IoCommandReadMM( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Abc_Ntk_t * Abc_NtkReadFromFile( char * pFileName );
     Abc_Ntk_t * pNtk; char * pFileName; int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2092,9 +2117,9 @@ int IoCommandReadMM( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     pNtk = Abc_NtkReadFromFile( pFileName );
     if ( pNtk == NULL )
         return 0;
@@ -2126,8 +2151,9 @@ int IoCommandReadMMGia( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Abc_Ntk_t * Abc_NtkReadFromFile( char * pFileName );
     Abc_Ntk_t * pNtk; char * pFileName; int c;
     Gia_Man_t * pGia = NULL;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2137,9 +2163,9 @@ int IoCommandReadMMGia( Abc_Frame_t * pAbc, int argc, char ** argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     pNtk = Abc_NtkReadFromFile( pFileName );
     if ( pNtk == NULL )
         return 0;
@@ -2175,8 +2201,9 @@ int IoCommandWrite( Abc_Frame_t * pAbc, int argc, char **argv )
     char * pFileName;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2186,10 +2213,10 @@ int IoCommandWrite( Abc_Frame_t * pAbc, int argc, char **argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // write libraries
     Command[0] = 0;
     assert( strlen(pFileName) < 900 );
@@ -2239,8 +2266,9 @@ int IoCommandWriteHie( Abc_Frame_t * pAbc, int argc, char **argv )
     int c;
 
     glo_fMapped = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "mh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "mh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2258,11 +2286,11 @@ int IoCommandWriteHie( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 2 )
+    if ( argc != pOpt.optind + 2 )
         goto usage;
     // get the output file name
-    pBaseName = argv[globalUtilOptind];
-    pFileName = argv[globalUtilOptind+1];
+    pBaseName = argv[pOpt.optind];
+    pFileName = argv[pOpt.optind+1];
     // call the corresponding file writer
 //    Io_Write( pAbc->pNtkCur, pFileName, Io_ReadFileType(pFileName) );
     Io_WriteHie( pAbc->pNtkCur, pBaseName, pFileName );
@@ -2303,8 +2331,9 @@ int IoCommandWriteAiger( Abc_Frame_t * pAbc, int argc, char **argv )
     fCompact      = 0;
     fUnique       = 0;
     fVerbose      = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "scuvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "scuvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2331,10 +2360,10 @@ int IoCommandWriteAiger( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     if ( !Abc_NtkIsStrash(pAbc->pNtkCur) )
     {
@@ -2384,8 +2413,9 @@ int IoCommandWriteAigerCex( Abc_Frame_t * pAbc, int argc, char **argv )
 {
     char * pFileName;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2400,10 +2430,10 @@ int IoCommandWriteAigerCex( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "There is no current CEX.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     Io_WriteAigerCex( pAbc->pCex, pAbc->pNtkCur, pAbc->pGia, pFileName );
     return 0;
 
@@ -2431,8 +2461,9 @@ int IoCommandWriteBaf( Abc_Frame_t * pAbc, int argc, char **argv )
     char * pFileName;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2447,10 +2478,10 @@ int IoCommandWriteBaf( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BAF );
     return 0;
@@ -2479,8 +2510,9 @@ int IoCommandWriteBblif( Abc_Frame_t * pAbc, int argc, char **argv )
     char * pFileName;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2495,10 +2527,10 @@ int IoCommandWriteBblif( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BBLIF );
     return 0;
@@ -2529,19 +2561,20 @@ int IoCommandWriteBlif( Abc_Frame_t * pAbc, int argc, char **argv )
     int c, fSpecial = 0;
     int fUseHie = 0;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Sjah" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "Sjah" ) ) != EOF )
     {
         switch ( c )
         {
             case 'S':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-S\" should be followed by string.\n" );
                     goto usage;
                 }
-                pLutStruct = argv[globalUtilOptind];
-                globalUtilOptind++;
+                pLutStruct = argv[pOpt.optind];
+                pOpt.optind++;
                 if ( strlen(pLutStruct) != 2 && strlen(pLutStruct) != 3 ) 
                 {
                     Abc_Print( -1, "Command line switch \"-S\" should be followed by a 2- or 3-char string (e.g. \"44\" or \"555\").\n" );
@@ -2565,10 +2598,10 @@ int IoCommandWriteBlif( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     if ( fSpecial || pLutStruct )
         Io_WriteBlifSpecial( pAbc->pNtkCur, pFileName, pLutStruct, fUseHie );
@@ -2603,8 +2636,9 @@ int IoCommandWriteBlifMv( Abc_Frame_t * pAbc, int argc, char **argv )
     char * pFileName;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2619,10 +2653,10 @@ int IoCommandWriteBlifMv( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BLIFMV );
     return 0;
@@ -2653,8 +2687,9 @@ int IoCommandWriteBench( Abc_Frame_t * pAbc, int argc, char **argv )
     int c;
 
     fUseLuts = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "lh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2672,10 +2707,10 @@ int IoCommandWriteBench( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     if ( !fUseLuts )
         Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BENCH );
@@ -2715,8 +2750,9 @@ int IoCommandWriteBook( Abc_Frame_t * pAbc, int argc, char **argv )
 {
     char * pFileName;
         int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2726,10 +2762,10 @@ int IoCommandWriteBook( Abc_Frame_t * pAbc, int argc, char **argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
         // call the corresponding file writer
     Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BOOK );
     return 0;
@@ -2761,8 +2797,9 @@ int IoCommandWriteCellNet( Abc_Frame_t * pAbc, int argc, char **argv )
     int c;
     extern void Io_WriteCellNet( Abc_Ntk_t * pNtk, char * pFileName );
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2777,11 +2814,11 @@ int IoCommandWriteCellNet( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     pNtk = pAbc->pNtkCur;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     if ( !Abc_NtkIsLogic(pNtk) )
     {
@@ -2826,8 +2863,9 @@ int IoCommandWriteCnf( Abc_Frame_t * pAbc, int argc, char **argv )
     fAllPrimes = 0;
     fChangePol = 1;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "nfpcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "nfpcvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2857,10 +2895,10 @@ int IoCommandWriteCnf( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // check if the feature will be used
     if ( Abc_NtkIsStrash(pAbc->pNtkCur) && fAllPrimes )
     {
@@ -2913,19 +2951,20 @@ int IoCommandWriteCnf2( Abc_Frame_t * pAbc, int argc, char **argv )
     int fCnfObjIds  = 0;
     int fAddOrCla   = 1;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Kaiovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "Kaiovh" ) ) != EOF )
     {
         switch ( c )
         {
             case 'K':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                nLutSize = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nLutSize = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 break;
             case 'a':
                 fNewAlgo ^= 1;
@@ -2965,10 +3004,10 @@ int IoCommandWriteCnf2( Abc_Frame_t * pAbc, int argc, char **argv )
         Abc_Print( -1, "IoCommandWriteCnf2(): Cannot input precomputed DSD information.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     pFile = fopen( pFileName, "wb" );
     if ( pFile == NULL )
     {
@@ -3023,8 +3062,9 @@ int IoCommandWriteDot( Abc_Frame_t * pAbc, int argc, char **argv )
     char * pFileName;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3039,10 +3079,10 @@ int IoCommandWriteDot( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_DOT );
     return 0;
@@ -3290,8 +3330,9 @@ int IoCommandWriteCex( Abc_Frame_t * pAbc, int argc, char **argv )
     int fCexInfo   = 0;
     int fExtended  = 0;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "snmueocafzvhxt" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "snmueocafzvhxt" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3351,14 +3392,14 @@ int IoCommandWriteCex( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Counter-example is not available.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         printf( "File name is missing on the command line.\n" );
         goto usage;
     }
 
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // write the counter-example into the file
     if ( pAbc->pCex || pAbc->vCexVec )
     { 
@@ -3466,8 +3507,9 @@ int IoCommandWriteEqn( Abc_Frame_t * pAbc, int argc, char **argv )
     char * pFileName;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3482,10 +3524,10 @@ int IoCommandWriteEqn( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_EQN );
     return 0;
@@ -3514,8 +3556,9 @@ int IoCommandWriteEdgelist( Abc_Frame_t * pAbc, int argc, char **argv )
     char * pFileName;
     int c, fSpecial = 0;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "Nh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3538,10 +3581,10 @@ int IoCommandWriteEdgelist( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     if ( fSpecial ) // keep original naming
         Io_WriteEdgelist( pAbc->pNtkCur, pFileName, 1, 0, 0, fSpecial); //last option is fName
@@ -3575,8 +3618,9 @@ int IoCommandWriteNtk( Abc_Frame_t * pAbc, int argc, char **argv )
     char * pFileName;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "Nh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3591,7 +3635,7 @@ int IoCommandWriteNtk( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     else 
     {
@@ -3604,7 +3648,7 @@ int IoCommandWriteNtk( Abc_Frame_t * pAbc, int argc, char **argv )
         Abc_NtkForEachCo( pAbc->pNtkCur, pObj, i )
             pId[pObj->Id] = nIds++;
         // get the output file name
-        pFileName = argv[globalUtilOptind];
+        pFileName = argv[pOpt.optind];
         FILE * pFile = fopen( pFileName, "wb" );
         fprintf( pFile, "%d\n", 0 );
         Abc_NtkForEachCi( pAbc->pNtkCur, pObj, i )
@@ -3653,8 +3697,9 @@ int IoCommandWriteHMetis( Abc_Frame_t * pAbc, int argc, char **argv )
     fSkipPo       = 1;
     fWeightEdges  = 0;
     fVerbose      = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "swvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "swvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3678,10 +3723,10 @@ int IoCommandWriteHMetis( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     if ( !Abc_NtkIsStrash(pAbc->pNtkCur) )
     {
@@ -3720,8 +3765,9 @@ int IoCommandWriteGml( Abc_Frame_t * pAbc, int argc, char **argv )
     char * pFileName;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3736,10 +3782,10 @@ int IoCommandWriteGml( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_GML );
     return 0;
@@ -3773,8 +3819,9 @@ int IoCommandWriteList( Abc_Frame_t * pAbc, int argc, char **argv )
     return 0;
 
     fUseHost = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "nh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "nh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3792,7 +3839,7 @@ int IoCommandWriteList( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
 /*
     if ( !Abc_NtkIsSeq(pAbc->pNtkCur) )
@@ -3802,7 +3849,7 @@ int IoCommandWriteList( Abc_Frame_t * pAbc, int argc, char **argv )
     }
 */
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // write the file
     Io_WriteList( pAbc->pNtkCur, pFileName, fUseHost );
     return 0;
@@ -3833,19 +3880,20 @@ int IoCommandWritePla( Abc_Frame_t * pAbc, int argc, char **argv )
     char * pFileName;
     int c, fUseMoPla = 0, nMints = 0;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Mmh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "Mmh" ) ) != EOF )
     {
         switch ( c )
         {
             case 'M':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                nMints = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nMints = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 break;
             case 'm':
                 fUseMoPla ^= 1;
@@ -3861,10 +3909,10 @@ int IoCommandWritePla( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     if ( nMints )
     {
@@ -3909,19 +3957,20 @@ int IoCommandWriteVerilog( Abc_Frame_t * pAbc, int argc, char **argv )
     int c, fFixed = 0, fOnlyAnds = 0, fNoModules = 0, fNewInterface = 0;
     int nLutSize = -1;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Kfamnh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "Kfamnh" ) ) != EOF )
     {
         switch ( c )
         {
             case 'K':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                nLutSize = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nLutSize = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nLutSize < 2 || nLutSize > 6 )
                     goto usage;
                 break;
@@ -3948,12 +3997,12 @@ int IoCommandWriteVerilog( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     if ( fFixed )
         nLutSize = 6;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     if ( nLutSize >= 2 && nLutSize <= 6 )
         Io_WriteVerilogLut( pAbc->pNtkCur, pFileName, nLutSize, fFixed, fNoModules, fNewInterface );
@@ -3999,30 +4048,31 @@ int IoCommandWriteSortCnf( Abc_Frame_t * pAbc, int argc, char **argv )
     int nQueens = 4;
     extern void Abc_NtkWriteSorterCnf( char * pFileName, int nVars, int nQueens );
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NQh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "NQh" ) ) != EOF )
     {
         switch ( c )
         {
             case 'N':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     fprintf( stdout, "Command line switch \"-N\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                nVars = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nVars = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nVars <= 0 ) 
                     goto usage;
                 break;
             case 'Q':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     fprintf( stdout, "Command line switch \"-Q\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                nQueens = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nQueens = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nQueens <= 0 ) 
                     goto usage;
                 break;
@@ -4032,10 +4082,10 @@ int IoCommandWriteSortCnf( Abc_Frame_t * pAbc, int argc, char **argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     Abc_NtkWriteSorterCnf( pFileName, nVars, nQueens );
     // call the corresponding file writer
     return 0;
@@ -4073,8 +4123,9 @@ int IoCommandWriteTruth( Abc_Frame_t * pAbc, int argc, char **argv )
     int fReverse = 0;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "xrh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "xrh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4121,10 +4172,10 @@ int IoCommandWriteTruth( Abc_Frame_t * pAbc, int argc, char **argv )
         printf( "Can only write logic function with no more than 16 inputs.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // convert to logic
     Abc_NtkToAig( pNtk );
     vTruth = Vec_IntAlloc( 0 );
@@ -4178,8 +4229,9 @@ int IoCommandWriteTruths( Abc_Frame_t * pAbc, int argc, char **argv )
     int fBinaryFile = 0;
     int c, i;
  
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "rxbh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "rxbh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4213,10 +4265,10 @@ int IoCommandWriteTruths( Abc_Frame_t * pAbc, int argc, char **argv )
         Abc_Print( -1, "IoCommandWriteTruths(): Can write truth tables for 3 inputs or more.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // convert to logic
     pFile = fopen( pFileName, "wb" );
     if ( pFile == NULL )
@@ -4267,8 +4319,9 @@ int IoCommandWriteStatus( Abc_Frame_t * pAbc, int argc, char **argv )
     int c;
     extern void Abc_NtkWriteLogFile( char * pFileName, Abc_Cex_t * pCex, int Status, int nFrames, char * pCommand );
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4278,10 +4331,10 @@ int IoCommandWriteStatus( Abc_Frame_t * pAbc, int argc, char **argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     Abc_NtkWriteLogFile( pFileName, pAbc->pCex, pAbc->Status, pAbc->nFrames, NULL );
     return 0;
 
@@ -4309,8 +4362,9 @@ int IoCommandWriteSmv( Abc_Frame_t * pAbc, int argc, char **argv )
     char * pFileName;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4325,10 +4379,10 @@ int IoCommandWriteSmv( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "Empty network.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the corresponding file writer
     Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_SMV );
     return 0;
@@ -4359,8 +4413,9 @@ int IoCommandWriteJson( Abc_Frame_t * pAbc, int argc, char **argv )
     int c, fExtract = 0;
     char * pFileName;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4378,9 +4433,9 @@ int IoCommandWriteJson( Abc_Frame_t * pAbc, int argc, char **argv )
         fprintf( pAbc->Out, "No JSON info is available.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( fExtract )
         Json_Extract( pFileName, Abc_FrameReadJsonStrs(Abc_FrameReadGlobalFrame()), Abc_FrameReadJsonObjs(Abc_FrameReadGlobalFrame()) );
     else
@@ -4412,8 +4467,9 @@ int IoCommandWriteResub( Abc_Frame_t * pAbc, int argc, char **argv )
     extern void Gia_ManWriteResub( Gia_Man_t * p, char * pFileName );
     char * pFileName;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4423,9 +4479,9 @@ int IoCommandWriteResub( Abc_Frame_t * pAbc, int argc, char **argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( pAbc->pGia == NULL )
     {
         Abc_Print( -1, "IoCommandWriteResub(): There is no AIG.\n" );
@@ -4463,8 +4519,9 @@ int IoCommandWriteMM( Abc_Frame_t * pAbc, int argc, char **argv )
     extern int Abc_NtkWriteToFile( char * pFileName, Abc_Ntk_t * pNtk );
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
     char * pFileName = NULL; int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4474,9 +4531,9 @@ int IoCommandWriteMM( Abc_Frame_t * pAbc, int argc, char **argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( pNtk == NULL )
     {
         Abc_Print( -1, "IoCommandWriteMM(): There is no current network.\n" );
@@ -4515,8 +4572,9 @@ int IoCommandWriteMMGia( Abc_Frame_t * pAbc, int argc, char **argv )
     extern int Abc_NtkWriteToFile( char * pFileName, Abc_Ntk_t * pNtk );
     Abc_Ntk_t * pNtk = NULL;
     char * pFileName = NULL; int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4526,9 +4584,9 @@ int IoCommandWriteMMGia( Abc_Frame_t * pAbc, int argc, char **argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( pAbc->pGia == NULL )
     {
         Abc_Print( -1, "IoCommandWriteMMGia(): There is no current AIG.\n" );

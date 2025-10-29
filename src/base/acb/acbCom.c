@@ -106,8 +106,9 @@ int Acb_CommandRead( Abc_Frame_t * pAbc, int argc, char ** argv )
     Acb_Man_t * p = NULL;
     char * pFileName = NULL;
     int c, fTest = 0, fDfs = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "tdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "tdvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -126,13 +127,13 @@ int Acb_CommandRead( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         printf( "Acb_CommandRead(): Input file name should be given on the command line.\n" );
         return 0;
     }
         // get the file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = fopen( pFileName, "r" )) == NULL )
     {
         Abc_Print( 1, "Cannot open input file \"%s\". ", pFileName );
@@ -201,8 +202,9 @@ int Acb_CommandWrite( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileName = NULL;
     int fInclineCats =    0;
     int c, fVerbose  =    0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "cvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -224,9 +226,9 @@ int Acb_CommandWrite( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
 
-    if ( argc == globalUtilOptind + 1 )
-        pFileName = argv[globalUtilOptind];
-    else if ( argc == globalUtilOptind && p )
+    if ( argc == pOpt.optind + 1 )
+        pFileName = argv[pOpt.optind];
+    else if ( argc == pOpt.optind && p )
     {
         pFileName = Extra_FileNameGenericAppend( Acb_ManSpec(p) ? Acb_ManSpec(p) : Acb_ManName(p), "_out.v" );
         printf( "Generated output file name \"%s\".\n", pFileName );
@@ -278,19 +280,20 @@ int Acb_CommandPs( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fShowAdder   = 0;
     int fDistrib     = 0;
     int c, fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Mmadvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "Mmadvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nModules = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nModules = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nModules < 0 )
                 goto usage;
             break;
@@ -356,8 +359,9 @@ int Acb_CommandPut( Abc_Frame_t * pAbc, int argc, char ** argv )
     Acb_Man_t * p = Acb_AbcGetMan(pAbc);
     Gia_Man_t * pGia = NULL;
     int c, fBarBufs = 1, fSeq = 0, fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "bsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "bsvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -414,8 +418,9 @@ int Acb_CommandGet( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Acb_Man_t * pNew = NULL, * p = Acb_AbcGetMan(pAbc);
     int c, fMapped = 0, fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "mvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "mvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -480,9 +485,11 @@ usage:
 int Acb_CommandClp( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Acb_Man_t * pNew = NULL, * p = Acb_AbcGetMan(pAbc);
-    int c, fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -527,8 +534,9 @@ int Acb_CommandBlast( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pNew = NULL;
     Acb_Man_t * p = Acb_AbcGetMan(pAbc);
     int c, fSeq = 0, fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "svh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "svh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -586,8 +594,9 @@ int Acb_CommandCec( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, nArgcNew, fDumpMiter = 0;
     FILE * pFile;
     Cec_ManCecSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -606,8 +615,8 @@ int Acb_CommandCec( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         if ( p->pSpec == NULL )
@@ -696,8 +705,9 @@ int Acb_CommandTest( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Acb_Man_t * p = Acb_AbcGetMan(pAbc);
     int c, fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {

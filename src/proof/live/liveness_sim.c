@@ -797,7 +797,8 @@ int Abc_CommandAbcLivenessToSafetySim( Abc_Frame_t * pAbc, int argc, char ** arg
     printf("\n*******************************************************\n");
 #endif
 
-    c = Extra_UtilGetopt( argc, argv, "1" );
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    c = Extra_UtilGetopt( &pOpt, argc, argv, "1" );
     if( c == '1' )
         pAigNew = LivenessToSafetyTransformationOneStepLoopSim( pNtk, pAig, vLive, vFair );
     else

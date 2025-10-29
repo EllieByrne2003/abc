@@ -84,19 +84,20 @@ int Abc_CommandGlucose( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fDumpCnf = 0;
 
     Glucose_Pars pPars;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Cpdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "Cpdvh" ) ) != EOF )
     {
         switch ( c )
         {
             case 'C':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                nConfls = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nConfls = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nConfls < 0 )
                     goto usage;
                 break;
@@ -118,9 +119,9 @@ int Abc_CommandGlucose( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pPars = Glucose_CreatePars(pre,verb,0,nConfls);
 
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        Glucose_SolveCnf( argv[globalUtilOptind], &pPars, fDumpCnf );
+        Glucose_SolveCnf( argv[pOpt.optind], &pPars, fDumpCnf );
         return 0;
     }
 

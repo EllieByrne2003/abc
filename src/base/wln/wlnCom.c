@@ -108,37 +108,38 @@ int Abc_CommandYosys( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fSkipStrash  =    0;
     int fCollapse    =    0;
     int c, fVerbose  =    0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "TDLbismlcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "TDLbismlcvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pTopModule = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pTopModule = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pDefines = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pDefines = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLibrary = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLibrary = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'b':
             fBlast ^= 1;
@@ -167,13 +168,13 @@ int Abc_CommandYosys( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         printf( "Abc_CommandReadWlc(): Input file name should be given on the command line.\n" );
         return 0;
     }
     // get the file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = fopen( pFileName, "r" )) == NULL )
     {
         Abc_Print( 1, "Cannot open input file \"%s\". ", pFileName );
@@ -266,8 +267,9 @@ int Abc_CommandGraft( Abc_Frame_t * pAbc, int argc, char ** argv )
     Rtl_Lib_t * pLib = Wln_AbcGetRtl(pAbc);
     char ** pArgvNew; int nArgcNew;
     int c, fInv = 0, fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "ivh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -288,8 +290,8 @@ int Abc_CommandGraft( Abc_Frame_t * pAbc, int argc, char ** argv )
         printf( "The design is not entered.\n" );
         return 1;
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 0 && nArgcNew != 2 )
     {
         Abc_Print( -1, "Abc_CommandGraft(): This command expects one AIG file name on the command line.\n" );
@@ -323,8 +325,9 @@ int Abc_CommandHierarchy( Abc_Frame_t * pAbc, int argc, char ** argv )
     Rtl_Lib_t * pLib = Wln_AbcGetRtl(pAbc);
     char ** pArgvNew; int nArgcNew;
     int c,  fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -342,8 +345,8 @@ int Abc_CommandHierarchy( Abc_Frame_t * pAbc, int argc, char ** argv )
         printf( "The design is not entered.\n" );
         return 1;
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew < 0 )
     {
         Abc_Print( -1, "Abc_CommandHierarchy(): This command expects one AIG file name on the command line.\n" );
@@ -377,19 +380,20 @@ int Abc_CommandCollapse( Abc_Frame_t * pAbc, int argc, char ** argv )
     Rtl_Lib_t * pLib = Wln_AbcGetRtl(pAbc);
     char * pTopModule = NULL;
     int c, fInv = 0, fRev = 0, fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Tcrvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "Tcrvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pTopModule = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pTopModule = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'c':
             fInv ^= 1;
@@ -445,8 +449,9 @@ int Abc_CommandPrint( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Rtl_LibPrint( char * pFileName, Rtl_Lib_t * p );
     Rtl_Lib_t * pLib = Wln_AbcGetRtl(pAbc);
     int c, fHie = 0, fDesign = 0, fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "pdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "pdvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -508,8 +513,9 @@ int Abc_CommandSolve( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     Rtl_Lib_t * pLib = Wln_AbcGetRtl(pAbc);
     int c, fOldBlast = 0, fPrepro = 0, fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "opvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "opvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -533,9 +539,9 @@ int Abc_CommandSolve( Abc_Frame_t * pAbc, int argc, char ** argv )
         printf( "The design is not entered.\n" );
         return 1;
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        char * pFileName = argv[globalUtilOptind];
+        char * pFileName = argv[pOpt.optind];
         FILE * pFile = fopen( pFileName, "r" );
         if ( pFile == NULL )
         {

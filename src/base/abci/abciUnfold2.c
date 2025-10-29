@@ -27,41 +27,42 @@ int Abc_CommandUnfold2( Abc_Frame_t * pAbc, int argc, char ** argv )
     nConfs    =   1000;
     nProps    =   1000;
     fVerbose  =      0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CPvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "CPvh" ) ) != EOF )
     {
         switch ( c )
         {
         /* case 'F': */
-        /*     if ( globalUtilOptind >= argc ) */
+        /*     if ( pOpt.optind >= argc ) */
         /*     { */
         /*         Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" ); */
         /*         goto usage; */
         /*     } */
-        /*     nFrames = atoi(argv[globalUtilOptind]); */
-        /*     globalUtilOptind++; */
+        /*     nFrames = atoi(argv[pOpt.optind]); */
+        /*     pOpt.optind++; */
         /*     if ( nFrames < 0 ) */
         /*         goto usage; */
         /*     break; */
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfs < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nProps = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nProps = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nProps < 0 )
                 goto usage;
             break;
@@ -132,8 +133,9 @@ int Abc_CommandFold2( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     fCompl    =   0;
     fVerbose  =   0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "cvh" ) ) != EOF )
     {
         switch ( c )
         {

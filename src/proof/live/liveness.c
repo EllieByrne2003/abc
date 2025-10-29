@@ -1271,8 +1271,9 @@ int Abc_CommandAbcLivenessToSafety( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     else
     {
-        Extra_UtilGetoptReset();
-        while ( ( c = Extra_UtilGetopt( argc, argv, "1slh" ) ) != EOF )
+        
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+        while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "1slh" ) ) != EOF )
         {
             switch( c )
             {
@@ -1422,8 +1423,9 @@ int Abc_CommandAbcLivenessToSafety( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     else 
     {
-        Extra_UtilGetoptReset();
-        c = Extra_UtilGetopt( argc, argv, "1lsh" );
+        
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+        c = Extra_UtilGetopt( &pOpt, argc, argv, "1lsh" );
         if( c == '1' )
         {
             if ( pNtk == NULL )
@@ -1617,8 +1619,9 @@ int Abc_CommandAbcLivenessToSafetyAbstraction( Abc_Frame_t * pAbc, int argc, cha
     }
     else
     {
-        Extra_UtilGetoptReset();
-        while ( ( c = Extra_UtilGetopt( argc, argv, "1slh" ) ) != EOF )
+        
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+        while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "1slh" ) ) != EOF )
         {
             switch( c )
             {
@@ -2288,8 +2291,9 @@ int Abc_CommandAbcLivenessToSafetyWithLTL( Abc_Frame_t * pAbc, int argc, char **
     }
     else
     {
-        Extra_UtilGetoptReset();
-        while ( ( c = Extra_UtilGetopt( argc, argv, "1slhf" ) ) != EOF )
+        
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+        while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "1slhf" ) ) != EOF )
         {
             switch( c )
             {
@@ -2427,8 +2431,9 @@ int Abc_CommandAbcLivenessToSafetyWithLTL( Abc_Frame_t * pAbc, int argc, char **
     }
     else 
     {
-        Extra_UtilGetoptReset();
-        c = Extra_UtilGetopt( argc, argv, "1lsh" );
+        
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+        c = Extra_UtilGetopt( &pOpt, argc, argv, "1lsh" );
         if( c == '1' )
         {
             if ( pNtk == NULL )

@@ -557,8 +557,9 @@ int Abc_CommandCS_kLiveness( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     else
     {
-        Extra_UtilGetoptReset();
-        while ( ( c = Extra_UtilGetopt( argc, argv, "cmCgh" ) ) != EOF )
+        
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+        while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "cmCgh" ) ) != EOF )
         {
             switch( c )
             {
@@ -736,8 +737,9 @@ int Abc_CommandNChooseK( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     else
     {
-        Extra_UtilGetoptReset();
-        while ( ( c = Extra_UtilGetopt( argc, argv, "cmCgh" ) ) != EOF )
+        
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+        while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "cmCgh" ) ) != EOF )
         {
             switch( c )
             {

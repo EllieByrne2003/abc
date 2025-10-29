@@ -642,8 +642,9 @@ int Cmd_CommandAbcLoadPlugIn( Abc_Frame_t * pAbc, int argc, char ** argv )
     fPath = 0;
     fVerbose = 0;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vph" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "vph" ) ) != EOF )
     {
         switch ( c )
         {
@@ -658,7 +659,7 @@ int Cmd_CommandAbcLoadPlugIn( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     }
 
-    if ( argc != globalUtilOptind + 2 )
+    if ( argc != pOpt.optind + 2 )
         goto usage;
 
     pStrDirBin  = argv[argc-2];

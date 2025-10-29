@@ -41,11 +41,6 @@ ABC_NAMESPACE_IMPL_START
  *  Purpose: get option letter from argv.
  */
 
-const char * globalUtilOptarg;        // Global argument pointer (util_optarg)
-int    globalUtilOptind = 0;    // Global argv index (util_optind)
-
-static const char *pScanStr;
-
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
 ////////////////////////////////////////////////////////////////////////
@@ -68,24 +63,6 @@ int Extra_GetSoftDataLimit()
 
 /**Function*************************************************************
 
-  Synopsis    [util_getopt_reset()]
-
-  Description []
-               
-  SideEffects []
-
-  SeeAlso     []
-
-***********************************************************************/
-void Extra_UtilGetoptReset()
-{
-    globalUtilOptarg = 0;
-    globalUtilOptind = 0;
-    pScanStr = 0;
-}
-
-/**Function*************************************************************
-
   Synopsis    [util_getopt()]
 
   Description []
@@ -95,29 +72,33 @@ void Extra_UtilGetoptReset()
   SeeAlso     []
 
 ***********************************************************************/
-int Extra_UtilGetopt( int argc, char *argv[], const char *optstring )
+int Extra_UtilGetopt( Extra_UtilOpt_t * p, int argc, char *argv[], const char *optstring )
 {
     int c;
     const char *place;
 
-    globalUtilOptarg = NULL;
+    p->optarg = NULL;
 
-    if (pScanStr == NULL || *pScanStr == '\0') 
+    // If pScanStr is null (not looking at a string yet) or reached the end of
+    // another, get the next string or return EOF. Skip the - char and advance
+    // pOpt.optind
+    if (p->pScanStr == NULL || *p->pScanStr == '\0') 
     {
-        if (globalUtilOptind == 0) 
-            globalUtilOptind++;
-        if (globalUtilOptind >= argc) 
+        if (p->optind == 0) 
+            p->optind++;
+        if (p->optind >= argc) 
             return EOF;
-        place = argv[globalUtilOptind];
+        place = argv[p->optind];
         if (place[0] != '-' || place[1] == '\0') 
             return EOF;
-        globalUtilOptind++;
+        p->optind++;
         if (place[1] == '-' && place[2] == '\0') 
             return EOF;
-        pScanStr = place+1;
+        p->pScanStr = place+1;
     }
 
-    c = *pScanStr++;
+    // Get a char from p and check if it is in the opstring
+    c = *p->pScanStr++;
     place = strchr(optstring, c);
     if (place == NULL || c == ':') {
         (void) fprintf(stderr, "%s: unknown option %c\n", argv[0], c);
@@ -125,21 +106,21 @@ int Extra_UtilGetopt( int argc, char *argv[], const char *optstring )
     }
     if (*++place == ':') 
     {
-        if (*pScanStr != '\0') 
+        if (*p->pScanStr != '\0') 
         {
-            globalUtilOptarg = pScanStr;
-            pScanStr = NULL;
+            p->optarg = p->pScanStr;
+            p->pScanStr = NULL;
         } 
         else 
         {
-            if (globalUtilOptind >= argc) 
+            if (p->optind >= argc) 
             {
                 (void) fprintf(stderr, "%s: %c requires an argument\n", 
                     argv[0], c);
                 return '?';
             }
-            globalUtilOptarg = argv[globalUtilOptind];
-            globalUtilOptind++;
+            p->optarg = argv[p->optind];
+            p->optind++;
         }
     }
     return c;

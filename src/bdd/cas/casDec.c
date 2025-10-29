@@ -80,10 +80,10 @@ extern void WriteDDintoBLIFfileReorder( DdManager * dd, FILE * pFile, DdNode * F
 static int s_LutSize = 15;
 static int s_nFuncVars; 
 
-long s_EncodingTime;
+// long s_EncodingTime;
 
-long s_EncSearchTime;
-long s_EncComputeTime;
+// long s_EncSearchTime;
+// long s_EncComputeTime;
 
 ////////////////////////////////////
 // temporary output variables
@@ -218,7 +218,7 @@ int CreateDecomposedNetwork( DdManager * dd, DdNode * aFunc, char ** pNames, int
         bCVars[i] = Cudd_bddNewVar(dd);
 
     // for each LUT - assign the LUT and encode the columns
-    s_EncodingTime = 0;
+    // s_EncodingTime = 0;
     for ( i = 0; i < nLuts; i++ )
     {
         int RetValue;
@@ -287,7 +287,7 @@ int CreateDecomposedNetwork( DdManager * dd, DdNode * aFunc, char ** pNames, int
             abctime clk2 = Abc_Clock();
 //          p->bRelation = PerformTheEncoding( dd, p->pbCols, p->nCols, bVarsCube, bCVars, p->nMulti, &p->nSimple );  Cudd_Ref( p->bRelation );
             p->bRelation = Extra_bddEncodingNonStrict( dd, p->pbCols, p->nCols, bVarsCube, bCVars, p->nMulti, &p->nSimple );  Cudd_Ref( p->bRelation );
-            s_EncodingTime += Abc_Clock() - clk2;
+            // s_EncodingTime += Abc_Clock() - clk2;
         }
 
         // update the number of LUT outputs
@@ -353,8 +353,8 @@ printf( "Stage %3d: In = %3d  InP = %3d  Cols = %5d  Multi = %2d  Simple = %2d  
 
     if ( fVerbose )
     {
-    printf( "Pure decomposition time   = %.2f sec\n", (float)(Abc_Clock() - clk1 - s_EncodingTime)/(float)(CLOCKS_PER_SEC) );
-    printf( "Encoding time             = %.2f sec\n", (float)(s_EncodingTime)/(float)(CLOCKS_PER_SEC) );
+    // printf( "Pure decomposition time   = %.2f sec\n", (float)(Abc_Clock() - clk1 - s_EncodingTime)/(float)(CLOCKS_PER_SEC) );
+    // printf( "Encoding time             = %.2f sec\n", (float)(s_EncodingTime)/(float)(CLOCKS_PER_SEC) );
 //  printf( "Encoding search time      = %.2f sec\n", (float)(s_EncSearchTime)/(float)(CLOCKS_PER_SEC) );
 //  printf( "Encoding compute time     = %.2f sec\n", (float)(s_EncComputeTime)/(float)(CLOCKS_PER_SEC) );
     }

@@ -240,202 +240,203 @@ satoko_opts_t * Cmd_DeriveOptionFromSettings( int argc, char ** argv )
     int c;
     satoko_opts_t opts, * pOpts;
     satoko_default_opts(&opts);
-    Extra_UtilGetoptReset();
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
 #ifdef SATOKO_ACT_VAR_FIXED
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CPDEFGHIJKLMNOQRSTUhv" ) ) != EOF )
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "CPDEFGHIJKLMNOQRSTUhv" ) ) != EOF )
 #else
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CPDEFGHIJKLMNOQRShv" ) ) != EOF )
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "CPDEFGHIJKLMNOQRShv" ) ) != EOF )
 #endif
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 return NULL;
             }
-            opts.conf_limit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            opts.conf_limit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( opts.conf_limit < 0 )
                 return NULL;
             break;
          case 'P':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                     return NULL;
                 }
-                opts.prop_limit = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                opts.prop_limit = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( opts.prop_limit < 0 )
                     return NULL;
                 break;
          case 'D':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-D\" should be followed by an float.\n" );
                    return NULL;
                }
-               opts.f_rst = atof(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.f_rst = atof(argv[pOpt.optind]);
+               pOpt.optind++;
                if ( opts.f_rst < 0 )
                    return NULL;
                break;
          case 'E':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-E\" should be followed by an float.\n" );
                    return NULL;
                }
-               opts.b_rst = atof(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.b_rst = atof(argv[pOpt.optind]);
+               pOpt.optind++;
                if ( opts.b_rst < 0 )
                    return NULL;
                break;
          case 'F':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                    return NULL;
                }
-               opts.fst_block_rst = (unsigned)atoi(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.fst_block_rst = (unsigned)atoi(argv[pOpt.optind]);
+               pOpt.optind++;
                break;
          case 'G':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                    return NULL;
                }
-               opts.sz_lbd_bqueue = (unsigned)atoi(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.sz_lbd_bqueue = (unsigned)atoi(argv[pOpt.optind]);
+               pOpt.optind++;
                break;
          case 'H':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-H\" should be followed by an integer.\n" );
                    return NULL;
                }
-               opts.sz_trail_bqueue = (unsigned)atoi(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.sz_trail_bqueue = (unsigned)atoi(argv[pOpt.optind]);
+               pOpt.optind++;
                break;
          case 'I':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                    return NULL;
                }
-               opts.n_conf_fst_reduce = (unsigned)atoi(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.n_conf_fst_reduce = (unsigned)atoi(argv[pOpt.optind]);
+               pOpt.optind++;
                break;
          case 'J':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-J\" should be followed by an integer.\n" );
                    return NULL;
                }
-               opts.inc_reduce = (unsigned)atoi(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.inc_reduce = (unsigned)atoi(argv[pOpt.optind]);
+               pOpt.optind++;
                break;
          case 'K':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                    return NULL;
                }
-               opts.inc_special_reduce = (unsigned)atoi(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.inc_special_reduce = (unsigned)atoi(argv[pOpt.optind]);
+               pOpt.optind++;
                break;
          case 'L':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                    return NULL;
                }
-               opts.lbd_freeze_clause = (unsigned)atoi(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.lbd_freeze_clause = (unsigned)atoi(argv[pOpt.optind]);
+               pOpt.optind++;
                break;
          case 'M':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                    return NULL;
                }
-               opts.learnt_ratio = atof(argv[globalUtilOptind]) / 100;
-               globalUtilOptind++;
+               opts.learnt_ratio = atof(argv[pOpt.optind]) / 100;
+               pOpt.optind++;
                if ( opts.learnt_ratio < 0 )
                    return NULL;
                break;
          case 'N':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                    return NULL;
                }
-               opts.garbage_max_ratio = atof(argv[globalUtilOptind]) / 100;
-               globalUtilOptind++;
+               opts.garbage_max_ratio = atof(argv[pOpt.optind]) / 100;
+               pOpt.optind++;
                if ( opts.garbage_max_ratio < 0 )
                    return NULL;
                break;
          case 'O':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                    return NULL;
                }
-               opts.clause_max_sz_bin_resol = (unsigned)atoi(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.clause_max_sz_bin_resol = (unsigned)atoi(argv[pOpt.optind]);
+               pOpt.optind++;
                break;
          case 'Q':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                    return NULL;
                }
-               opts.clause_min_lbd_bin_resol = (unsigned)atoi(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.clause_min_lbd_bin_resol = (unsigned)atoi(argv[pOpt.optind]);
+               pOpt.optind++;
                break;
          case 'R':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-R\" should be followed by an float.\n" );
                    return NULL;
                }
-               opts.clause_decay = atof(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.clause_decay = atof(argv[pOpt.optind]);
+               pOpt.optind++;
                if ( opts.clause_decay < 0 )
                    return NULL;
                break;
          case 'S':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-S\" should be followed by an float.\n" );
                    return NULL;
                }
-               opts.var_decay = atof(argv[globalUtilOptind]);
-               globalUtilOptind++;
+               opts.var_decay = atof(argv[pOpt.optind]);
+               pOpt.optind++;
                if ( opts.var_decay < 0 )
                    return NULL;
                break;
 #ifdef SATOKO_ACT_VAR_FIXED
          case 'T':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-T\" should be followed by an float.\n" );
                    return NULL;
                }
-               opts.var_act_limit = (unsigned)strtol(argv[globalUtilOptind], NULL, 16);
-               globalUtilOptind++;
+               opts.var_act_limit = (unsigned)strtol(argv[pOpt.optind], NULL, 16);
+               pOpt.optind++;
                break;
          case 'U':
-               if ( globalUtilOptind >= argc )
+               if ( pOpt.optind >= argc )
                {
                    Abc_Print( -1, "Command line switch \"-U\" should be followed by an float.\n" );
                    return NULL;
                }
-               opts.var_act_rescale = (unsigned)strtol(argv[globalUtilOptind], NULL, 16);
-               globalUtilOptind++;
+               opts.var_act_rescale = (unsigned)strtol(argv[pOpt.optind], NULL, 16);
+               pOpt.optind++;
                break;
 #endif
         case 'h':
@@ -453,6 +454,226 @@ satoko_opts_t * Cmd_DeriveOptionFromSettings( int argc, char ** argv )
     memcpy( pOpts, &opts, sizeof(satoko_opts_t) );
     return pOpts;
 }
+
+
+satoko_opts_t * Cmd_DeriveOptionFromSettings2( Extra_UtilOpt_t *pOpt, int argc, char ** argv )
+{
+    int c;
+    satoko_opts_t opts, * pOpts;
+    satoko_default_opts(&opts);
+#ifdef SATOKO_ACT_VAR_FIXED
+    while ( ( c = Extra_UtilGetopt( pOpt, argc, argv, "CPDEFGHIJKLMNOQRSTUhv" ) ) != EOF )
+#else
+    while ( ( c = Extra_UtilGetopt( pOpt, argc, argv, "CPDEFGHIJKLMNOQRShv" ) ) != EOF )
+#endif
+    {
+        switch ( c )
+        {
+        case 'C':
+            if ( pOpt->optind >= argc )
+            {
+                Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
+                return NULL;
+            }
+            opts.conf_limit = atoi(argv[pOpt->optind]);
+            pOpt->optind++;
+            if ( opts.conf_limit < 0 )
+                return NULL;
+            break;
+         case 'P':
+                if ( pOpt->optind >= argc )
+                {
+                    Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
+                    return NULL;
+                }
+                opts.prop_limit = atoi(argv[pOpt->optind]);
+                pOpt->optind++;
+                if ( opts.prop_limit < 0 )
+                    return NULL;
+                break;
+         case 'D':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-D\" should be followed by an float.\n" );
+                   return NULL;
+               }
+               opts.f_rst = atof(argv[pOpt->optind]);
+               pOpt->optind++;
+               if ( opts.f_rst < 0 )
+                   return NULL;
+               break;
+         case 'E':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-E\" should be followed by an float.\n" );
+                   return NULL;
+               }
+               opts.b_rst = atof(argv[pOpt->optind]);
+               pOpt->optind++;
+               if ( opts.b_rst < 0 )
+                   return NULL;
+               break;
+         case 'F':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
+                   return NULL;
+               }
+               opts.fst_block_rst = (unsigned)atoi(argv[pOpt->optind]);
+               pOpt->optind++;
+               break;
+         case 'G':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
+                   return NULL;
+               }
+               opts.sz_lbd_bqueue = (unsigned)atoi(argv[pOpt->optind]);
+               pOpt->optind++;
+               break;
+         case 'H':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-H\" should be followed by an integer.\n" );
+                   return NULL;
+               }
+               opts.sz_trail_bqueue = (unsigned)atoi(argv[pOpt->optind]);
+               pOpt->optind++;
+               break;
+         case 'I':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
+                   return NULL;
+               }
+               opts.n_conf_fst_reduce = (unsigned)atoi(argv[pOpt->optind]);
+               pOpt->optind++;
+               break;
+         case 'J':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-J\" should be followed by an integer.\n" );
+                   return NULL;
+               }
+               opts.inc_reduce = (unsigned)atoi(argv[pOpt->optind]);
+               pOpt->optind++;
+               break;
+         case 'K':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
+                   return NULL;
+               }
+               opts.inc_special_reduce = (unsigned)atoi(argv[pOpt->optind]);
+               pOpt->optind++;
+               break;
+         case 'L':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
+                   return NULL;
+               }
+               opts.lbd_freeze_clause = (unsigned)atoi(argv[pOpt->optind]);
+               pOpt->optind++;
+               break;
+         case 'M':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
+                   return NULL;
+               }
+               opts.learnt_ratio = atof(argv[pOpt->optind]) / 100;
+               pOpt->optind++;
+               if ( opts.learnt_ratio < 0 )
+                   return NULL;
+               break;
+         case 'N':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
+                   return NULL;
+               }
+               opts.garbage_max_ratio = atof(argv[pOpt->optind]) / 100;
+               pOpt->optind++;
+               if ( opts.garbage_max_ratio < 0 )
+                   return NULL;
+               break;
+         case 'O':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
+                   return NULL;
+               }
+               opts.clause_max_sz_bin_resol = (unsigned)atoi(argv[pOpt->optind]);
+               pOpt->optind++;
+               break;
+         case 'Q':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
+                   return NULL;
+               }
+               opts.clause_min_lbd_bin_resol = (unsigned)atoi(argv[pOpt->optind]);
+               pOpt->optind++;
+               break;
+         case 'R':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-R\" should be followed by an float.\n" );
+                   return NULL;
+               }
+               opts.clause_decay = atof(argv[pOpt->optind]);
+               pOpt->optind++;
+               if ( opts.clause_decay < 0 )
+                   return NULL;
+               break;
+         case 'S':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-S\" should be followed by an float.\n" );
+                   return NULL;
+               }
+               opts.var_decay = atof(argv[pOpt->optind]);
+               pOpt->optind++;
+               if ( opts.var_decay < 0 )
+                   return NULL;
+               break;
+#ifdef SATOKO_ACT_VAR_FIXED
+         case 'T':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-T\" should be followed by an float.\n" );
+                   return NULL;
+               }
+               opts.var_act_limit = (unsigned)strtol(argv[pOpt->optind], NULL, 16);
+               pOpt->optind++;
+               break;
+         case 'U':
+               if ( pOpt->optind >= argc )
+               {
+                   Abc_Print( -1, "Command line switch \"-U\" should be followed by an float.\n" );
+                   return NULL;
+               }
+               opts.var_act_rescale = (unsigned)strtol(argv[pOpt->optind], NULL, 16);
+               pOpt->optind++;
+               break;
+#endif
+        case 'h':
+            return NULL;
+        case 'v':
+            opts.verbose ^= 1;
+            break;
+
+        default:
+            return NULL;
+        }
+    }
+    // return a copy of this parameter structure
+    pOpts = ABC_ALLOC( satoko_opts_t, 1 );
+    memcpy( pOpts, &opts, sizeof(satoko_opts_t) );
+    return pOpts;
+}
+
 void Cmf_CreateOptions_rec( Vec_Wec_t * vPars, int iPar, char Argv[CMD_AUTO_ARG_MAX][20], int Argc, Vec_Ptr_t * vOpts )
 {
     Vec_Int_t * vLine;

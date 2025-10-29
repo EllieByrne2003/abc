@@ -1582,8 +1582,9 @@ int Abc_CommandPrintStats( Abc_Frame_t * pAbc, int argc, char ** argv )
     fSkipBuf = 0;
     fSkipSmall = 0;
     fPrintMem = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "fbdltmpgscuh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "fbdltmpgscuh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1688,8 +1689,9 @@ int Abc_CommandPrintExdc( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set the defaults
     fShort  = 1;
     fPrintDc = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "sdh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "sdh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1769,8 +1771,9 @@ int Abc_CommandPrintIo( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fPrintFlops = 1;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "fh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "fh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1790,18 +1793,18 @@ int Abc_CommandPrintIo( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
     }
 
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        pNode = Abc_NtkFindNode( pNtk, argv[globalUtilOptind] );
+        pNode = Abc_NtkFindNode( pNtk, argv[pOpt.optind] );
         if ( pNode == NULL )
         {
-            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[globalUtilOptind] );
+            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[pOpt.optind] );
             return 1;
         }
         Abc_NodePrintFanio( stdout, pNode );
@@ -1840,8 +1843,9 @@ int Abc_CommandPrintLatch( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fPrintSccs = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "sh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "sh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1895,8 +1899,9 @@ int Abc_CommandPrintFanio( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fUseCone  = 0;
     int fMffc     = 0;
     int fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "fiscmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "fiscmvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -1972,8 +1977,9 @@ int Abc_CommandPrintMffc( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_NtkPrintMffc( FILE * pFile, Abc_Ntk_t * pNtk );
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2024,8 +2030,9 @@ int Abc_CommandPrintFactor( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fUseRealNames = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "snh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "snh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2054,18 +2061,18 @@ int Abc_CommandPrintFactor( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
     }
 
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        pNode = Abc_NtkFindNode( pNtk, argv[globalUtilOptind] );
+        pNode = Abc_NtkFindNode( pNtk, argv[pOpt.optind] );
         if ( pNode == NULL )
         {
-            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[globalUtilOptind] );
+            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[pOpt.optind] );
             return 1;
         }
         if ( fSop )
@@ -2117,8 +2124,9 @@ int Abc_CommandPrintLevel( Abc_Frame_t * pAbc, int argc, char ** argv )
     fProfile   = 1;
     fOutputs   = 0;
     fVerbose   = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "npovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "npovh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2153,18 +2161,18 @@ int Abc_CommandPrintLevel( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
     }
 
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        pNode = Abc_NtkFindNode( pNtk, argv[globalUtilOptind] );
+        pNode = Abc_NtkFindNode( pNtk, argv[pOpt.optind] );
         if ( pNode == NULL )
         {
-            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[globalUtilOptind] );
+            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[pOpt.optind] );
             return 1;
         }
         Abc_NodePrintLevel( stdout, pNode );
@@ -2212,8 +2220,9 @@ int Abc_CommandPrintSupport( Abc_Frame_t * pAbc, int argc, char ** argv )
     fStruct = 1;
     fVerbose = 0;
     fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "svwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "svwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2292,8 +2301,9 @@ int Abc_CommandPrintMint( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "svwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "svwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2362,8 +2372,9 @@ int Abc_CommandPrintSymms( Abc_Frame_t * pAbc, int argc, char ** argv )
     fNaive   = 0;
     fReorder = 1;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "bnrvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "bnrvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2440,8 +2451,9 @@ int Abc_CommandPrintUnate( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUseBdds  = 1;
     fUseNaive = 0;
     fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "bnvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "bnvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2507,19 +2519,20 @@ int Abc_CommandPrintAuto( Abc_Frame_t * pAbc, int argc, char ** argv )
     Output   = -1;
     fNaive   = 0;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Onvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Onvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Output = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Output = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Output < 0 )
                 goto usage;
             break;
@@ -2582,8 +2595,9 @@ int Abc_CommandPrintKMap( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fUseRealNames = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "nh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "nh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2596,9 +2610,9 @@ int Abc_CommandPrintKMap( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 2 )
+    if ( argc == pOpt.optind + 2 )
     {
-        Abc_NtkShow6VarFunc( argv[globalUtilOptind], argv[globalUtilOptind+1] );
+        Abc_NtkShow6VarFunc( argv[pOpt.optind], argv[pOpt.optind+1] );
         return 0;
     }
 
@@ -2612,12 +2626,12 @@ int Abc_CommandPrintKMap( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Visualization of Karnaugh maps works for logic networks.\n" );
         return 1;
     }
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
     }
-    if ( argc == globalUtilOptind )
+    if ( argc == pOpt.optind )
     {
         pNode = Abc_ObjFanin0( Abc_NtkPo(pNtk, 0) );
         if ( !Abc_ObjIsNode(pNode) )
@@ -2628,10 +2642,10 @@ int Abc_CommandPrintKMap( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     else
     {
-        pNode = Abc_NtkFindNode( pNtk, argv[globalUtilOptind] );
+        pNode = Abc_NtkFindNode( pNtk, argv[pOpt.optind] );
         if ( pNode == NULL )
         {
-            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[globalUtilOptind] );
+            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[pOpt.optind] );
             return 1;
         }
     }
@@ -2674,8 +2688,9 @@ int Abc_CommandPrintGates( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUseLibrary = 1;
     fUpdateProfile = 0;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "luvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "luvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2742,8 +2757,9 @@ int Abc_CommandPrintSharing( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fUseLibrary = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2794,8 +2810,9 @@ int Abc_CommandPrintXCut( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fUseLibrary = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -2854,19 +2871,20 @@ int Abc_CommandPrintDsd( Abc_Frame_t * pAbc, int argc, char ** argv )
     fCofactor = 0;
     fProfile  = 0;
     fPrintDec = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Npcdh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Npcdh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCofLevel = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCofLevel = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCofLevel < 0 )
                 goto usage;
             break;
@@ -2966,8 +2984,9 @@ int Abc_CommandPrintCone( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fUseLibrary = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3023,8 +3042,9 @@ int Abc_CommandPrintMiter( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fUseLibrary = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3076,19 +3096,20 @@ int Abc_CommandPrintStatus( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fOutStatus = 0, fShort = 1;
     char * pLogFileName = NULL;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Losh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Losh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'o':
             fOutStatus ^= 1;
@@ -3213,8 +3234,9 @@ int Abc_CommandPrintDelay( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Obj_t * pObjIn = NULL, * pObjOut = NULL;
     int c;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3234,36 +3256,36 @@ int Abc_CommandPrintDelay( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Delay trace works only for network mapped into standard cells.\n" );
         return 1;
     }
-    if ( argc > globalUtilOptind + 2 )
+    if ( argc > pOpt.optind + 2 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
     }
     // collect the first name (PO name)
-    if ( argc >= globalUtilOptind + 1 )
+    if ( argc >= pOpt.optind + 1 )
     {
-        int Num = Nm_ManFindIdByName( pNtk->pManName, argv[globalUtilOptind], ABC_OBJ_PO );
+        int Num = Nm_ManFindIdByName( pNtk->pManName, argv[pOpt.optind], ABC_OBJ_PO );
         if ( Num < 0 )
-            Num = Nm_ManFindIdByName( pNtk->pManName, argv[globalUtilOptind], ABC_OBJ_BI );
+            Num = Nm_ManFindIdByName( pNtk->pManName, argv[pOpt.optind], ABC_OBJ_BI );
         if ( Num >= 0 )
             pObjOut = Abc_NtkObj( pNtk, Num );
         if ( pObjOut == NULL )
         {
-            Abc_Print( 1, "Cannot find combinational output \"%s\".\n", argv[globalUtilOptind] );
+            Abc_Print( 1, "Cannot find combinational output \"%s\".\n", argv[pOpt.optind] );
             return 1;
         }
     }
     // collect the second name (PI name)
-    if ( argc == globalUtilOptind + 2 )
+    if ( argc == pOpt.optind + 2 )
     {
-        int Num = Nm_ManFindIdByName( pNtk->pManName, argv[globalUtilOptind+1], ABC_OBJ_PI );
+        int Num = Nm_ManFindIdByName( pNtk->pManName, argv[pOpt.optind+1], ABC_OBJ_PI );
         if ( Num < 0 )
-            Num = Nm_ManFindIdByName( pNtk->pManName, argv[globalUtilOptind+1], ABC_OBJ_BO );
+            Num = Nm_ManFindIdByName( pNtk->pManName, argv[pOpt.optind+1], ABC_OBJ_BO );
         if ( Num >= 0 )
             pObjIn = Abc_NtkObj( pNtk, Num );
         if ( pObjIn == NULL )
         {
-            Abc_Print( 1, "Cannot find combinational input \"%s\".\n", argv[globalUtilOptind+1] );
+            Abc_Print( 1, "Cannot find combinational input \"%s\".\n", argv[pOpt.optind+1] );
             return 1;
         }
     }
@@ -3311,8 +3333,9 @@ int Abc_CommandShow( Abc_Frame_t * pAbc, int argc, char ** argv )
     fFlopDep    = 0;
     fKeepDot    = 0;
     fAigIds     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "rsgfdih" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "rsgfdih" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3388,8 +3411,9 @@ int Abc_CommandShowBdd( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_NtkBddDecExplore( Abc_Obj_t * pNode );
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cgrwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "cgrwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3432,12 +3456,12 @@ int Abc_CommandShowBdd( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Visualizing BDDs can only be done for logic BDD networks (run \"bdd\").\n" );
         return 1;
     }    
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
     }
-    if ( argc == globalUtilOptind )
+    if ( argc == pOpt.optind )
     {
         pNode = Abc_ObjFanin0( Abc_NtkPo(pNtk, 0) );
         if ( !Abc_ObjIsNode(pNode) )
@@ -3448,10 +3472,10 @@ int Abc_CommandShowBdd( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     else
     {
-        pNode = Abc_NtkFindNode( pNtk, argv[globalUtilOptind] );
+        pNode = Abc_NtkFindNode( pNtk, argv[pOpt.optind] );
         if ( pNode == NULL )
         {
-            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[globalUtilOptind] );
+            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[pOpt.optind] );
             return 1;
         }
     }
@@ -3501,30 +3525,31 @@ int Abc_CommandShowCut( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     nNodeSizeMax = 10;
     nConeSizeMax = ABC_INFINITY;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NCh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NCh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNodeSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodeSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodeSizeMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConeSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConeSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConeSizeMax < 0 )
                 goto usage;
             break;
@@ -3546,16 +3571,16 @@ int Abc_CommandShowCut( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Visualizing cuts only works for AIGs (run \"strash\").\n" );
         return 1;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
     }
 
-    pNode = Abc_NtkFindNode( pNtk, argv[globalUtilOptind] );
+    pNode = Abc_NtkFindNode( pNtk, argv[pOpt.optind] );
     if ( pNode == NULL )
     {
-        Abc_Print( -1, "Cannot find node \"%s\".\n", argv[globalUtilOptind] );
+        Abc_Print( -1, "Cannot find node \"%s\".\n", argv[pOpt.optind] );
         return 1;
     }
     Abc_NodeShowCut( pNode, nNodeSizeMax, nConeSizeMax );
@@ -3607,30 +3632,31 @@ int Abc_CommandCollapse( Abc_Frame_t * pAbc, int argc, char ** argv )
     fDualRail = 0;
     fDumpOrder = 0;
     fBddSizeMax = ABC_INFINITY;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "BLrodxvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "BLrodxvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            fBddSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            fBddSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( fBddSizeMax < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'r':
             fReorder ^= 1;
@@ -3733,41 +3759,42 @@ int Abc_CommandSatClp( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CLZcrsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CLZcrsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCubeLim = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCubeLim = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCubeLim < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBTLimit < 0 )
                 goto usage;
             break;
         case 'Z':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Z\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCostMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCostMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCostMax < 0 )
                 goto usage;
             break;
@@ -3860,8 +3887,9 @@ int Abc_CommandStrash( Abc_Frame_t * pAbc, int argc, char ** argv )
     fCleanup  = 1;
     fRecord   = 0;
     fComplOuts= 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "acrih" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "acrih" ) ) != EOF )
     {
         switch ( c )
         {
@@ -3943,8 +3971,9 @@ int Abc_CommandBalance( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUpdateLevel = 1;
     fExor        = 0;
     fVerbose     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ldsxvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ldsxvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4042,8 +4071,9 @@ int Abc_CommandMuxStruct( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fVerbose     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4118,30 +4148,31 @@ int Abc_CommandMulti( Abc_Frame_t * pAbc, int argc, char ** argv )
     fMulti    =  1;
     fSimple   =  0;
     fFactor   =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "TFmcsfh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "TFmcsfh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nThresh = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nThresh = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nThresh < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFaninMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFaninMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFaninMax < 0 )
                 goto usage;
             break;
@@ -4239,52 +4270,53 @@ int Abc_CommandRenode( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUseCnfs   =  0;
     fUseMv     =  0;
     fVerbose   =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCFAabscivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCFAabscivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutsMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nFlowIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFlowIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFlowIters < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nAreaIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nAreaIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nAreaIters < 0 )
                 goto usage;
             break;
@@ -4398,8 +4430,9 @@ int Abc_CommandCleanup( Abc_Frame_t * pAbc, int argc, char ** argv )
     fCleanupPis = 1;
     fCleanupPos = 1;
     fVerbose    = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "iovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "iovh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4478,8 +4511,9 @@ int Abc_CommandSweep( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fVerbose = 0;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "svh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "svh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -4543,74 +4577,75 @@ int Abc_CommandFastExtract( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nPairsLimit = 1000000000;
     // set the defaults
     Abc_NtkSetDefaultFxParams( p );
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "SDNWMPsdzcnxvwh")) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "SDNWMPsdzcnxvwh")) != EOF )
     {
         switch (c)
         {
             case 'S':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                p->nSingleMax = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                p->nSingleMax = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( p->nSingleMax < 0 )
                     goto usage;
                 break;
             case 'D':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                p->nPairsMax = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                p->nPairsMax = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( p->nPairsMax < 0 )
                     goto usage;
                 break;
             case 'N':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                p->nNodesExt = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                p->nNodesExt = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( p->nNodesExt < 0 )
                     goto usage;
                 break;
             case 'W':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                p->WeightMin = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                p->WeightMin = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( p->WeightMin < 0 )
                     goto usage;
                 break;
             case 'M':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                p->LitCountMax = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                p->LitCountMax = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( p->LitCountMax < 0 )
                     goto usage;
                 break;
             case 'P':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                nPairsLimit = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nPairsLimit = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nPairsLimit < 0 )
                     goto usage;
                 break;
@@ -4721,19 +4756,20 @@ static int Abc_CommandFxch( Abc_Frame_t * pAbc, int argc, char ** argv )
         fVerbose = 0,
         fVeryVerbose = 0;
 
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "Nvwh")) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "Nvwh")) != EOF )
     {
         switch (c)
         {
             case 'N':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                nMaxDivExt = atoi( argv[globalUtilOptind] );
-                globalUtilOptind++;
+                nMaxDivExt = atoi( argv[pOpt.optind] );
+                pOpt.optind++;
 
                 if ( nMaxDivExt < 0 )
                     goto usage;
@@ -4828,41 +4864,42 @@ int Abc_CommandEliminate( Abc_Frame_t * pAbc, int argc, char ** argv )
     fReverse  =  0;
     fSpecial  =  0;
     fVerbose  =  0;
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "VNIgrsvh")) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "VNIgrsvh")) != EOF )
     {
         switch (c)
         {
             case 'V':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer that is -1 or larger.\n" );
                     goto usage;
                 }
-                ElimValue = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                ElimValue = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( ElimValue < -1 )
                     goto usage;
                 break;
             case 'N':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-N\" should be followed by a positive integer.\n" );
                     goto usage;
                 }
-                nMaxSize = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nMaxSize = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nMaxSize <= 0 )
                     goto usage;
                 break;
             case 'I':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                     goto usage;
                 }
-                nIterMax = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nIterMax = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nIterMax <= 0 )
                     goto usage;
                 break;
@@ -4953,8 +4990,9 @@ int Abc_CommandDisjoint( Abc_Frame_t * pAbc, int argc, char ** argv )
     fVerbose   = 0;
     fPrint     = 0;
     fShort     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "grvpsh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "grvpsh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -5066,19 +5104,20 @@ int Abc_CommandSparsify( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     nPerc      = 10;
     fVerbose   =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nvh" ) ) != EOF )
     {
         switch ( c )
         {
             case 'N':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                nPerc = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nPerc = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nPerc < 1 || nPerc > 100 )
                     goto usage;
                 break;
@@ -5157,52 +5196,53 @@ int Abc_CommandLutpack( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->fOldAlgo     =  0;
     pPars->fVerbose     =  0;
     pPars->fVeryVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NQSLszfovwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NQSLszfovwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutsMax < 2 || pPars->nLutsMax > 16 )
                 goto usage;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLutsOver = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutsOver = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutsOver < 0 || pPars->nLutsOver > 8 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nVarsShared = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nVarsShared = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nVarsShared < 0 || pPars->nVarsShared > 4 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nGrowthLevel = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nGrowthLevel = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nGrowthLevel < 0 || pPars->nGrowthLevel > ABC_INFINITY )
                 goto usage;
             break;
@@ -5294,19 +5334,20 @@ int Abc_CommandLutmin( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nLutSize = 4;
     int fReorder = 1;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Krvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Krvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'r':
             fReorder ^= 1;
@@ -5375,52 +5416,53 @@ int Abc_CommandImfs( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->fArea        =  0;
     pPars->fVerbose     =  0;
     pPars->fVeryVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WSCLavwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WSCLavwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWindow = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWindow = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWindow < 1 || pPars->nWindow > 99 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSimWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSimWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSimWords < 1 || pPars->nSimWords > 256 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nCands = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCands = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCands < 0 || pPars->nCands > ABC_INFINITY )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nGrowthLevel = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nGrowthLevel = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nGrowthLevel < 0 || pPars->nGrowthLevel > ABC_INFINITY )
                 goto usage;
             break;
@@ -5494,74 +5536,75 @@ int Abc_CommandMfs( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     // set defaults
     Abc_NtkMfsParsDefault( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WFDMLCdraestpgcvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WFDMLCdraestpgcvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWinTfoLevs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWinTfoLevs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWinTfoLevs < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFanoutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFanoutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFanoutsMax < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nDepthMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nDepthMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nDepthMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWinMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWinMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWinMax < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nGrowthLevel = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nGrowthLevel = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nGrowthLevel < 0 || pPars->nGrowthLevel > ABC_INFINITY )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
@@ -5668,107 +5711,108 @@ int Abc_CommandMfs2( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fIndDCs = 0, fUseAllFfs = 0, nFramesAdd = 0;
     // set defaults
     Sfm_ParSetDefault( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WFDMLCZNIdaeijlvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WFDMLCZNIdaeijlvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTfoLevMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTfoLevMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTfoLevMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFanoutMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFanoutMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFanoutMax < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nDepthMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nDepthMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nDepthMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWinSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWinSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWinSizeMax < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nGrowthLevel = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nGrowthLevel = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nGrowthLevel < -ABC_INFINITY || pPars->nGrowthLevel > ABC_INFINITY )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'Z':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Z\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFirstFixed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFirstFixed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFirstFixed < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nNodesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nNodesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nNodesMax < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFramesAdd = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFramesAdd = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFramesAdd < 0 )
                 goto usage;
             break;
@@ -5903,19 +5947,20 @@ int Abc_CommandMfs3( Abc_Frame_t * pAbc, int argc, char ** argv )
     Sfm_Par_t Pars, * pPars = &Pars; int c;
     // set defaults
     Sfm_ParSetDefault3( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IOVFKLHRMCNPWDEarmzoespdlvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IOVFKLHRMCNPWDEarmzoespdlvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTfiLevMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTfiLevMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTfiLevMax < 1 )
             {
                 Abc_Print( -1, "The number of TFI levels (switch \"-I\") should be at least 1.\n" );
@@ -5923,156 +5968,156 @@ int Abc_CommandMfs3( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTfoLevMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTfoLevMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTfoLevMax < 0 )
                 goto usage;
             break;
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTfiLevMax = pPars->nTfoLevMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTfiLevMax = pPars->nTfoLevMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTfiLevMax < 1 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFanoutMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFanoutMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFanoutMax < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nVarMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nVarMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nVarMax < 2 || pPars->nVarMax > 8 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMffcMin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMffcMin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMffcMin < 0 )
                 goto usage;
             break;
         case 'H':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-H\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMffcMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMffcMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMffcMax < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nDecMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nDecMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nDecMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWinSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWinSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWinSizeMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nNodesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nNodesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nNodesMax < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->iNodeOne = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->iNodeOne = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->iNodeOne < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeWin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeWin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeWin < 0 || pPars->nTimeWin > 100 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->DeltaCrit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DeltaCrit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DeltaCrit < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->DelAreaRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DelAreaRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DelAreaRatio < 0 )
                 goto usage;
             break;
@@ -6182,74 +6227,75 @@ int Abc_CommandMfse( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtkNew, * pNtk = Abc_FrameReadNtk(pAbc);
     Acb_Par_t Pars, * pPars = &Pars; int c;
     Acb_ParSetDefault( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IOWFLCadvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IOWFLCadvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTfiLevMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTfiLevMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTfiLevMax < 0 )
                 goto usage;
             break;
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTfoLevMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTfoLevMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTfoLevMax < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWinNodeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWinNodeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWinNodeMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFanoutMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFanoutMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFanoutMax < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nGrowthLevel = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nGrowthLevel = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nGrowthLevel < -ABC_INFINITY || pPars->nGrowthLevel > ABC_INFINITY )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
@@ -6333,19 +6379,20 @@ int Abc_CommandLogicPush( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nLutSize = 4;
     int fVerbose = 0;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Kvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Kvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
@@ -6405,8 +6452,9 @@ int Abc_CommandTrace( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     fUseLutLib = 0;
     fVerbose   = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -6467,30 +6515,31 @@ int Abc_CommandGlitch( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NPvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NPvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPats = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPats = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPats < 1 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Prob = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Prob = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Prob < 1 )
                 goto usage;
             break;
@@ -6558,30 +6607,31 @@ int Abc_CommandSpeedup( Abc_Frame_t * pAbc, int argc, char ** argv )
     Degree     = 2;
     fVerbose   = 0;
     fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PNlvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PNlvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Percentage = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Percentage = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Percentage < 1 || Percentage > 100 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Degree = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Degree = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Degree < 1 || Degree > 5 )
                 goto usage;
             break;
@@ -6665,30 +6715,31 @@ int Abc_CommandPowerdown( Abc_Frame_t * pAbc, int argc, char ** argv )
     Degree     = 2;
     fVerbose   = 0;
     fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PNlvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PNlvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Percentage = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Percentage = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Percentage < 1 || Percentage > 100 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Degree = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Degree = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Degree < 1 || Degree > 5 )
                 goto usage;
             break;
@@ -6769,19 +6820,20 @@ int Abc_CommandAddBuffs( Abc_Frame_t * pAbc, int argc, char ** argv )
     fReverse = 0;
     nImprove = 1000;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Idrvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Idrvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nImprove = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nImprove = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nImprove < 0 )
                 goto usage;
             break;
@@ -6864,63 +6916,64 @@ int Abc_CommandMerge( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->fUseTfiTfo     = 0;   // enables the use of TFO/TFO nodes as candidates
     pPars->fVeryVerbose   = 0;   // enables additional verbose output
     pPars->fVerbose       = 1;   // enables verbose output
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NSDLFscvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NSDLFscvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMaxLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMaxLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMaxLutSize < 2 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMaxSuppSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMaxSuppSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMaxSuppSize < 2 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMaxDistance = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMaxDistance = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMaxDistance < 2 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMaxLevelDiff = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMaxLevelDiff = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMaxLevelDiff < 2 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMaxFanout = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMaxFanout = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMaxFanout < 2 )
                 goto usage;
             break;
@@ -6990,30 +7043,31 @@ int Abc_CommandTestDec( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fVerbose = 0;
     int DecType = 0;
     int nVarNum = -1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ANvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ANvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            DecType = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            DecType = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( DecType < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVarNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVarNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVarNum < 0 )
                 goto usage;
             break;
@@ -7026,7 +7080,7 @@ int Abc_CommandTestDec( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( 1,"Input file is not given.\n" );
         return 0;
@@ -7037,7 +7091,7 @@ int Abc_CommandTestDec( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the testbench
     Abc_DecTest( pFileName, DecType, nVarNum, fVerbose );
     return 0;
@@ -7085,30 +7139,31 @@ int Abc_CommandTestNpn( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nVarNum = -1;
     int fDumpRes = 0;
     int fBinary = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ANdbvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ANdbvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            NpnType = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            NpnType = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( NpnType < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVarNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVarNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVarNum < 0 )
                 goto usage;
             break;
@@ -7127,7 +7182,7 @@ int Abc_CommandTestNpn( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( 1,"Input file is not given.\n" );
         return 0;
@@ -7138,7 +7193,7 @@ int Abc_CommandTestNpn( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the testbench
     Abc_NpnTest( pFileName, NpnType, nVarNum, fDumpRes, fBinary, fVerbose );
     return 0;
@@ -7190,26 +7245,27 @@ int Abc_CommandTestRPO(Abc_Frame_t * pAbc, int argc, char ** argv) {
     int nVarNum = -1;
     int fVerbose = 0;
     int nThreshold = -1;
-    Extra_UtilGetoptReset();
-    while ((c = Extra_UtilGetopt(argc, argv, "TNvh")) != EOF) {
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ((c = Extra_UtilGetopt( &pOpt, argc, argv, "TNvh")) != EOF) {
         switch (c) {
             case 'N':
-                if (globalUtilOptind >= argc) {
+                if (pOpt.optind >= argc) {
                     Abc_Print(-1, "Command line switch \"-N\" should be followed by an integer.\n");
                     goto usage;
                 }
-                nVarNum = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nVarNum = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if (nVarNum < 0)
                     goto usage;
                 break;
             case 'T':
-                if (globalUtilOptind >= argc) {
+                if (pOpt.optind >= argc) {
                     Abc_Print(-1, "Command line switch \"-T\" should be followed by an integer.\n");
                     goto usage;
                 }
-                nThreshold = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nThreshold = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if (nThreshold < 0)
                     goto usage;
                 break;
@@ -7222,13 +7278,13 @@ int Abc_CommandTestRPO(Abc_Frame_t * pAbc, int argc, char ** argv) {
                 goto usage;
         }
     }
-    if (argc != globalUtilOptind + 1)
+    if (argc != pOpt.optind + 1)
     {
         Abc_Print(1, "Input file is not given.\n");
         goto usage;
     }
     // get the output file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // call the testbench
     Abc_RpoTest( pFileName, nVarNum, nThreshold, fVerbose );
     return 0;
@@ -7264,8 +7320,9 @@ int Abc_CommandTestTruth( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern int * Kit_TruthTest( char * pFileName );
     int * pResult = NULL;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -7278,12 +7335,12 @@ int Abc_CommandTestTruth( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( 1,"Input file is not given.\n" );
         return 0;
     }
-    pResult = Kit_TruthTest( argv[globalUtilOptind] );
+    pResult = Kit_TruthTest( argv[pOpt.optind] );
     ABC_FREE( pResult );
     return 0;
 
@@ -7310,8 +7367,9 @@ int Abc_CommandTestSupp( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Abc_NtkSuppMinFile( char * pFileName );
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -7324,12 +7382,12 @@ int Abc_CommandTestSupp( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( 1,"Input file is not given.\n" );
         return 0;
     }
-    Abc_NtkSuppMinFile( argv[globalUtilOptind] );
+    Abc_NtkSuppMinFile( argv[pOpt.optind] );
     return 0;
 
 usage:
@@ -7356,39 +7414,40 @@ int Abc_CommandTestRand( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Abc_NtkRandFile( char * pFileName, int nVars, int nFuncs, int nMints );
     int c, nVars = 0, nFuncs = 0, nMints = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NFMvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NFMvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFuncs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFuncs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMints = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMints = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -7399,12 +7458,12 @@ int Abc_CommandTestRand( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( 1,"Input file is not given.\n" );
         return 0;
     }
-    Abc_NtkRandFile( argv[globalUtilOptind], nVars, nFuncs, nMints );
+    Abc_NtkRandFile( argv[pOpt.optind], nVars, nFuncs, nMints );
     return 0;
 
 usage:
@@ -7436,19 +7495,20 @@ int Abc_CommandRunSat( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileCnf = NULL;
     int c, i, fWalk = 0, fKissat = 0, nIters = 10, fVerbose = 0;
     abctime clk;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Ikwvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Ikwvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
@@ -7471,9 +7531,9 @@ int Abc_CommandRunSat( Abc_Frame_t * pAbc, int argc, char ** argv )
         printf( "Exactly one SAT solver should be selected.\n" );
         return 1;   
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
-    pFileCnf = argv[globalUtilOptind];
+    pFileCnf = argv[pOpt.optind];
     pFile = fopen( pFileCnf, "rb" );
     if ( pFile == NULL ) {
         printf( "The file \"%s\" cannot be found.\n", pFileCnf );
@@ -7527,19 +7587,20 @@ int Abc_CommandRunEco( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Acb_NtkRunEco( char * pFileNames[4], int nTimeout, int fCheck, int fRandom, int fInputs, int fUnitW, int fVerbose, int fVeryVerbose );
     char * pFileNames[4] = {NULL};
     int c, nTimeout = 0, fCheck = 0, fRandom = 0, fInputs = 0, fUnitW = 0, fVerbose = 0, fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Tcriuvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Tcriuvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeout = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeout = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeout < 0 )
                 goto usage;
             break;
@@ -7567,24 +7628,24 @@ int Abc_CommandRunEco( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-//    pArgvNew = argv + globalUtilOptind;
-//    nArgcNew = argc - globalUtilOptind;
-    if ( argc - globalUtilOptind < 2 || argc - globalUtilOptind > 3 )
+//    pArgvNew = argv + pOpt.optind;
+//    nArgcNew = argc - pOpt.optind;
+    if ( argc - pOpt.optind < 2 || argc - pOpt.optind > 3 )
     {
         Abc_Print( 1, "Expecting three file names on the command line.\n" );
         goto usage;
     }
-    for ( c = 0; c < argc - globalUtilOptind; c++ )
+    for ( c = 0; c < argc - pOpt.optind; c++ )
     {
-        FILE * pFile = fopen( argv[globalUtilOptind+c], "rb" );
+        FILE * pFile = fopen( argv[pOpt.optind+c], "rb" );
         if ( pFile == NULL )
         {
-            printf( "Cannot open input file \"%s\".\n", argv[globalUtilOptind+c] );
+            printf( "Cannot open input file \"%s\".\n", argv[pOpt.optind+c] );
             return 0;
         }
         else
             fclose( pFile );
-        pFileNames[c] = argv[globalUtilOptind+c];
+        pFileNames[c] = argv[pOpt.optind+c];
     }
     Acb_NtkRunEco( pFileNames, nTimeout, fCheck, fRandom, fInputs, fUnitW, fVerbose, fVeryVerbose );
     return 0;
@@ -7625,55 +7686,56 @@ int Abc_CommandRunGen( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Acb_NtkRunGen( int nInputs, int nMints, int nFuncs, int Seed, int fVerbose, char * pScript );
     int c, nInputs = 10, nMints = 10, nFuncs = 10, Seed = 0, fVerbose = 0; char * pScript = NULL;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IMRSCvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IMRSCvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nInputs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nInputs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMints = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMints = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFuncs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFuncs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a script.\n" );
                 goto usage;
             }
-            pScript = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pScript = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -7719,46 +7781,47 @@ usage:
 int Abc_CommandRunScript( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, nIters = 10, nBeg = 1, nAdd = 1, fReverse = 0, fVerbose = 0; char * pScript = NULL, * pSpot = NULL;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IBASrvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IBASrvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBeg = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBeg = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nAdd = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nAdd = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a script.\n" );
                 goto usage;
             }
-            pScript = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pScript = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'r':
             fReverse ^= 1;
@@ -7841,8 +7904,9 @@ int Abc_CommandRunTest( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Acb_NtkRunTest( char * pFileNames[4], int fFancy, int fVerbose );
     char * pFileNames[4] = {NULL};
     int c, fFancy = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "fvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "fvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -7858,13 +7922,13 @@ int Abc_CommandRunTest( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc - globalUtilOptind < 2 || argc - globalUtilOptind > 5 )
+    if ( argc - pOpt.optind < 2 || argc - pOpt.optind > 5 )
     {
         Abc_Print( 1, "Expecting two or three file names on the command line.\n" );
         goto usage;
     }
-    for ( c = 0; c < argc - globalUtilOptind; c++ )
-        pFileNames[c] = argv[globalUtilOptind+c];
+    for ( c = 0; c < argc - pOpt.optind; c++ )
+        pFileNames[c] = argv[pOpt.optind+c];
     Acb_NtkRunTest( pFileNames, fFancy, fVerbose );
     return 0;
 
@@ -7932,41 +7996,42 @@ int Abc_CommandOrchestrate( Abc_Frame_t * pAbc, int argc, char ** argv )
     nNodesMax    =  1;
     nLevelsOdc   =  0;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KNFZzlvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KNFZzlvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutsMax < 0 )
                 goto usage;
             break;
        case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNodesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodesMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLevelsOdc = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevelsOdc = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLevelsOdc < 0 )
                 goto usage;
             break;
@@ -8119,8 +8184,9 @@ int Abc_CommandAIGAugmentation( Abc_Frame_t * pAbc, int argc, char ** argv )
     nNodesMax    =  1;
     nLevelsOdc   =  0;
     Rand_Seed = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "zZdsh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "zZdsh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -8134,20 +8200,20 @@ int Abc_CommandAIGAugmentation( Abc_Frame_t * pAbc, int argc, char ** argv )
             fUseZeros_ref ^= 1;
             break;
         case 'd':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 goto usage;
             }
-            DecisionFile = argv[globalUtilOptind];
-            globalUtilOptind++;
+            DecisionFile = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 's':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 goto usage;
             }
-            Rand_Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Rand_Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         }
     }
@@ -8261,8 +8327,9 @@ int Abc_CommandRewrite( Abc_Frame_t * pAbc, int argc, char ** argv )
     fVerbose     = 0;
     fVeryVerbose = 0;
     fPlaceEnable = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lxzvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lxzvwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -8376,41 +8443,42 @@ int Abc_CommandRefactor( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUseZeros    =  0;
     fUseDcs      =  0;
     fVerbose     =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NMClzvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NMClzvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNodeSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodeSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodeSizeMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMinSaved = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMinSaved = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMinSaved < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConeSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConeSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConeSizeMax < 0 )
                 goto usage;
             break;
@@ -8523,19 +8591,20 @@ int Abc_CommandRestructure( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUpdateLevel =  0;
     fUseZeros    =  0;
     fVerbose     =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Klzvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Klzvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutsMax < 0 )
                 goto usage;
             break;
@@ -8635,86 +8704,87 @@ int Abc_CommandResubstitute( Abc_Frame_t * pAbc, int argc, char ** argv )
     fVeryVerbose =  0;
     Log2Probs    =  0;
     Log2Divs     =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KNMFlzvwhPDV" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KNMFlzvwhPDV" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutsMax < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNodesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodesMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMinSaved = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMinSaved = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMinSaved < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLevelsOdc = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevelsOdc = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLevelsOdc < 0 )
                 goto usage;
             break;
 
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Log2Probs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Log2Probs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Log2Probs < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Log2Divs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Log2Divs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Log2Divs < 0 )
                 goto usage;
             break;
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutsMax < 0 )
                 goto usage;
             break;
@@ -8819,30 +8889,31 @@ int Abc_CommandResubUnate( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nDivMax   = 50;
     int fWriteSol =  0;
     int fVerbose  =  0, c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "LDsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "LDsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLimit < 0 )
                 goto usage;
             break;   
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nDivMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDivMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nDivMax < 0 )
                 goto usage;
             break;                        
@@ -8858,12 +8929,12 @@ int Abc_CommandResubUnate( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 ) 
+    if ( argc != pOpt.optind + 1 ) 
     {
         Abc_Print( -1, "Input file should be given on the command line.\n" );
         return 1;
     }
-    pTemp = Gia_ManResubUnateOne( argv[globalUtilOptind], nLimit, nDivMax, fWriteSol, fVerbose );
+    pTemp = Gia_ManResubUnateOne( argv[pOpt.optind], nLimit, nDivMax, fWriteSol, fVerbose );
     if ( pTemp )
     {
         Aig_Man_t * pMan = Gia_ManToAig( pTemp, 0 );
@@ -8907,30 +8978,31 @@ int Abc_CommandResubCore( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nRounds   = 1;
     int fWriteSol = 0;
     int fVerbose  = 0, c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IRsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IRsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;   
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRounds < 0 )
                 goto usage;
             break;                        
@@ -8946,12 +9018,12 @@ int Abc_CommandResubCore( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 ) 
+    if ( argc != pOpt.optind + 1 ) 
     {
         Abc_Print( -1, "Input file should be given on the command line.\n" );
         return 1;
     }
-    pTemp = Supp_ManSolveOne( argv[globalUtilOptind], nIters, nRounds, fWriteSol, fVerbose );
+    pTemp = Supp_ManSolveOne( argv[pOpt.optind], nIters, nRounds, fWriteSol, fVerbose );
     if ( pTemp )
     {
         Aig_Man_t * pMan = Gia_ManToAig( pTemp, 0 );
@@ -8993,8 +9065,9 @@ int Abc_CommandResubCheck( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Res6_ManResubCheckPla( char * pFileName, int fVerbose );
     char * pFileR = NULL, * pFileS = NULL;
     int fVerbose = 0, c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -9007,14 +9080,14 @@ int Abc_CommandResubCheck( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 2 )
+    if ( argc == pOpt.optind + 2 )
     {
-        pFileR = argv[globalUtilOptind];
-        pFileS = argv[globalUtilOptind+1];
+        pFileR = argv[pOpt.optind];
+        pFileS = argv[pOpt.optind+1];
     }
-    else if ( argc == globalUtilOptind + 1 )
+    else if ( argc == pOpt.optind + 1 )
     {
-        pFileR = argv[globalUtilOptind];
+        pFileR = argv[pOpt.optind];
         pFileS = NULL;
     }
     else 
@@ -9064,19 +9137,20 @@ int Abc_CommandRr( Abc_Frame_t * pAbc, int argc, char ** argv )
     nFanoutLevels = 3;
     fUseFanouts   = 0;
     fVerbose      = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Wfvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Wfvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Window = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Window = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Window < 0 )
                 goto usage;
             nFaninLevels  = Window / 10;
@@ -9159,19 +9233,20 @@ int Abc_CommandCascade( Abc_Frame_t * pAbc, int argc, char ** argv )
     nLutSize = 12;
     fCheck   = 0;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Kcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Kcvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
@@ -9252,138 +9327,139 @@ int Abc_CommandLutCasDec( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void        Abc_NtkLutCascadeFile( char * pFileName, int nVarNum, int nLutSize, int nLuts, int nRails, int nIters, int nJRatio, int nZParam, int Seed, int fVerbose, int fVeryVerbose, int fPrintMyu, int fPrintLev, int fXRail, int nSubsets, int nBest, int fDump );
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc), * pNtkRes; char * pGuide = NULL, * pFileName = NULL;
     int c, nVarNum = -1, nLutSize = 6, nStages = 8, nRails = 1, nShared = 2, Seed = 0, nIters = 10, nJRatio = -1, nZParam = 5, fGen = 0, fPrintMyu = 0, fPrintLev = 0, fXRail = 0, nSubsets = 0, nBest = 0, fDump = 0, fVerbose = 0, fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KMRSCIZNGBFgmlxdvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KMRSCIZNGBFgmlxdvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nStages = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nStages = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nStages < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRails = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRails = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRails < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nShared = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nShared = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nShared < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Seed < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
         case 'J':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-J\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nJRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nJRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nJRatio < 0 )
                 goto usage;
             break;
         case 'Z':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Z\" should be followed by a file name.\n" );
                 goto usage;
             }
-            nZParam = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nZParam = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;        
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVarNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVarNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVarNum < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nSubsets = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSubsets = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSubsets < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBest = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBest = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBest < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;        
         case 'g':
             fGen ^= 1;
@@ -9454,8 +9530,8 @@ int Abc_CommandLutCasDec( Abc_Frame_t * pAbc, int argc, char ** argv )
             Abc_NtkCiNum(pNtk), nRails, nStages, nLutSize, nLutSize + (nLutSize - nRails) * (nStages - 1) );
         return 1;
     }
-    if ( argc == globalUtilOptind + 1 )
-        pGuide = argv[globalUtilOptind];
+    if ( argc == pOpt.optind + 1 )
+        pGuide = argv[pOpt.optind];
     pNtkRes = Abc_NtkLutCascadeOne( pNtk, nLutSize, nStages, nRails, nIters, nJRatio, nZParam, fXRail, Seed, fVerbose, fVeryVerbose, pGuide, nSubsets, nBest );
     if ( pNtkRes == NULL )
     {
@@ -9508,85 +9584,86 @@ int Abc_CommandLutCas( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc), * pNtkRes;
     int c, nLutSize = 6, nLutsMax = 8, nIters = 1000, Seed = 0, fVerbose = 0;
     int fDelayLut = 10, fDelayRoute = 30, fDelayDirect = 3;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KMISLWDfvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KMISLWDfvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutsMax < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Seed < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            fDelayLut = atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            fDelayLut = atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( fDelayLut < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            fDelayRoute = atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            fDelayRoute = atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( fDelayRoute < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            fDelayDirect = atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            fDelayDirect = atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( fDelayDirect < 0 )
                 goto usage;
             break;
@@ -9657,63 +9734,64 @@ int Abc_CommandBsEval( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_BSEvalBestTest( word * pIn, int nVars, int nBVars, int fShared, int fVerbose );
     extern void Abc_BSEvalBestGen( int nVars, int nBVars, int nFuncs, int nMints, int fTryAll, int fShared, int fVerbose );
     int c, nVars = 0, nBVars = 0, nSVars = 0, nFuncs = 0, nMints = 0, fTryAll = 0, fVerbose = 0; char * pTtStr = NULL;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IBSRMavh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IBSRMavh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 2 || nVars > 16 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBVars < 1 || nBVars > 16 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nSVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSVars < 0 || nSVars > 16 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFuncs = atoi(argv[globalUtilOptind]);
+            nFuncs = atoi(argv[pOpt.optind]);
             if ( nFuncs < 1 )
                 goto usage;
-            globalUtilOptind++;
+            pOpt.optind++;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMints = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMints = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'a':
             fTryAll ^= 1;
@@ -9727,8 +9805,8 @@ int Abc_CommandBsEval( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 1 )
-        pTtStr = argv[globalUtilOptind];
+    if ( argc == pOpt.optind + 1 )
+        pTtStr = argv[pOpt.optind];
     if ( pTtStr ) 
     {
         nVars = Abc_Base2Log((int)strlen(pTtStr)) + 2;
@@ -9798,19 +9876,20 @@ int Abc_CommandExtract( Abc_Frame_t * pAbc, int argc, char ** argv )
     nMultiSize = 3;
     fAnd       = 0;
     fVerbose   = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Kavh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Kavh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMultiSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMultiSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMultiSize < 0 )
                 goto usage;
             break;
@@ -9878,30 +9957,31 @@ int Abc_CommandVarMin( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fCheck     =  0;
     int fVerbose   =  0;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "MNocvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "MNocvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nOnes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOnes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nOnes < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 0 )
                 goto usage;
             break;
@@ -9921,9 +10001,9 @@ int Abc_CommandVarMin( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
     // get the file name
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        Abc_SuppReadMinTest( argv[globalUtilOptind] );
+        Abc_SuppReadMinTest( argv[pOpt.optind] );
         return 0;
     }
     Abc_SuppTest( nOnes, nVars, fUseSimple, fCheck, fVerbose );
@@ -9959,8 +10039,9 @@ int Abc_CommandFaultClasses( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk;
     int c, fGen = 0, fStuckAt = 0, fSeq = 0, fVerbose = 0, fVeryVerbose = 0;
     pNtk = Abc_FrameReadNtk(pAbc);
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "gcsvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "gcsvwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -10040,30 +10121,31 @@ int Abc_CommandExact( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtkRes;
     Gia_Man_t * pGiaRes;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "DASCatvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "DASCatvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMaxDepth = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMaxDepth = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMaxDepth < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
             fHasArrTimeProfile = 1;
-            p1 = p2 = argv[globalUtilOptind++];
+            p1 = p2 = argv[pOpt.optind++];
             while ( true ) {
                 if ( *p2 == ',' )
                 {
@@ -10082,24 +10164,24 @@ int Abc_CommandExact( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nStartGates = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nStartGates = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nStartGates < 1 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'a':
             fMakeAIG ^= 1;
@@ -10128,18 +10210,18 @@ int Abc_CommandExact( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
 
-    if ( argc == globalUtilOptind )
+    if ( argc == pOpt.optind )
         goto usage;
 
     memset( pTruth, 0, 64 * sizeof(word) );
-    while ( globalUtilOptind < argc )
+    while ( pOpt.optind < argc )
     {
         if ( nFunc == 16 )
         {
             Abc_Print( -1, "Too many functions (at most 16 supported).\n" );
             goto usage;
         }
-        nVarsTmp = Abc_TtReadHex( &pTruth[nFunc << 2], argv[globalUtilOptind++] );
+        nVarsTmp = Abc_TtReadHex( &pTruth[nFunc << 2], argv[pOpt.optind++] );
         nFunc++;
         if ( nVars == 0 )
             nVars = nVarsTmp;
@@ -10212,19 +10294,20 @@ int Abc_CommandBmsStart( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fMakeAIG = 0, fVerbose = 0, fVeryVerbose = 0, nBTLimit = 100;
     char * pFilename = NULL;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Cavwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Cavwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'a':
             fMakeAIG ^= 1;
@@ -10242,9 +10325,9 @@ int Abc_CommandBmsStart( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc > globalUtilOptind )
+    if ( argc > pOpt.optind )
     {
-        pFilename = argv[globalUtilOptind++];
+        pFilename = argv[pOpt.optind++];
     }
 
     if ( Abc_ExactIsRunning() )
@@ -10290,8 +10373,9 @@ int Abc_CommandBmsStop( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     char * pFilename = NULL;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -10302,9 +10386,9 @@ int Abc_CommandBmsStop( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc > globalUtilOptind )
+    if ( argc > pOpt.optind )
     {
-        pFilename = argv[globalUtilOptind++];
+        pFilename = argv[pOpt.optind++];
     }
 
     if ( !Abc_ExactIsRunning() )
@@ -10345,8 +10429,9 @@ int Abc_CommandBmsPs( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -10392,41 +10477,42 @@ int Abc_CommandMajExact( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern int Maj_ManExactSynthesis( int nVars, int nNodes, int fUseConst, int fUseLine, int fVerbose );
     extern int Maj_ManExactSynthesis2( int nVars, int nNodes, int fUseConst, int fUseLine, int fUseRand, int nRands, int fVerbose );
     int c, nVars = 3, nNodes = 1, fUseConst = 0, fUseLine = 0, fGlucose = 0, fUseRand = 0, nRands = 0, fVerbose = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "INRfcrgvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "INRfcrgvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNodes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodes < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRands = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRands = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRands < 0 )
                 goto usage;
             break;
@@ -10499,63 +10585,64 @@ int Abc_CommandTwoExact( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fKissat = 0, fKissat2 = 0, fUseNands = 0, GateSize = 0;
     Bmc_EsPar_t Pars, * pPars = &Pars;
     Bmc_EsParSetDefault( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "INTGSabdconugklmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "INTGSabdconugklmvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nVars < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nNodes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nNodes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nNodes < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->RuntimeLim = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->RuntimeLim = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->RuntimeLim < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            GateSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            GateSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( GateSize < 0 )
                 goto usage;
             break;            
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pPars->pGuide = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pGuide = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'a':
             pPars->fOnlyAnd ^= 1;
@@ -10599,14 +10686,14 @@ int Abc_CommandTwoExact( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        if ( strstr(argv[globalUtilOptind], ".") )
+        if ( strstr(argv[pOpt.optind], ".") )
         {
-            Exa_ManExactSynthesis6( pPars, argv[globalUtilOptind] );
+            Exa_ManExactSynthesis6( pPars, argv[pOpt.optind] );
             return 0;
         }
-        pPars->pTtStr = argv[globalUtilOptind];
+        pPars->pTtStr = argv[pOpt.optind];
     }
     if ( pPars->pTtStr == NULL )
     {
@@ -10691,92 +10778,93 @@ int Abc_CommandLutExact( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     Bmc_EsPar_t Pars, * pPars = &Pars;
     Bmc_EsParSetDefault( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NMKTFUSYiaorfgdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NMKTFUSYiaorfgdvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nVars < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nNodes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nNodes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nNodes < 0 )
                 goto usage;
             break;
        case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->RuntimeLim = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->RuntimeLim = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->RuntimeLim < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRandFuncs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRandFuncs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'U':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-U\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMintNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMintNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->Seed < 0 )
                 goto usage;
             break;
         case 'Y':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Y\" should be followed by a string.\n" );
                 goto usage;
             }
-            pPars->pSymStr = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pSymStr = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'i':
             pPars->fUseIncr ^= 1;
@@ -10808,9 +10896,9 @@ int Abc_CommandLutExact( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 1 )
-        pPars->pTtStr = argv[globalUtilOptind];
-    else if ( argc == globalUtilOptind && Abc_FrameReadNtk(pAbc) ) 
+    if ( argc == pOpt.optind + 1 )
+        pPars->pTtStr = argv[pOpt.optind];
+    else if ( argc == pOpt.optind && Abc_FrameReadNtk(pAbc) ) 
     {
         pPars->pTtStr = Abc_NtkReadTruth( Abc_FrameReadNtk(pAbc) );
         if ( pPars->pTtStr )  
@@ -10854,7 +10942,7 @@ int Abc_CommandLutExact( Abc_Frame_t * pAbc, int argc, char ** argv )
         Exa3_ManExactSynthesis( pPars );
     else
         Exa3_ManExactSynthesis2( pPars );
-    if ( argc == globalUtilOptind && Abc_FrameReadNtk(pAbc) )
+    if ( argc == pOpt.optind && Abc_FrameReadNtk(pAbc) )
         ABC_FREE( pPars->pTtStr );
     return 0;
 
@@ -10899,52 +10987,53 @@ int Abc_CommandAllExact( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     Bmc_EsPar_t Pars, * pPars = &Pars;
     Bmc_EsParSetDefault( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "MINKianegvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "MINKianegvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMajSupp = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMajSupp = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMajSupp < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nVars < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nNodes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nNodes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nNodes < 0 )
                 goto usage;
             break;
        case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 0 )
                 goto usage;
             break;
@@ -11005,8 +11094,8 @@ int Abc_CommandAllExact( Abc_Frame_t * pAbc, int argc, char ** argv )
             Abc_Print( -1, "The number of nodes (-N num) needs to be specified on the command line.\n" );
             return 1;
         }
-        if ( argc == globalUtilOptind + 1 )
-            pPars->pTtStr = argv[globalUtilOptind];
+        if ( argc == pOpt.optind + 1 )
+            pPars->pTtStr = argv[pOpt.optind];
         if ( pPars->pTtStr == NULL )
         {
             Abc_Print( -1, "Truth table should be given on the command line.\n" );
@@ -11083,8 +11172,9 @@ int Abc_CommandTestExact( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Zyx_TestExact( char * pFileName );
     char * pFileName = NULL;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -11097,8 +11187,8 @@ int Abc_CommandTestExact( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 1 )
-        pFileName = argv[globalUtilOptind];
+    if ( argc == pOpt.optind + 1 )
+        pFileName = argv[pOpt.optind];
     if ( pFileName == NULL )
     {
         Abc_Print( -1, "File name is not given on the command line.\n" );
@@ -11131,19 +11221,20 @@ int Abc_CommandMajGen( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern int Gem_Enumerate( int nVars, int fDump, int fVerbose );
     int c, nVars = 8, fDump = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Ndvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Ndvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 0 )
                 goto usage;
             break;
@@ -11190,8 +11281,9 @@ int Abc_CommandLogic( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -11255,19 +11347,20 @@ int Abc_CommandComb( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     fRemoveLatches = 0;
     nLatchesToAdd = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Llh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Llh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLatchesToAdd = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLatchesToAdd = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLatchesToAdd < 0 )
                 goto usage;
             break;
@@ -11353,19 +11446,20 @@ int Abc_CommandMiter( Abc_Frame_t * pAbc, int argc, char ** argv )
     nPartSize = 0;
     fTrans = 0;
     fIgnoreNames = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Pcmitnh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Pcmitnh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPartSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPartSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPartSize < 0 )
                 goto usage;
             break;
@@ -11403,8 +11497,8 @@ int Abc_CommandMiter( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( !Abc_NtkPrepareTwoNtks( stdout, pNtk, pArgvNew, nArgcNew, &pNtk1, &pNtk2, &fDelete1, &fDelete2, 1 ) )
         return 1;
 
@@ -11485,8 +11579,9 @@ int Abc_CommandMiter2( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -11501,7 +11596,7 @@ int Abc_CommandMiter2( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
 
     // get the second network
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "The file with node names is not given.\n" );
         return 1;
@@ -11512,7 +11607,7 @@ int Abc_CommandMiter2( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
     // read the second network
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (vNodes = Abc_NtkReadNodeNames(pNtk, pFileName)) == NULL )
     {
         Abc_Print( -1, "Cannot read node names from file \"%s\".\n", pFileName );
@@ -11552,8 +11647,9 @@ int Abc_CommandDemiter( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     fDual = 0;
     fVerbose = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "dvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "dvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -11651,8 +11747,9 @@ int Abc_CommandOrPos( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern int Abc_NtkCombinePos( Abc_Ntk_t * pNtk, int fAnd, int fXor );
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "rxh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "rxh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -11742,8 +11839,9 @@ int Abc_CommandAndPos( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -11817,19 +11915,20 @@ int Abc_CommandZeroPo( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_NtkDropOneOutput( Abc_Ntk_t * pNtk, int iOutput, int fSkipSweep, int fUseConst1 );
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nsoh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nsoh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iOutput = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iOutput = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iOutput < 0 )
                 goto usage;
             break;
@@ -11901,19 +12000,20 @@ int Abc_CommandSwapPos( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_NtkSwapOneOutput( Abc_Ntk_t * pNtk, int iOutput );
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iOutput = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iOutput = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iOutput < 0 )
                 goto usage;
             break;
@@ -11977,19 +12077,20 @@ int Abc_CommandRemovePo( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_NtkRemovePo( Abc_Ntk_t * pNtk, int iOutput, int fRemoveConst0 );
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nzh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nzh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iOutput = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iOutput = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iOutput < 0 )
                 goto usage;
             break;
@@ -12056,8 +12157,9 @@ int Abc_CommandDropSat( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc), * pNtkRes = NULL;
     int fNoSweep = 0;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "svh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "svh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -12131,8 +12233,9 @@ int Abc_CommandAddPi( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -12183,8 +12286,9 @@ int Abc_CommandAddFlop( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -12239,8 +12343,9 @@ int Abc_CommandAppend( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -12253,7 +12358,7 @@ int Abc_CommandAppend( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
 
     // get the second network
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "The network to append is not given.\n" );
         return 1;
@@ -12266,7 +12371,7 @@ int Abc_CommandAppend( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
 
     // read the second network
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     pNtk2 = Io_Read( FileName, Io_ReadFileType(FileName), 1, 0 );
     if ( pNtk2 == NULL )
         return 1;
@@ -12324,8 +12429,9 @@ int Abc_CommandPutOnTop( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -12337,7 +12443,7 @@ int Abc_CommandPutOnTop( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         for ( c = 1; c < argc; c++ )
         {
@@ -12368,7 +12474,7 @@ int Abc_CommandPutOnTop( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
 
     // get the second network
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "The network to append is not given.\n" );
         return 1;
@@ -12388,7 +12494,7 @@ int Abc_CommandPutOnTop( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
 
     // read the second network
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     pNtk2 = Io_Read( FileName, Io_ReadFileType(FileName), 1, 0 );
     if ( pNtk2 == NULL )
         return 1;
@@ -12456,19 +12562,20 @@ int Abc_CommandFrames( Abc_Frame_t * pAbc, int argc, char ** argv )
     nFrames  = 5;
     fInitial = 0;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Fivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Fivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames <= 0 )
                 goto usage;
             break;
@@ -12547,30 +12654,31 @@ int Abc_CommandDFrames( Abc_Frame_t * pAbc, int argc, char ** argv )
     nFrames  = 5;
     fInitial = 0;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NFivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NFivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPrefix = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPrefix = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPrefix <= 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames <= 0 )
                 goto usage;
             break;
@@ -12647,19 +12755,20 @@ int Abc_CommandSop( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fCubeSort = 1, fMode = -1, nCubeLimit = 1000000;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Csdnh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Csdnh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCubeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCubeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCubeLimit < 0 )
                 goto usage;
             break;
@@ -12736,8 +12845,9 @@ int Abc_CommandBdd( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "rsh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "rsh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -12803,8 +12913,9 @@ int Abc_CommandAig( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -12863,8 +12974,9 @@ int Abc_CommandReorder( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -12921,8 +13033,9 @@ int Abc_CommandBidec( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -12984,8 +13097,9 @@ int Abc_CommandOrder( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     fReverse = 0;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "rvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "rvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -13015,9 +13129,9 @@ int Abc_CommandOrder( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // if the var order file is given, implement this order
     pFileName = NULL;
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        pFileName = argv[globalUtilOptind];
+        pFileName = argv[pOpt.optind];
         pFile = fopen( pFileName, "r" );
         if ( pFile == NULL )
         {
@@ -13059,19 +13173,20 @@ int Abc_CommandMuxes( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fGlobal = 0, fUseAdd = 0, Limit = 1000000;
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Bgah" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Bgah" ) ) != EOF )
     {
         switch ( c )
         {
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Limit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Limit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Limit < 0 )
                 goto usage;
             break;
@@ -13152,8 +13267,9 @@ int Abc_CommandCubes( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "xh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "xh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -13215,8 +13331,9 @@ int Abc_CommandExpand( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_NtkExpandCubes( Abc_Ntk_t * pNtk, Gia_Man_t * pGia, int fVerbose );
     Abc_Ntk_t * pStrash, * pNtk2, * pNtk = Abc_FrameReadNtk(pAbc);
     Gia_Man_t * pGia; int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -13245,14 +13362,14 @@ int Abc_CommandExpand( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
     // read the offset representation
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( 0, "Using the complement of the current network as its offset.\n" );
         pNtk2 = Abc_NtkDup( pNtk );
     }
     else
     {
-        char * FileName = argv[globalUtilOptind];
+        char * FileName = argv[pOpt.optind];
         pNtk2 = Io_Read( FileName, Io_ReadFileType(FileName), 1, 0 );
         if ( pNtk2 == NULL )
         {
@@ -13300,19 +13417,20 @@ int Abc_CommandSplitSop( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fVerbose = 0, nCubesMax = 100;
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCubesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCubesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCubesMax < 0 )
                 goto usage;
             break;
@@ -13380,8 +13498,9 @@ int Abc_CommandExtSeqDcs( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -13447,52 +13566,53 @@ int Abc_CommandReach( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     Bbr_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "TBFLproyvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "TBFLproyvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeLimit < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBddMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBddMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBddMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nIterMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nIterMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nIterMax < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'p':
             pPars->fPartition ^= 1;
@@ -13598,41 +13718,42 @@ int Abc_CommandCone( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUseMffc = 0;
     Output = -1;
     nRange = -1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ORNmah" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ORNmah" ) ) != EOF )
     {
         switch ( c )
         {
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Output = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Output = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Output < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRange = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRange = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRange < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            vPoIds = Vec_IntReadList( argv[globalUtilOptind], ',' );
-            globalUtilOptind++;
+            vPoIds = Vec_IntReadList( argv[pOpt.optind], ',' );
+            pOpt.optind++;
             if ( vPoIds == NULL )
                 goto usage;
             break;
@@ -13661,25 +13782,25 @@ int Abc_CommandCone( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
     }
 
     pNodeCo = NULL;
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        pNode = Abc_NtkFindNode( pNtk, argv[globalUtilOptind] );
+        pNode = Abc_NtkFindNode( pNtk, argv[pOpt.optind] );
         if ( pNode == NULL )
         {
-            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[globalUtilOptind] );
+            Abc_Print( -1, "Cannot find node \"%s\".\n", argv[pOpt.optind] );
             return 1;
         }
         if ( fUseMffc )
-            pNtkRes = Abc_NtkCreateMffc( pNtk, pNode, argv[globalUtilOptind] );
+            pNtkRes = Abc_NtkCreateMffc( pNtk, pNode, argv[pOpt.optind] );
         else
-            pNtkRes = Abc_NtkCreateCone( pNtk, pNode, argv[globalUtilOptind], fUseAllCis );
+            pNtkRes = Abc_NtkCreateCone( pNtk, pNode, argv[pOpt.optind], fUseAllCis );
     }
     else if ( vPoIds )
     {
@@ -13780,8 +13901,9 @@ int Abc_CommandNode( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -13804,16 +13926,16 @@ int Abc_CommandNode( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
     }
 
-    pNode = Abc_NtkFindNode( pNtk, argv[globalUtilOptind] );
+    pNode = Abc_NtkFindNode( pNtk, argv[pOpt.optind] );
     if ( pNode == NULL )
     {
-        Abc_Print( -1, "Cannot find node \"%s\".\n", argv[globalUtilOptind] );
+        Abc_Print( -1, "Cannot find node \"%s\".\n", argv[pOpt.optind] );
         return 1;
     }
 
@@ -13852,8 +13974,9 @@ int Abc_CommandRange( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk, * pNtkRes;
     int c;
     pNtk = Abc_FrameReadNtk(pAbc);
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -13908,8 +14031,9 @@ int Abc_CommandCof( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -13932,23 +14056,23 @@ int Abc_CommandCof( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc != globalUtilOptind + 2 )
+    if ( argc != pOpt.optind + 2 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
     }
-    pNode = Abc_NtkFindCi( pNtk, argv[globalUtilOptind] );
+    pNode = Abc_NtkFindCi( pNtk, argv[pOpt.optind] );
     if ( pNode == NULL )
-        pNode = Abc_NtkFindNode( pNtk, argv[globalUtilOptind] );
+        pNode = Abc_NtkFindNode( pNtk, argv[pOpt.optind] );
     if ( pNode == NULL )
     {
-        Abc_Print( -1, "Cannot find node \"%s\".\n", argv[globalUtilOptind] );
+        Abc_Print( -1, "Cannot find node \"%s\".\n", argv[pOpt.optind] );
         return 1;
     }
-    Const = atoi( argv[globalUtilOptind+1] );
+    Const = atoi( argv[pOpt.optind+1] );
     if ( Const != 0 && Const != 1 )
     {
-        Abc_Print( -1, "Constant should be 0 or 1.\n", argv[globalUtilOptind+1] );
+        Abc_Print( -1, "Constant should be 0 or 1.\n", argv[pOpt.optind+1] );
         return 1;
     }
     Abc_ObjReplaceByConstant( pNode, Const );
@@ -13985,19 +14109,20 @@ int Abc_CommandTopmost( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     nLevels = 10;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLevels = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevels = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLevels < 0 )
                 goto usage;
             break;
@@ -14065,19 +14190,20 @@ int Abc_CommandBottommost( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     nLevels = 10;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLevels = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevels = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLevels < 0 )
                 goto usage;
             break;
@@ -14144,8 +14270,9 @@ int Abc_CommandTopAnd( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -14224,8 +14351,9 @@ int Abc_CommandTrim( Abc_Frame_t * pAbc, int argc, char ** argv )
     Aig_Man_t * pAig;
     int c;
     pNtk = Abc_FrameReadNtk(pAbc);
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -14289,8 +14417,9 @@ int Abc_CommandShortNames( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
     int c, fKeepIo = 0, fAlpha = 0;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "akh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "akh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -14348,8 +14477,9 @@ int Abc_CommandMoveNames( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * FileName;
     int c;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -14361,14 +14491,14 @@ int Abc_CommandMoveNames( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
 
     // get the second network
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "The network to take names from is not given.\n" );
         return 1;
     }
 
     // read the second network
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     pNtk2 = Io_Read( FileName, Io_ReadFileType(FileName), 1, 0 );
     if ( pNtk2 == NULL )
         return 1;
@@ -14424,8 +14554,9 @@ int Abc_CommandExdcFree( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -14480,8 +14611,9 @@ int Abc_CommandExdcGet( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -14535,8 +14667,9 @@ int Abc_CommandExdcSet( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -14553,13 +14686,13 @@ int Abc_CommandExdcSet( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
 
     // get the input file name
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     if ( (pFile = fopen( FileName, "r" )) == NULL )
     {
         Abc_Print( -1, "Cannot open input file \"%s\". ", FileName );
@@ -14619,8 +14752,9 @@ int Abc_CommandCareSet( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -14637,13 +14771,13 @@ int Abc_CommandCareSet( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
 
     // get the input file name
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     if ( (pFile = fopen( FileName, "r" )) == NULL )
     {
         Abc_Print( -1, "Cannot open input file \"%s\". ", FileName );
@@ -14723,30 +14857,31 @@ int Abc_CommandCut( Abc_Frame_t * pAbc, int argc, char ** argv )
     pParams->fAdjust     = 0;     // removes useless fanouts
     pParams->fNpnSave    = 0;     // enables dumping truth tables
     pParams->fVerbose    = 0;     // the verbosiness flag
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KMtfdxyglzamjvosh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KMtfdxyglzamjvosh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nVarsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nVarsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nVarsMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nKeepMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nKeepMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nKeepMax < 0 )
                 goto usage;
             break;
@@ -14889,30 +15024,31 @@ int Abc_CommandScut( Abc_Frame_t * pAbc, int argc, char ** argv )
     pParams->fFilter   = 1;     // filter dominated cuts
     pParams->fSeq      = 1;     // compute sequential cuts
     pParams->fVerbose  = 0;     // the verbosiness flag
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KMtvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KMtvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nVarsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nVarsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nVarsMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nKeepMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nKeepMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nKeepMax < 0 )
                 goto usage;
             break;
@@ -14991,8 +15127,9 @@ int Abc_CommandEspresso( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -15083,52 +15220,53 @@ int Abc_CommandGen( Abc_Frame_t * pAbc, int argc, char ** argv )
     fRandom = 0;
     fGraph = 0;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NAKLatsembfnrgvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NAKLatsembfnrgvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nArgs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nArgs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nArgs < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLuts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLuts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLuts < 0 )
                 goto usage;
             break;
@@ -15172,7 +15310,7 @@ int Abc_CommandGen( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
@@ -15182,7 +15320,7 @@ int Abc_CommandGen( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
     // get the input file name
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     if ( fAdder )
         Abc_GenAdder( FileName, nVars );
     else if ( fSorter )
@@ -15262,41 +15400,42 @@ int Abc_CommandGenTF( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, nBits = 0, nLutSize = -1, fVerbose = 0, nSum = 0;
     char Command[1000], * pFileName = "out.blif", * pArch = NULL;
     Vec_Int_t * vNums = NULL;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WKAvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WKAvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBits = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBits = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBits < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pArch = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pArch = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -15307,7 +15446,7 @@ int Abc_CommandGenTF( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind )
+    if ( argc == pOpt.optind )
         goto usage;
     if ( nBits == 0 )
     {
@@ -15342,7 +15481,7 @@ int Abc_CommandGenTF( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
     vNums = Vec_IntAlloc( argc );
-    for ( c = globalUtilOptind; c < argc; c++ )
+    for ( c = pOpt.optind; c < argc; c++ )
         Vec_IntPush( vNums, atoi(argv[c]) );
     if ( Vec_IntSize(vNums) < 3 ) {
         Abc_Print( -1, "Expecting that at least two weights and a threshold are specified on the command line.\n" );
@@ -15394,8 +15533,9 @@ int Abc_CommandGenAT( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fDual = 0, fVerbose = 0;
     char Command[1000], * pFileName = "out.blif";
     Vec_Int_t * vNums = NULL;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "dvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "dvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -15411,10 +15551,10 @@ int Abc_CommandGenAT( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind )
+    if ( argc == pOpt.optind )
         goto usage;
     vNums = Vec_IntAlloc( argc );
-    for ( c = globalUtilOptind; c < argc; c++ )
+    for ( c = pOpt.optind; c < argc; c++ )
         Vec_IntPush( vNums, atoi(argv[c]) );
     if ( fDual )
         Abc_GenATDual( pFileName, vNums );
@@ -15459,74 +15599,75 @@ int Abc_CommandGenFsm( Abc_Frame_t * pAbc, int argc, char ** argv )
     ProbI    =   10;
     ProbO    =  100;
     fVerbose =    0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IOSLPQvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IOSLPQvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIns = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIns = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIns < 0 )
                 goto usage;
             break;
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nOuts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOuts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nOuts < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nStates = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nStates = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nStates < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLines = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLines = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLines < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            ProbI = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            ProbI = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( ProbI < 0 )
                 goto usage;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by an integer.\n" );
                 goto usage;
             }
-            ProbO = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            ProbO = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( ProbO < 0 )
                 goto usage;
             break;
@@ -15540,7 +15681,7 @@ int Abc_CommandGenFsm( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
@@ -15550,7 +15691,7 @@ int Abc_CommandGenFsm( Abc_Frame_t * pAbc, int argc, char ** argv )
         goto usage;
     }
     // get the input file name
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     Abc_GenFsm( FileName, nIns, nOuts, nStates, nLines, ProbI, ProbO );
     return 0;
 
@@ -15599,30 +15740,31 @@ int Abc_CommandCover( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUseInvs  =  1;
     nFaninMax =  8;
     nCubesMax =  8;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IPsxivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IPsxivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFaninMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFaninMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFaninMax < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCubesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCubesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCubesMax < 0 )
                 goto usage;
             break;
@@ -15706,8 +15848,9 @@ int Abc_CommandInter( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     fRelation = 0;
     fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "rvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "rvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -15724,8 +15867,8 @@ int Abc_CommandInter( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( !Abc_NtkPrepareTwoNtks( stdout, pNtk, pArgvNew, nArgcNew, &pNtk1, &pNtk2, &fDelete1, &fDelete2, 1 ) )
         return 1;
     if ( nArgcNew == 0 )
@@ -15801,19 +15944,20 @@ int Abc_CommandDouble( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     nFrames    = 50;
     fVerbose   =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
@@ -15876,8 +16020,9 @@ int Abc_CommandBb2Wb( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     fSeq = 0;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "svh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "svh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -15891,12 +16036,12 @@ int Abc_CommandBb2Wb( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 2 )
+    if ( argc != pOpt.optind + 2 )
     {
         Abc_Print( -1, "Expecting two files names on the command line.\n" );
         goto usage;
     }
-    Abc_NtkConvertBb2Wb( argv[globalUtilOptind], argv[globalUtilOptind+1], fSeq, fVerbose );
+    Abc_NtkConvertBb2Wb( argv[pOpt.optind], argv[pOpt.optind+1], fSeq, fVerbose );
     return 0;
 
 usage:
@@ -15931,19 +16076,20 @@ int Abc_CommandOutdec( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fVerbose = 0;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Lvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Lvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLits = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLits = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLits < 1 || nLits > 2 )
             {
                 Abc_Print( 1,"Currently, command \"outdec\" works for 1-lit and 2-lit primes only.\n" );
@@ -16007,19 +16153,20 @@ int Abc_CommandNodeDup( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fVerbose = 0;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -16079,8 +16226,9 @@ int Abc_CommandWrap( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileName = NULL, * pFileName2 = NULL;
     FILE * pFile = NULL, * pFile2 = NULL;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -16090,13 +16238,13 @@ int Abc_CommandWrap( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 2 )
+    if ( argc != pOpt.optind + 2 )
     {
         Abc_Print( 1,"Two file names are expected on the command line.\n" );
         return 0;
     }
-    pFileName  = argv[globalUtilOptind];
-    pFileName2 = argv[globalUtilOptind+1];
+    pFileName  = argv[pOpt.optind];
+    pFileName2 = argv[pOpt.optind+1];
     pFile  = fopen( pFileName, "rb" );
     pFile2 = fopen( pFileName2, "wb" );
     if ( pFile && pFile2 )
@@ -16168,63 +16316,64 @@ int Abc_CommandTest( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fVerbose     =  0;
     int fVeryVerbose =  0;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CKDNMaovwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CKDNMaovwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutMax < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLeafMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLeafMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLeafMax < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nDivMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDivMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nDivMax < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nDecMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDecMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nDecMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNumOnes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNumOnes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNumOnes < 0 )
                 goto usage;
             break;
@@ -16418,19 +16567,20 @@ int Abc_CommandQuaVar( Abc_Frame_t * pAbc, int argc, char ** argv )
     iVar = 0;
     fUniv = 0;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Iuvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Iuvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iVar = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iVar = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iVar < 0 )
                 goto usage;
             break;
@@ -16505,19 +16655,20 @@ int Abc_CommandQuaRel( Abc_Frame_t * pAbc, int argc, char ** argv )
     iVar = 0;
     fInputs = 1;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Iqvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Iqvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iVar = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iVar = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iVar < 0 )
                 goto usage;
             break;
@@ -16599,19 +16750,20 @@ int Abc_CommandQuaReach( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     nIters   = 256;
     fVerbose =   0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Ivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Ivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
@@ -16697,19 +16849,20 @@ int Abc_CommandSenseInput( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     nConfLim   = 1000;
     fVerbose   =    1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Cvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Cvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLim = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLim = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLim < 0 )
                 goto usage;
             break;
@@ -16782,8 +16935,9 @@ int Abc_CommandIStrash( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -16841,19 +16995,20 @@ int Abc_CommandICut( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     nInputs = 5;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Kh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Kh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nInputs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nInputs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nInputs < 0 )
                 goto usage;
             break;
@@ -16907,8 +17062,9 @@ int Abc_CommandIRewrite( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUpdateLevel = 1;
     fUseZeroCost = 0;
     fVerbose     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lzvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lzvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -16980,41 +17136,42 @@ int Abc_CommandDRewrite( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     Dar_ManDefaultRwrParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CNMflzrvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CNMflzrvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutsMax < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSubgMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSubgMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSubgMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMinSaved = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMinSaved = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMinSaved < 0 )
                 goto usage;
             break;
@@ -17104,41 +17261,42 @@ int Abc_CommandDRefactor( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     Dar_ManDefaultRefParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "MKCelzvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "MKCelzvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMffcMin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMffcMin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMffcMin < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLeafMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLeafMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLeafMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutsMax < 0 )
                 goto usage;
             break;
@@ -17228,8 +17386,9 @@ int Abc_CommandDc2( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUpdateLevel = 0;
     fFanout      = 1;
     fPower       = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "blfpvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "blfpvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -17314,30 +17473,31 @@ int Abc_CommandDChoice( Abc_Frame_t * pAbc, int argc, char ** argv )
     nConfMax     = 1000;
     nLevelMax    = 0;
     fVerbose     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CLblcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CLblcvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfMax < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLevelMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevelMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLevelMax < 0 )
                 goto usage;
             break;
@@ -17413,41 +17573,42 @@ int Abc_CommandDch( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     Dch_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WCSsptgcfrxvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WCSsptgcfrxvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSatVarMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSatVarMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSatVarMax < 0 )
                 goto usage;
             break;
@@ -17545,8 +17706,9 @@ int Abc_CommandDrwsat( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     fBalance = 0;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "bvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "bvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -17613,8 +17775,9 @@ int Abc_CommandIRewriteSeq( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUpdateLevel = 0;
     fUseZeroCost = 0;
     fVerbose     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lzvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lzvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -17685,8 +17848,9 @@ int Abc_CommandIResyn( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     fUpdateLevel = 1;
     fVerbose     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lzvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lzvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -17756,19 +17920,20 @@ int Abc_CommandISat( Abc_Frame_t * pAbc, int argc, char ** argv )
     nConfLimit   = 100000;
     fUpdateLevel = 1;
     fVerbose     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Clzvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Clzvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
@@ -17845,41 +18010,42 @@ int Abc_CommandIFraig( Abc_Frame_t * pAbc, int argc, char ** argv )
     fDoSparse    = 1;
     fProve       = 0;
     fVerbose     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PCLspvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PCLspvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPartSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPartSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPartSize < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
          case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLevelMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevelMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLevelMax < 0 )
                 goto usage;
             break;
@@ -17961,19 +18127,20 @@ int Abc_CommandDFraig( Abc_Frame_t * pAbc, int argc, char ** argv )
     fSpeculate   = 0;
     fChoicing    = 0;
     fVerbose     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Csprcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Csprcvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
@@ -18055,30 +18222,31 @@ int Abc_CommandCSweep( Abc_Frame_t * pAbc, int argc, char ** argv )
     nCutsMax  =  8;
     nLeafMax  =  6;
     fVerbose  =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CKvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CKvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutsMax < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLeafMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLeafMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLeafMax < 0 )
                 goto usage;
             break;
@@ -18160,85 +18328,86 @@ int Abc_CommandIProve( Abc_Frame_t * pAbc, int argc, char ** argv )
     Prove_ParamsSetDefault( pParams );
     pParams->fUseRewriting = 1;
     pParams->fVerbose      = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NCFGMILrfbvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NCFGMILrfbvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nItersMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nItersMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nItersMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nMiteringLimitStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nMiteringLimitStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nMiteringLimitStart < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nFraigingLimitStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nFraigingLimitStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nFraigingLimitStart < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nFraigingLimitMulti = (float)atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nFraigingLimitMulti = (float)atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nFraigingLimitMulti < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nMiteringLimitLast = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nMiteringLimitLast = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nMiteringLimitLast < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nTotalInspectLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nTotalInspectLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nTotalInspectLimit < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'r':
             pParams->fUseRewriting ^= 1;
@@ -18372,30 +18541,31 @@ int Abc_CommandHaig( Abc_Frame_t * pAbc, int argc, char ** argv )
     fAddBugs      = 0;
     fUseCnf       = 0;
     fVerbose      = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ISrbcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ISrbcvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nSteps = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSteps = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSteps < 0 )
                 goto usage;
             break;
@@ -18482,30 +18652,31 @@ int Abc_CommandQbf( Abc_Frame_t * pAbc, int argc, char ** argv )
     nIters   = 500;
     fDumpCnf =   0;
     fVerbose =   0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PIdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PIdvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPars < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
@@ -18608,8 +18779,9 @@ int Abc_CommandNpnLoad( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Npn_ManLoad( char * pFileName );
     char * pFileName;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -18619,9 +18791,9 @@ int Abc_CommandNpnLoad( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     Npn_ManLoad( pFileName );
     return 0;
 
@@ -18648,8 +18820,9 @@ int Abc_CommandNpnSave( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Npn_ManSave( char * pFileName );
     char * pFileName;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -18659,9 +18832,9 @@ int Abc_CommandNpnSave( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     Npn_ManSave( pFileName );
     return 0;
 
@@ -18690,8 +18863,9 @@ int Abc_CommandSendAig( Abc_Frame_t * pAbc, int argc, char ** argv )
 //    const int BRIDGE_ABS_NETLIST = 107;
 
     int c, fAndSpace = 1, fAbsNetlist = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ah" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ah" ) ) != EOF )
     {
         switch ( c )
         {
@@ -18767,8 +18941,9 @@ int Abc_CommandSendStatus( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern int Gia_ManToBridgeResult( FILE * pFile, int Result, Abc_Cex_t * pCex, int iPoProved );
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -18815,8 +18990,9 @@ int Abc_CommandBackup( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
     int c;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -18847,8 +19023,9 @@ int Abc_CommandRestore( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -18947,41 +19124,42 @@ int Abc_CommandFraig( Abc_Frame_t * pAbc, int argc, char ** argv )
     pParams->fTryProve  =    0; // tries to solve the final miter
     pParams->fVerbose   =    0; // the verbosiness flag
     pParams->fVerboseP  =    0; // the verbosiness flag
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "RDCrscptvaeh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "RDCrscptvaeh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nPatsRand = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nPatsRand = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nPatsRand < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nPatsDyna = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nPatsDyna = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nPatsDyna < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nBTLimit < 0 )
                 goto usage;
             break;
@@ -19109,8 +19287,9 @@ int Abc_CommandFraigTrust( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     fDuplicate = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "dh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "dh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -19168,8 +19347,9 @@ int Abc_CommandFraigStore( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     fDuplicate = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "dh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "dh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -19226,41 +19406,42 @@ int Abc_CommandFraigRestore( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "RDCh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "RDCh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPatsRand = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPatsRand = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPatsRand < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPatsDyna = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPatsDyna = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPatsDyna < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBTLimit < 0 )
                 goto usage;
             break;
@@ -19316,8 +19497,9 @@ int Abc_CommandFraigClean( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fDuplicate;
     // set defaults
     fDuplicate = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "dh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "dh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -19366,8 +19548,9 @@ int Abc_CommandFraigSweep( Abc_Frame_t * pAbc, int argc, char ** argv )
     fExdc     = 0;
     fVerbose  = 0;
     fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ievwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ievwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -19446,19 +19629,20 @@ int Abc_CommandFraigDress( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     nConfs   = 1000;
     fVerbose =    0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Cvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Cvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfs < 0 )
                 goto usage;
             break;
@@ -19481,15 +19665,15 @@ int Abc_CommandFraigDress( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "This command works only for logic networks.\n" );
         return 1;
     }
-    if ( argc != globalUtilOptind && argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind && argc != pOpt.optind + 1 )
         goto usage;
-    if ( argc == globalUtilOptind && Abc_NtkSpec(pNtk) == NULL )
+    if ( argc == pOpt.optind && Abc_NtkSpec(pNtk) == NULL )
     {
         Abc_Print( -1, "The current network has no spec.\n" );
         return 1;
     }
     // get the input file name
-    pFileName = (argc == globalUtilOptind + 1) ? argv[globalUtilOptind] : Abc_NtkSpec(pNtk);
+    pFileName = (argc == pOpt.optind + 1) ? argv[pOpt.optind] : Abc_NtkSpec(pNtk);
     // modify the current network
 //    Abc_NtkDress( pNtk, pFileName, fVerbose );
     pNtk2 = Io_Read( pFileName, Io_ReadFileType(pFileName), 1, 0 );
@@ -19524,19 +19708,20 @@ int Abc_CommandDumpEquiv( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtks[2] = {NULL};
     char * pFileName[2], * pFileNameOut;
     int c, nConfs = 1000, fByName = 1, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Cnvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Cnvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfs < 0 )
                 goto usage;
             break;
@@ -19552,14 +19737,14 @@ int Abc_CommandDumpEquiv( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 3 )
+    if ( argc != pOpt.optind + 3 )
     {
         Abc_Print( -1, "Expecting three file names on the command line.\n" );
         goto usage;
     }
-    pFileName[0] = argv[globalUtilOptind];
-    pFileName[1] = argv[globalUtilOptind+1];
-    pFileNameOut = argv[globalUtilOptind+2];
+    pFileName[0] = argv[pOpt.optind];
+    pFileName[1] = argv[pOpt.optind+1];
+    pFileNameOut = argv[pOpt.optind+2];
     for ( c = 0; c < 2; c++ )
     {
         pNtks[c] = Io_Read( pFileName[c], Io_ReadFileType(pFileName[c]), 1, 0 );
@@ -19616,30 +19801,31 @@ int Abc_CommandRecStart3( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nCuts = 32;
     int fFuncOnly = 0;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCfvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCfvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 1 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCuts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCuts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCuts < 1 )
                 goto usage;
             break;
@@ -19665,8 +19851,8 @@ int Abc_CommandRecStart3( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "The AIG subgraph recording is already started.\n" );
         return 0;
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
         Abc_Print( 1, "File name is not given on the command line. Starting a new record.\n" );
     else
@@ -19724,8 +19910,9 @@ usage:
 int Abc_CommandRecStop3( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "dh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "dh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -19765,8 +19952,9 @@ usage:
 int Abc_CommandRecPs3( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fPrintLib = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ph" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ph" ) ) != EOF )
     {
         switch ( c )
         {
@@ -19812,8 +20000,9 @@ int Abc_CommandRecAdd3( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     int fUseSOPB = 0;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "gh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "gh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -19869,8 +20058,9 @@ int Abc_CommandRecDump3( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fBinary = 0;
     int c;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "abh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "abh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -19892,8 +20082,8 @@ int Abc_CommandRecDump3( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "File name is not given on the command line.\n" );
@@ -19952,8 +20142,9 @@ int Abc_CommandRecMerge3( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pGia = NULL;
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "dh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "dh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -19968,8 +20159,8 @@ int Abc_CommandRecMerge3( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "This command works for AIGs only after calling \"rec_start3\".\n" );
         return 0;
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "File name is not given on the command line.\n" );
@@ -20059,81 +20250,82 @@ int Abc_CommandMap( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUseProfile = 0;
     fUseBuffs   = 0;
     fVerbose    = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "DABFSGMarspfuovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "DABFSGMarspfuovh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            DelayTarget = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            DelayTarget = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( DelayTarget <= 0.0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            AreaMulti = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            AreaMulti = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            DelayMulti = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            DelayMulti = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            LogFan = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            LogFan = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( LogFan < 0.0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            Slew = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Slew = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Slew <= 0.0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            Gain = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Gain = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Gain <= 0.0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nGatesMin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nGatesMin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nGatesMin < 0 )
                 goto usage;
             break;
@@ -20278,63 +20470,64 @@ int Abc_CommandAmap( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     fSweep = 0;
     Amap_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FACEQmxisvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FACEQmxisvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->nIterFlow = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nIterFlow = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nIterFlow < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->nIterArea = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nIterArea = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nIterArea < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutsMax < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->fEpsilon = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->fEpsilon = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->fEpsilon < 0.0 || pPars->fEpsilon > 1.0 )
                 goto usage;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->fADratio = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->fADratio = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->fADratio < 0.0 )
                 goto usage;
             break;
@@ -20450,8 +20643,9 @@ int Abc_CommandPhaseMap( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
     int fVerbose = 0, c;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -20503,63 +20697,64 @@ int Abc_CommandStochMap( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Mio_IntallAndLibrary();    
     extern void Abc_NtkStochMap( int nSuppMax, int nIters, int TimeOut, int Seed, int fOverlap, int fVerbose, char * pScript, int nProcs );
     int c, nMaxSize = 14, nIters = 1, TimeOut = 0, Seed = 0, nProcs = 1, fOverlap = 0, fVerbose = 0; char * pScript;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NITSPovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NITSPovh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMaxSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMaxSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMaxSize < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            TimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            TimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( TimeOut < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Seed < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nProcs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nProcs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nProcs < 0 )
                 goto usage;
             break;            
@@ -20600,12 +20795,12 @@ int Abc_CommandStochMap( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandStochMap(): Expecting a mapped current newtork as input.\n" );
         return 0;
     }    
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         printf( "Expecting a synthesis script in quotes on the command line (for example: \"&st; &dch; &if\").\n" );
         goto usage;
     }
-    pScript = Abc_UtilStrsav( argv[globalUtilOptind] );
+    pScript = Abc_UtilStrsav( argv[pOpt.optind] );
     Abc_NtkStochMap( nMaxSize, nIters, TimeOut, Seed, fOverlap, fVerbose, pScript, nProcs );
     ABC_FREE( pScript );
     if ( pNtkRes )
@@ -20652,8 +20847,9 @@ int Abc_CommandUnmap( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
     int c;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -20706,8 +20902,9 @@ int Abc_CommandAttach( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
     int c;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -20765,8 +20962,9 @@ int Abc_CommandSuperChoice( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -20834,30 +21032,31 @@ int Abc_CommandSuperChoiceLut( Abc_Frame_t * pAbc, int argc, char ** argv )
     fVerbose = 1;
     nLutSize = 4;
     nCutSizeMax = 10;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KNh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KNh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nCutSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutSizeMax < 0 )
                 goto usage;
             break;
@@ -20931,19 +21130,20 @@ int Abc_CommandTimeScale( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     nTimeScale = (float)0.01;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Th" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Th" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nTimeScale = atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeScale = atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeScale < 0 )
                 goto usage;
             break;
@@ -20998,135 +21198,136 @@ int Abc_CommandRewire( Abc_Frame_t * pAbc, int argc, char ** argv )
     FILE *pFile = NULL;
     int c, nIters = 100000, nExpands = 128, nGrowth = 4, nDivs = -1, nFaninMax = 8, nSeed = 1, nTimeOut = 0, nVerbose = 1, nMode = 0, nMappedMode = 0, nDist = 0, fCheck = 0, fDch = 1, fTiming = 0;
     float nLevelGrowRatio = 0;
-    Extra_UtilGetoptReset();
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
 
     pNtk = Abc_FrameReadNtk(pAbc);
 
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IEGDFSTMALRCVdtch" ) ) != EOF ) {
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IEGDFSTMALRCVdtch" ) ) != EOF ) {
         switch ( c ) {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nExpands = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nExpands = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nGrowth = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nGrowth = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nDivs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDivs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nFaninMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFaninMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nSeed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSeed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nMode = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMode = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nMappedMode = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMappedMode = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nDist = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDist = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a positive number.\n" );
                 goto usage;
             }
-            nLevelGrowRatio = atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevelGrowRatio = atof(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'C':
-            pFile = fopen( argv[globalUtilOptind], "rb" );
+            pFile = fopen( argv[pOpt.optind], "rb" );
             if ( pFile == NULL )
             {
-                Abc_Print( -1, "Cannot open input file \"%s\".\n", argv[globalUtilOptind] );
+                Abc_Print( -1, "Cannot open input file \"%s\".\n", argv[pOpt.optind] );
                 return 1;
             }
             fclose( pFile );
-            pExc = Gia_AigerRead( argv[globalUtilOptind], 0, 0, 0 );
+            pExc = Gia_AigerRead( argv[pOpt.optind], 0, 0, 0 );
             if ( pExc == NULL )
             {
                 Abc_Print( -1, "Reading AIGER has failed.\n" );
                 return 1;
             }
-            globalUtilOptind++;
+            pOpt.optind++;
             break;
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nVerbose = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVerbose = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'c':
             fCheck ^= 1;
@@ -21142,7 +21343,7 @@ int Abc_CommandRewire( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
@@ -21227,8 +21428,9 @@ int Abc_CommandFpga( Abc_Frame_t * pAbc, int argc, char ** argv )
     fVerbose    = 0;
     DelayTarget =-1;
     nLutSize    =-1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "aplvhDK" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "aplvhDK" ) ) != EOF )
     {
         switch ( c )
         {
@@ -21247,24 +21449,24 @@ int Abc_CommandFpga( Abc_Frame_t * pAbc, int argc, char ** argv )
         case 'h':
             goto usage;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            DelayTarget = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            DelayTarget = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( DelayTarget <= 0.0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
@@ -21380,8 +21582,9 @@ int Abc_CommandFpgaFast( Abc_Frame_t * pAbc, int argc, char ** argv )
     fVerbose    = 0;
     DelayTarget =-1;
     nLutSize    = 5;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "avhDK" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "avhDK" ) ) != EOF )
     {
         switch ( c )
         {
@@ -21394,24 +21597,24 @@ int Abc_CommandFpgaFast( Abc_Frame_t * pAbc, int argc, char ** argv )
         case 'h':
             goto usage;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            DelayTarget = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            DelayTarget = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( DelayTarget <= 0.0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
@@ -21504,188 +21707,189 @@ int Abc_CommandIf( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     If_ManSetDefaultPars( pPars );
     pPars->pLutLib = (If_LibLut_t *)Abc_FrameReadLibLut();
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCFAGRNTXYUZDEWSJqalepmrsdbgxyzuojiktncfvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCFAGRNTXYUZDEWSJqalepmrsdbgxyzuojiktncfvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 0 )
                 goto usage;
             // if the LUT size is specified, disable library
             pPars->pLutLib = NULL;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutsMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nFlowIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFlowIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFlowIters < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nAreaIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nAreaIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nAreaIters < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by a positive integer no less than 3.\n" );
                 goto usage;
             }
-            pPars->nGateSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nGateSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nGateSize < 2 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            pPars->nRelaxRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRelaxRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRelaxRatio < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a positive integer no less than 3.\n" );
                 goto usage;
             }
-            pPars->nNonDecLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nNonDecLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nNonDecLimit < 2 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a positive integer 0,1,or 2.\n" );
                 goto usage;
             }
-            pPars->nStructType = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nStructType = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nStructType < 0 || pPars->nStructType > 2 )
                 goto usage;
             break;
         case 'X':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-X\" should be followed by a positive integer 0,1,or 2.\n" );
                 goto usage;
             }
-            pPars->nAndDelay = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nAndDelay = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nAndArea < 0 )
                 goto usage;
             break;
         case 'Y':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Y\" should be followed by a positive integer 0,1,or 2.\n" );
                 goto usage;
             }
-            pPars->nAndArea = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nAndArea = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nAndDelay < 0 )
                 goto usage;
             break;
         case 'U':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-U\" should be followed by a positive integer 3, 4, 5, or 6.\n" );
                 goto usage;
             }
-            pPars->nLutDecSize = atoi(argv[globalUtilOptind]);
+            pPars->nLutDecSize = atoi(argv[pOpt.optind]);
             pPars->fUserLut2D = 1;
-            globalUtilOptind++;
+            pOpt.optind++;
             if ( pPars->nLutDecSize < 3 || pPars->nLutDecSize > 6 )
                 goto usage;
             break;
         case 'Z':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Z\" should be followed by a positive integer 3, 4, 5, or 6.\n" );
                 goto usage;
             }
-            pPars->nLutDecSize = atoi(argv[globalUtilOptind]);
+            pPars->nLutDecSize = atoi(argv[pOpt.optind]);
             pPars->fUserLutDec = 1;
-            globalUtilOptind++;
+            pOpt.optind++;
             if ( pPars->nLutDecSize < 3 || pPars->nLutDecSize > 6 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->DelayTarget = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DelayTarget = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DelayTarget <= 0.0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->Epsilon = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->Epsilon = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->Epsilon < 0.0 || pPars->Epsilon > 1.0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->WireDelay = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->WireDelay = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->WireDelay < 0.0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by string.\n" );
                 goto usage;
             }
-            pPars->pLutStruct = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pLutStruct = argv[pOpt.optind];
+            pOpt.optind++;
             if ( strlen(pPars->pLutStruct) != 2 && strlen(pPars->pLutStruct) != 3 )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a 2- or 3-char string (e.g. \"44\" or \"555\").\n" );
@@ -21693,14 +21897,14 @@ int Abc_CommandIf( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'J':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-J\" should be followed by string.\n" );
                 goto usage;
             }
-            pPars->pLutStruct = argv[globalUtilOptind];
+            pPars->pLutStruct = argv[pOpt.optind];
             pPars->fEnableStructN = 1;
-            globalUtilOptind++;
+            pOpt.optind++;
             if ( strlen(pPars->pLutStruct) != 2 && strlen(pPars->pLutStruct) != 3 )
             {
                 Abc_Print( -1, "Command line switch \"-J\" should be followed by a 2-char string (e.g. \"44\" or \"66\" \").\n" );
@@ -22160,30 +22364,31 @@ int Abc_CommandIfif( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->fVerbose     =   0;    // verbose
     pPars->fVeryVerbose =   0;    // verbose
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "DNcvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "DNcvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->DelayWire = atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DelayWire = atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DelayWire < 0.0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->nDegree = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nDegree = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nDegree < 0 )
                 goto usage;
             break;
@@ -22276,8 +22481,9 @@ int Abc_CommandDsdSave( Abc_Frame_t * pAbc, int argc, char ** argv )
     char ** pArgvNew;
     int nArgcNew;
     int c, fSecond = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "bh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "bh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -22290,8 +22496,8 @@ int Abc_CommandDsdSave( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "File name is not given on the command line.\n" );
@@ -22346,8 +22552,9 @@ int Abc_CommandDsdLoad( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, nArgcNew, fSecond = 0;
     FILE * pFile;
     If_DsdMan_t * pDsdMan;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "bh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "bh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -22360,8 +22567,8 @@ int Abc_CommandDsdLoad( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "File name is not given on the command line.\n" );
@@ -22423,8 +22630,9 @@ usage:
 int Abc_CommandDsdFree( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fSecond = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "bh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "bh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -22479,30 +22687,31 @@ usage:
 int Abc_CommandDsdPs( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, Number = 0, Support = 0, fOccurs = 0, fTtDump = 0, fSecond = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NSotbvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NSotbvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            Number = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Number = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Number < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            Support = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Support = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Support < 0 )
                 goto usage;
             break;
@@ -22573,57 +22782,58 @@ int Abc_CommandDsdMatch( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pStruct = NULL;
     int c, fVerbose = 0, fFast = 0, fAdd = 0, fSpec = 0, LutSize = 0, nConfls = 10000, nProcs = 1, nInputs = 0;
     If_DsdMan_t * pDsdMan = (If_DsdMan_t *)Abc_FrameReadManDsd();
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCPISfasvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCPISfasvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            LutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            LutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( LutSize < 4 || LutSize > 6 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            nConfls = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfls = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            nProcs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nProcs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            nInputs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nInputs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by string.\n" );
                 goto usage;
             }
-            pStruct = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pStruct = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'f':
             fFast ^= 1;
@@ -22696,8 +22906,9 @@ int Abc_CommandDsdMerge( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, nArgcNew;
     FILE * pFile;
     If_DsdMan_t * pDsdMan;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -22712,8 +22923,8 @@ int Abc_CommandDsdMerge( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "The DSD manager is not started.\n" );
         return 0;
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "File name is not given on the command line.\n" );
@@ -22764,28 +22975,29 @@ int Abc_CommandDsdFilter( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     If_DsdMan_t * pDsd = (If_DsdMan_t *)Abc_FrameReadManDsd();
     int c, nLimit = 0, nLutSize = -1, fCleanOccur = 0, fCleanMarks = 0, fInvMarks = 0, fUnate = 0, fThresh = 0, fThreshHeuristic = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "LKomiutsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "LKomiutsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            nLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'o':
             fCleanOccur ^= 1;
@@ -22883,19 +23095,20 @@ int Abc_CommandInit( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fUseCexNs = 0;
     int c, i;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Szordcnh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Szordcnh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pInitStr = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pInitStr = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'z':
             fZeros ^= 1;
@@ -23041,8 +23254,9 @@ int Abc_CommandZero( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -23105,8 +23319,9 @@ int Abc_CommandUndc( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
     int c, fUseCex = 0;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ch" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ch" ) ) != EOF )
     {
         switch ( c )
         {
@@ -23198,8 +23413,9 @@ int Abc_CommandOneHot( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -23261,19 +23477,20 @@ int Abc_CommandPipe( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_NtkLatchPipe( Abc_Ntk_t * pNtk, int nLatches );
     // set defaults
     nLatches = 5;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Lh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Lh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nLatches = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLatches = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLatches < 0 )
                 goto usage;
             break;
@@ -23332,8 +23549,9 @@ int Abc_CommandSeq( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -23401,8 +23619,9 @@ int Abc_CommandUnseq( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     fShare = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "sh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "sh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -23485,30 +23704,31 @@ int Abc_CommandRetime( Abc_Frame_t * pAbc, int argc, char ** argv )
     fUseOldNames = 0;
     fVerbose  =  0;
     nMaxIters = 15;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "MDfbsovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "MDfbsovh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            Mode = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Mode = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Mode < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nDelayLim = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDelayLim = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nDelayLim < 0 )
                 goto usage;
             break;
@@ -23652,30 +23872,31 @@ int Abc_CommandDRetime( Abc_Frame_t * pAbc, int argc, char ** argv )
     fFastAlgo = 0;
     nMaxIters = 20;
     fVerbose  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NSmfbiavh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NSmfbiavh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nMaxIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMaxIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMaxIters < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nStepsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nStepsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nStepsMax < 0 )
                 goto usage;
             break;
@@ -23792,30 +24013,31 @@ int Abc_CommandFlowRetime( Abc_Frame_t * pAbc, int argc, char ** argv )
     fBlockConst  =  0;
     nMaxIters = 999;
     maxDelay  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "MDfcgbkivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "MDfcgbkivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nMaxIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMaxIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMaxIters < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            maxDelay = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            maxDelay = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( maxDelay < 0 )
                 goto usage;
            break;
@@ -23925,8 +24147,9 @@ int Abc_CommandCRetime( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     fVerbose    = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -23994,19 +24217,20 @@ int Abc_CommandSeqFpga( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     nMaxIters = 15;
     fVerbose  =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Ivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Ivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nMaxIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMaxIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMaxIters < 0 )
                 goto usage;
             break;
@@ -24117,19 +24341,20 @@ int Abc_CommandSeqMap( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     nMaxIters = 15;
     fVerbose  =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Ivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Ivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nMaxIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMaxIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMaxIters < 0 )
                 goto usage;
             break;
@@ -24254,74 +24479,75 @@ int Abc_CommandSeqSweep( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->fUse1Hot   = 0;
     pPars->fVerbose   = 0;
     pPars->TimeLimit  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PQNFILirfletvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PQNFILirfletvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nPartSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nPartSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nPartSize < 2 )
                 goto usage;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nOverSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nOverSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nOverSize < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesP = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesP = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesP < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesK = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesK = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesK <= 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMaxImps = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMaxImps = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMaxImps <= 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMaxLevs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMaxLevs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMaxLevs <= 0 )
                 goto usage;
             break;
@@ -24435,151 +24661,152 @@ int Abc_CommandSeqSweep2( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     Ssw_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PQFCLSIVMNXRBcmplkodsefqvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PQFCLSIVMNXRBcmplkodsefqvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nPartSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nPartSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nPartSize < 2 )
                 goto usage;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nOverSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nOverSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nOverSize < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesK = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesK = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesK <= 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit <= 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMaxLevs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMaxLevs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMaxLevs <= 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesAddSim = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesAddSim = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesAddSim < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nItersStop = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nItersStop = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nItersStop < 0 )
                 goto usage;
             break;
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSatVarMax2 = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSatVarMax2 = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSatVarMax2 < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRecycleCalls2 = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRecycleCalls2 = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRecycleCalls2 < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConstrs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConstrs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConstrs < 0 )
                 goto usage;
             break;
         case 'X':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-X\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLimitMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLimitMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLimitMax < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSkip = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSkip = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSkip < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSkipLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSkipLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSkipLimit < 0 )
                 goto usage;
             break;
@@ -24772,74 +24999,75 @@ int Abc_CommandTestSeqSweep( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->fUse1Hot   = 0;
     pPars->fVerbose   = 0;
     pPars->TimeLimit  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PQNFILirfletvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PQNFILirfletvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nPartSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nPartSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nPartSize < 2 )
                 goto usage;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nOverSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nOverSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nOverSize < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesP = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesP = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesP < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesK = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesK = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesK <= 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMaxImps = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMaxImps = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMaxImps <= 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMaxLevs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMaxLevs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMaxLevs <= 0 )
                 goto usage;
             break;
@@ -24871,8 +25099,8 @@ int Abc_CommandTestSeqSweep( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
     // get the input file name
-    if ( argc == globalUtilOptind + 1 )
-        pFileName = argv[globalUtilOptind];
+    if ( argc == pOpt.optind + 1 )
+        pFileName = argv[pOpt.optind];
     else
     {
         Abc_Print( -1, "File name should be given on the command line.\n" );
@@ -24932,30 +25160,31 @@ int Abc_CommandTestScorr( Abc_Frame_t * pAbc, int argc, char ** argv )
     fFlopOnly =   0;
     fFfNdOnly =   0;
     fVerbose  =   0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CSnfsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CSnfsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfMax < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nStepsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nStepsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nStepsMax < 0 )
                 goto usage;
             break;
@@ -24975,7 +25204,7 @@ int Abc_CommandTestScorr( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 2 )
+    if ( argc != pOpt.optind + 2 )
     {
         Abc_Print( -1, "Expecting two files names on the command line.\n" );
         goto usage;
@@ -24986,7 +25215,7 @@ int Abc_CommandTestScorr( Abc_Frame_t * pAbc, int argc, char ** argv )
         goto usage;
     }
     // get the new network
-    pNtkRes = Abc_NtkTestScorr( argv[globalUtilOptind], argv[globalUtilOptind+1], nStepsMax, nConfMax, fNewAlgo, fFlopOnly, fFfNdOnly, fVerbose );
+    pNtkRes = Abc_NtkTestScorr( argv[pOpt.optind], argv[pOpt.optind+1], nStepsMax, nConfMax, fNewAlgo, fFlopOnly, fFfNdOnly, fVerbose );
     if ( pNtkRes == NULL )
     {
         Abc_Print( -1, "Sequential sweeping has failed.\n" );
@@ -25047,52 +25276,53 @@ int Abc_CommandLcorr( Abc_Frame_t * pAbc, int argc, char ** argv )
     nLimitMax  =     0;
     fNewAlgor  =     1;
     fVerbose   =     0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PCSXnvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PCSXnvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFramesP = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFramesP = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFramesP < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfMax < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVarsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVarsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVarsMax < 0 )
                 goto usage;
             break;
         case 'X':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-X\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLimitMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLimitMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLimitMax < 0 )
                 goto usage;
             break;
@@ -25180,8 +25410,9 @@ int Abc_CommandSeqCleanup( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
 
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cenmFSvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "cenmFSvwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -25198,24 +25429,24 @@ int Abc_CommandSeqCleanup( Abc_Frame_t * pAbc, int argc, char ** argv )
             fUseMvSweep ^= 1;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFramesSymb = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFramesSymb = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFramesSymb < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFramesSatur = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFramesSatur = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFramesSatur < 0 )
                 goto usage;
             break;
@@ -25297,19 +25528,20 @@ int Abc_CommandCycle( Abc_Frame_t * pAbc, int argc, char ** argv )
     nFrames    = 100;
     fUseXval   =   0;
     fVerbose   =   0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Fxvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Fxvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
@@ -25390,19 +25622,20 @@ int Abc_CommandXsim( Abc_Frame_t * pAbc, int argc, char ** argv )
     fXInputs   =  0;
     fXState    =  0;
     fVerbose   =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Fisvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Fisvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
@@ -25486,61 +25719,62 @@ int Abc_CommandSim( Abc_Frame_t * pAbc, int argc, char ** argv )
     fMiter     =  1;
     fVerbose   =  0;
     pFileSim   = NULL;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FWTALnmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FWTALnmvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            TimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            TimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( TimeOut < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pFileSim = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pFileSim = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'n':
             fNew ^= 1;
@@ -25616,107 +25850,108 @@ int Abc_CommandSim3( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pLogFileName = NULL;
     int c;
     Ssw_RarSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FWBRSNTGLadivzh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FWBRSNTGLadivzh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFrames < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBinSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBinSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBinSize < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRounds < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRestart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRestart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRestart < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRandSeed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRandSeed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRandSeed < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeOut < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeOutGap = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeOutGap = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeOutGap < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'a':
             pPars->fSolveAll ^= 1;
@@ -25854,30 +26089,31 @@ int Abc_CommandDarPhase( Abc_Frame_t * pAbc, int argc, char ** argv )
     fPrint      = 0;
     fUpdateCex  = 0;
     fVerbose    = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FPipcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FPipcvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPref = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPref = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPref < 0 )
                 goto usage;
             break;
@@ -26002,19 +26238,20 @@ int Abc_CommandSynch( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     nWords   =  32;
     fVerbose =   1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Wvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Wvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords <= 0 )
                 goto usage;
             break;
@@ -26028,8 +26265,8 @@ int Abc_CommandSynch( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew == 0 )
     {
         if ( pNtk == NULL )
@@ -26108,74 +26345,75 @@ int Abc_CommandClockGate( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     Cgt_SetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "LNDCVKavwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "LNDCVKavwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLevelMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLevelMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLevelMax <= 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nCandMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCandMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCandMax <= 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nOdcMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nOdcMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nOdcMax <= 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nConfMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nConfMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nConfMax <= 0 )
                 goto usage;
             break;
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nVarsMin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nVarsMin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nVarsMin <= 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFlopsMin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFlopsMin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFlopsMin <= 0 )
                 goto usage;
             break;
@@ -26200,9 +26438,9 @@ int Abc_CommandClockGate( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        pNtkCare = Io_Read( argv[globalUtilOptind], Io_ReadFileType(argv[globalUtilOptind]), 1, 0 );
+        pNtkCare = Io_Read( argv[pOpt.optind], Io_ReadFileType(argv[pOpt.optind]), 1, 0 );
         if ( pNtkCare == NULL )
         {
             Abc_Print( -1, "Reading care network has failed.\n" );
@@ -26212,7 +26450,7 @@ int Abc_CommandClockGate( Abc_Frame_t * pAbc, int argc, char ** argv )
         pNtkRes = Abc_NtkDarClockGate( pNtk, pNtkCare, pPars );
         Abc_NtkDelete( pNtkCare );
     }
-    else if ( argc == globalUtilOptind )
+    else if ( argc == pOpt.optind )
     {
         pNtkRes = Abc_NtkDarClockGate( pNtk, NULL, pPars );
     }
@@ -26273,30 +26511,31 @@ int Abc_CommandExtWin( Abc_Frame_t * pAbc, int argc, char ** argv )
     nObjId   = -1;
     nDist    =  5;
     fVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NDvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NDvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nObjId = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nObjId = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nObjId <= 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nDist = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDist = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nDist <= 0 )
                 goto usage;
             break;
@@ -26320,7 +26559,7 @@ int Abc_CommandExtWin( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc != globalUtilOptind )
+    if ( argc != pOpt.optind )
     {
         Abc_Print( -1, "Not enough command-line arguments.\n" );
         return 1;
@@ -26372,30 +26611,31 @@ int Abc_CommandInsWin( Abc_Frame_t * pAbc, int argc, char ** argv )
     nObjId   = -1;
     nDist    =  5;
     fVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NDvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NDvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nObjId = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nObjId = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nObjId <= 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nDist = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDist = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nDist <= 0 )
                 goto usage;
             break;
@@ -26419,12 +26659,12 @@ int Abc_CommandInsWin( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "Not enough command-line arguments.\n" );
         return 1;
     }
-    pNtkCare = Io_Read( argv[globalUtilOptind], Io_ReadFileType(argv[globalUtilOptind]), 1, 0 );
+    pNtkCare = Io_Read( argv[pOpt.optind], Io_ReadFileType(argv[pOpt.optind]), 1, 0 );
     if ( pNtkCare == NULL )
     {
         Abc_Print( -1, "Reading care network has failed.\n" );
@@ -26477,19 +26717,20 @@ int Abc_CommandSymFun( Abc_Frame_t * pAbc, int argc, char ** argv )
     word * pFun = NULL;
     char * pStr,  * pTruth, * pCommand;
     int c, k, nVars = -1, fCounter = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Ncvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Ncvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a file name.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'c':
             fCounter ^= 1;
@@ -26529,13 +26770,13 @@ int Abc_CommandSymFun( Abc_Frame_t * pAbc, int argc, char ** argv )
         Ntk_SymFunGenerate( nVars, fVerbose );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "Not enough command-line arguments.\n" );
         return 1;
     }
     // make sure the string is composed of N+1 zeros and ones
-    pStr = argv[globalUtilOptind];
+    pStr = argv[pOpt.optind];
     nVars = strlen(pStr) - 1;
     for ( k = 0; k <= nVars; k++ )
         if ( pStr[k] != '0' && pStr[k] != '1' )
@@ -26597,37 +26838,38 @@ int Abc_CommandATMap( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, nXVars = -1, nYVars = -1, nAdder = 2, fReturn = 0, fVerbose = 1;
     char * pGPCs0[1] = { (char*)"3:11:1" };
     char ** pGPCs = NULL; int nGPCs = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "XYArvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "XYArvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'X':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-X\" should be followed by a file name.\n" );
                 goto usage;
             }
-            nXVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nXVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'Y':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Y\" should be followed by a file name.\n" );
                 goto usage;
             }
-            nYVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nYVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a file name.\n" );
                 goto usage;
             }
-            nAdder = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nAdder = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'r':
             fReturn ^= 1;
@@ -26646,8 +26888,8 @@ int Abc_CommandATMap( Abc_Frame_t * pAbc, int argc, char ** argv )
         printf( "The terminal adder should have 2, 3, or 4 bits.\n" );
         return 0;
     }
-    pGPCs = argv + globalUtilOptind;
-    nGPCs = argc - globalUtilOptind;
+    pGPCs = argv + pOpt.optind;
+    nGPCs = argc - pOpt.optind;
     if ( nGPCs == 0 )
     {
         printf( "GPCs are not listed on the command line. The simplest GPC (full adder) will be used.\n" );
@@ -26696,57 +26938,58 @@ int Abc_CommandPermute( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fFanout = 0;
     int Seed = -1;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "SIOFMiofnxh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "SIOFMiofnxh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Seed < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pInPermFile = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pInPermFile = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pOutPermFile = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pOutPermFile = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pFlopPermFile = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pFlopPermFile = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pMapPermFile = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pMapPermFile = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'i':
             fInputs ^= 1;
@@ -26869,8 +27112,9 @@ int Abc_CommandUnpermute( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Abc_Ntk_t * pNtk = pAbc->pNtkCur, * pNtkRes = NULL;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -26919,8 +27163,9 @@ int Abc_CommandCubeEnum( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_EnumerateCubeStates();
     extern void Abc_EnumerateCubeStatesZdd();
     int c, fZddAlgo = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "zvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "zvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -26968,19 +27213,20 @@ int Abc_CommandPathEnum( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Abc_EnumerateFrontierTest( int nSize );
     int c, nSize = 4, fZddAlgo = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nzvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nzvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSize < 0 )
                 goto usage;
             break;
@@ -27027,41 +27273,42 @@ int Abc_CommandFunEnum( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Dau_FunctionEnum( int nInputs, int nVars, int nNodeMax, int fUseTwo, int fReduce, int fVerbose );
     extern Gia_Man_t * Dau_ConstructAigFromFile( char * pFileName );
     int c, nInputs = 4, nVars = 4, nNodeMax = 32, fUseTwo = 0, fReduce = 0, fSimple = 0, fDelay = 0, fMulti = 0, fDump = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "SIMtrldmpvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "SIMtrldmpvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nInputs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nInputs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nInputs < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNodeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodeMax < 0 )
                 goto usage;
             break;
@@ -27189,52 +27436,53 @@ int Abc_CommandCec( Abc_Frame_t * pAbc, int argc, char ** argv )
     nInsLimit  = 0;
     fPartition = 0;
     fIgnoreNames = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "TCIPpsnvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "TCIPpsnvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nSeconds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSeconds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSeconds < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nInsLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nInsLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nInsLimit < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPartSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPartSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPartSize < 0 )
                 goto usage;
             break;
@@ -27261,8 +27509,8 @@ int Abc_CommandCec( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( !Abc_NtkPrepareTwoNtks( stdout, pNtk, pArgvNew, nArgcNew, &pNtk1, &pNtk2, &fDelete1, &fDelete2, 1 ) )
         return 1;
 
@@ -27358,41 +27606,42 @@ int Abc_CommandDCec( Abc_Frame_t * pAbc, int argc, char ** argv )
     nInsLimit  = 0;
     fPartition = 0;
     fMiter     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "TCIpmsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "TCIpmsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nSeconds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSeconds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSeconds < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nInsLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nInsLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nInsLimit < 0 )
                 goto usage;
             break;
@@ -27413,8 +27662,8 @@ int Abc_CommandDCec( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( fMiter )
     {
         if ( pNtk == NULL )
@@ -27505,30 +27754,31 @@ int Abc_CommandDSec( Abc_Frame_t * pAbc, int argc, char ** argv )
     Fra_SecSetDefaultParams( pSecPar );
     pSecPar->TimeLimit = 0;
     fIgnoreNames = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FTarmfncvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FTarmfncvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pSecPar->nFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pSecPar->nFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pSecPar->nFramesMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pSecPar->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pSecPar->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pSecPar->TimeLimit < 0 )
                 goto usage;
             break;
@@ -27561,8 +27811,8 @@ int Abc_CommandDSec( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( !Abc_NtkPrepareTwoNtks( stdout, pNtk, pArgvNew, nArgcNew, &pNtk1, &pNtk2, &fDelete1, &fDelete2, fCheck ) )
         return 1;
     if ( Abc_NtkLatchNum(pNtk1) == 0 || Abc_NtkLatchNum(pNtk2) == 0 )
@@ -27642,8 +27892,9 @@ int Abc_CommandDProve( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     Fra_SecSetDefaultParams( pSecPar );
 //    pSecPar->TimeLimit = 300;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cbAEFCGDVBRTLarmfijkoupwvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "cbAEFCGDVBRTLarmfijkoupwvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -27654,123 +27905,123 @@ int Abc_CommandDProve( Abc_Frame_t * pAbc, int argc, char ** argv )
             pSecPar->fTryBmc ^= 1;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBmcFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBmcFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBmcFramesMax < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBmcConfMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBmcConfMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBmcConfMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pSecPar->nFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pSecPar->nFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pSecPar->nFramesMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pSecPar->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pSecPar->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pSecPar->nBTLimit < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pSecPar->nBTLimitGlobal = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pSecPar->nBTLimitGlobal = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pSecPar->nBTLimitGlobal < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pSecPar->nBTLimitInter = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pSecPar->nBTLimitInter = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pSecPar->nBTLimitInter < 0 )
                 goto usage;
             break;
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pSecPar->nBddVarsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pSecPar->nBddVarsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pSecPar->nBddVarsMax < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pSecPar->nBddMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pSecPar->nBddMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pSecPar->nBddMax < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pSecPar->nBddIterMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pSecPar->nBddIterMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pSecPar->nBddIterMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pSecPar->nPdrTimeout = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pSecPar->nPdrTimeout = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pSecPar->nPdrTimeout < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'a':
             pSecPar->fPhaseAbstract ^= 1;
@@ -27906,19 +28157,20 @@ int Abc_CommandAbSec( Abc_Frame_t * pAbc, int argc, char ** argv )
     fMiter   = 1;
     nFrames  = 2;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Fmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Fmvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
@@ -27935,8 +28187,8 @@ int Abc_CommandAbSec( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     if ( fMiter )
     {
-//        pNtk = Io_Read( argv[globalUtilOptind], Io_ReadFileType(argv[globalUtilOptind]), 1, 0 );
-        if ( argc == globalUtilOptind + 1 )
+//        pNtk = Io_Read( argv[pOpt.optind], Io_ReadFileType(argv[pOpt.optind]), 1, 0 );
+        if ( argc == pOpt.optind + 1 )
         {
             Abc_Print( -1, "The miter cannot be given on the command line. Use \"read\".\n" );
             return 0;
@@ -27953,8 +28205,8 @@ int Abc_CommandAbSec( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     else
     {
-        pArgvNew = argv + globalUtilOptind;
-        nArgcNew = argc - globalUtilOptind;
+        pArgvNew = argv + pOpt.optind;
+        nArgcNew = argc - pOpt.optind;
         if ( !Abc_NtkPrepareTwoNtks( stdout, pNtk, pArgvNew, nArgcNew, &pNtk1, &pNtk2, &fDelete1, &fDelete2, 1 ) )
             return 1;
         if ( Abc_NtkLatchNum(pNtk1) == 0 || Abc_NtkLatchNum(pNtk2) == 0 )
@@ -28015,30 +28267,31 @@ int Abc_CommandSimSec( Abc_Frame_t * pAbc, int argc, char ** argv )
     Ssw_ManSetDefaultParams( pPars );
     pPars->fPartSigCorr = 1;
     pPars->fVerbose     = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FDcymvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FDcymvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesK = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesK = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesK < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nIsleDist = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nIsleDist = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nIsleDist < 0 )
                 goto usage;
             break;
@@ -28078,8 +28331,8 @@ int Abc_CommandSimSec( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     else
     {
-        pArgvNew = argv + globalUtilOptind;
-        nArgcNew = argc - globalUtilOptind;
+        pArgvNew = argv + pOpt.optind;
+        nArgcNew = argc - pOpt.optind;
         if ( !Abc_NtkPrepareTwoNtks( stdout, pNtk, pArgvNew, nArgcNew, &pNtk1, &pNtk2, &fDelete1, &fDelete2, 1 ) )
             return 1;
         if ( Abc_NtkLatchNum(pNtk1) == 0 || Abc_NtkLatchNum(pNtk2) == 0 )
@@ -28140,19 +28393,20 @@ int Abc_CommandMatch( Abc_Frame_t * pAbc, int argc, char ** argv )
     fMiter = 0;
     nDist = 0;
     fVerbose = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Dmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Dmvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nDist = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDist = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nDist < 0 )
                 goto usage;
             break;
@@ -28186,8 +28440,8 @@ int Abc_CommandMatch( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     else
     {
-        pArgvNew = argv + globalUtilOptind;
-        nArgcNew = argc - globalUtilOptind;
+        pArgvNew = argv + pOpt.optind;
+        nArgcNew = argc - pOpt.optind;
         if ( !Abc_NtkPrepareTwoNtks( stdout, pNtk, pArgvNew, nArgcNew, &pNtk1, &pNtk2, &fDelete1, &fDelete2, 1 ) )
             return 1;
         if ( Abc_NtkLatchNum(pNtk1) == 0 || Abc_NtkLatchNum(pNtk2) == 0 )
@@ -28249,30 +28503,31 @@ int Abc_CommandSat( Abc_Frame_t * pAbc, int argc, char ** argv )
     fVerbose   = 0;
     nConfLimit = 0;
     nInsLimit  = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CIvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CIvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nInsLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nInsLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nInsLimit < 0 )
                 goto usage;
             break;
@@ -28394,63 +28649,64 @@ int Abc_CommandDSat( Abc_Frame_t * pAbc, int argc, char ** argv )
     nLearnedStart = 0;
     nLearnedDelta = 0;
     nLearnedPerce = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CILDEpansvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CILDEpansvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nInsLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nInsLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nInsLimit < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLearnedStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLearnedStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLearnedStart < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLearnedDelta = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLearnedDelta = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLearnedDelta < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLearnedPerce = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLearnedPerce = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLearnedPerce < 0 )
                 goto usage;
             break;
@@ -28479,12 +28735,12 @@ int Abc_CommandDSat( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
         int * pModel = NULL;
         extern int Cnf_DataSolveFromFile( char * pFileName, int nConfLimit, int nLearnedStart, int nLearnedDelta, int nLearnedPerce, int fVerbose, int fShowPattern, int ** ppModel, int nPis );
         // get the input file name
-        char * pFileName = argv[globalUtilOptind];
+        char * pFileName = argv[pOpt.optind];
         FILE * pFile = fopen( pFileName, "rb" );
         if ( pFile == NULL )
         {
@@ -28589,63 +28845,64 @@ int Abc_CommandXSat( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nLearnedStart = 0;
     int nLearnedDelta = 0;
     int nLearnedPerce = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CILDEhv" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CILDEhv" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nInsLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nInsLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nInsLimit < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLearnedStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLearnedStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLearnedStart < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLearnedDelta = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLearnedDelta = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLearnedDelta < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLearnedPerce = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLearnedPerce = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLearnedPerce < 0 )
                 goto usage;
             break;
@@ -28660,9 +28917,9 @@ int Abc_CommandXSat( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        char * pFileName = argv[globalUtilOptind];
+        char * pFileName = argv[pOpt.optind];
         xSAT_Solver_t * p;
         int status;
 
@@ -28719,23 +28976,24 @@ usage:
 ***********************************************************************/
 int Abc_CommandSatoko( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
-    extern satoko_opts_t * Cmd_DeriveOptionFromSettings( int argc, char ** argv );
+    extern satoko_opts_t * Cmd_DeriveOptionFromSettings2( Extra_UtilOpt_t *pOpt, int argc, char ** argv );
 
     // create default options
     satoko_opts_t opts, * popts;
     satoko_default_opts(&opts);
 
     // override default options
-    popts = Cmd_DeriveOptionFromSettings( argc, argv );
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    popts = Cmd_DeriveOptionFromSettings2( &pOpt, argc, argv );
     if ( popts == NULL )
         goto usage;
     memcpy( &opts, popts, sizeof(satoko_opts_t) );
     ABC_FREE( popts );
 
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
         abctime clk;
-        char * pFileName = argv[globalUtilOptind];
+        char * pFileName = argv[pOpt.optind];
         satoko_t * p;
         int status;
 
@@ -28815,19 +29073,20 @@ int Abc_CommandAbc9Satoko( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     satoko_opts_t opts;
     satoko_default_opts(&opts);
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Csivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Csivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            opts.conf_limit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            opts.conf_limit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( opts.conf_limit < 0 )
                 goto usage;
             break;
@@ -28847,9 +29106,9 @@ int Abc_CommandAbc9Satoko( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        Gia_ManSatokoDimacs( argv[globalUtilOptind], &opts );
+        Gia_ManSatokoDimacs( argv[pOpt.optind], &opts );
         return 0;
     }
     if ( pAbc->pGia == NULL )
@@ -28890,19 +29149,20 @@ int Abc_CommandAbc9Sat3( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     satoko_opts_t opts;
     satoko_default_opts(&opts);
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Csivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Csivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            opts.conf_limit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            opts.conf_limit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( opts.conf_limit < 0 )
                 goto usage;
             break;
@@ -28958,41 +29218,42 @@ int Abc_CommandAbc9Kissat( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, nConfs = 0, nTimeLimit = 0, fSat = 0, fUnsat = 0, fPrintCex = 0, fKissat = 1, fVerbose = 0;
     char * pArgs = NULL;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CTAsuckvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CTAsuckvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfs < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeLimit < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pArgs = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pArgs = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 's':
             fSat ^= 1;
@@ -29016,9 +29277,9 @@ int Abc_CommandAbc9Kissat( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        Gia_ManKissatCall( pAbc, argv[globalUtilOptind], pArgs, nConfs, nTimeLimit, fSat, fUnsat, fPrintCex, fVerbose );
+        Gia_ManKissatCall( pAbc, argv[pOpt.optind], pArgs, nConfs, nTimeLimit, fSat, fUnsat, fPrintCex, fVerbose );
         return 0;
     }
     if ( pAbc->pGia == NULL )
@@ -29102,41 +29363,42 @@ int Abc_CommandPSat( Abc_Frame_t * pAbc, int argc, char ** argv )
     fAlignPol   =        1;
     fSynthesize =        0;
     fVerbose    =        1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "APCpsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "APCpsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nAlgo = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nAlgo = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nAlgo < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPartSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPartSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPartSize < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfTotal = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfTotal = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfTotal < 0 )
                 goto usage;
             break;
@@ -29248,74 +29510,75 @@ int Abc_CommandProve( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     Prove_ParamsSetDefault( pParams );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NCFGLIrfbvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NCFGLIrfbvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nItersMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nItersMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nItersMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nMiteringLimitStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nMiteringLimitStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nMiteringLimitStart < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nFraigingLimitStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nFraigingLimitStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nFraigingLimitStart < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nFraigingLimitMulti = (float)atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nFraigingLimitMulti = (float)atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nFraigingLimitMulti < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nMiteringLimitLast = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nMiteringLimitLast = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nMiteringLimitLast < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParams->nTotalInspectLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParams->nTotalInspectLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParams->nTotalInspectLimit < 0 )
                 goto usage;
             break;
@@ -29421,8 +29684,9 @@ int Abc_CommandDebug( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_NtkAutoDebug( Abc_Ntk_t * pNtk, int (*pFuncError) (Abc_Ntk_t *) );
     extern int Abc_NtkRetimeDebug( Abc_Ntk_t * pNtk );
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -29470,8 +29734,9 @@ int Abc_CommandEco( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_NtkEco( char * pFileNames[3] );
     char * pFileNames[3] = {NULL};  int c;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -29481,13 +29746,13 @@ int Abc_CommandEco( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( globalUtilOptind + 3 != argc )
+    if ( pOpt.optind + 3 != argc )
     {
         Abc_Print( -1, "Expecting three file names on the command line.\n" );
         return 1;
     }
     for ( c = 0; c < 3; c++ )
-        pFileNames[c] = argv[globalUtilOptind+c];
+        pFileNames[c] = argv[pOpt.optind+c];
     Abc_NtkEco( pFileNames );
     return 0;
 
@@ -29538,87 +29803,88 @@ int Abc_CommandBmc( Abc_Frame_t * pAbc, int argc, char ** argv )
     nCofFanLit  =        0;
     fVerbose    =        0;
     fUseSatoko  =        0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FNCGDLrsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FNCGDLrsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSizeMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBTLimit < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBTLimitAll = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimitAll = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBTLimitAll < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNodeDelta = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodeDelta = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodeDelta < 0 )
                 goto usage;
             break;
 /*
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCofFanLit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCofFanLit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCofFanLit < 0 )
                 goto usage;
             break;
 */
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'r':
             fRewrite ^= 1;
@@ -29726,96 +29992,97 @@ int Abc_CommandBmc2( Abc_Frame_t * pAbc, int argc, char ** argv )
     fOrDecomp   =        0;
     fVerbose    =        0;
     fUseSatoko  =        0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "SFNTCGDLrusvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "SFNTCGDLrusvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nStart < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSizeMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBTLimit < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBTLimitAll = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimitAll = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBTLimitAll < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNodeDelta = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodeDelta = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodeDelta < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'r':
             fRewrite ^= 1;
@@ -29904,160 +30171,161 @@ int Abc_CommandBmc3( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fOrDecomp = 0;
     int c;
     Saig_ParBmcSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "SFTHGCDJIPQRLWaxdursgvzh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "SFTHGCDJIPQRLWaxdursgvzh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nStart < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOut < 0 )
                 goto usage;
             break;
         case 'H':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-H\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOutOne = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOutOne = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOutOne < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOutGap = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOutGap = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOutGap < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nConfLimit < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nConfLimitJump = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nConfLimitJump = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nConfLimitJump < 0 )
                 goto usage;
             break;
         case 'J':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-J\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesJump = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesJump = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesJump < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nPisAbstract = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nPisAbstract = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nPisAbstract < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLearnedStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLearnedStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLearnedStart < 0 )
                 goto usage;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLearnedDelta = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLearnedDelta = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLearnedDelta < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLearnedPerce = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLearnedPerce = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLearnedPerce < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pPars->pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'a':
             pPars->fSolveAll ^= 1;
@@ -30201,72 +30469,73 @@ int Abc_CommandBmcInter( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern int Abc_NtkDarBmcInter( Abc_Ntk_t * pNtk, Inter_ManParams_t * pPars, Abc_Ntk_t ** ppNtkRes );
     // set defaults
     Inter_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CFTKLIrtpomcgbqkdivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CFTKLIrtpomcgbqkdivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSecLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSecLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSecLimit < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesK = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesK = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesK < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pPars->pFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'r':
             pPars->fRewrite ^= 1;
@@ -30459,85 +30728,86 @@ int Abc_CommandIndcut( Abc_Frame_t * pAbc, int argc, char ** argv )
     fTarget      =    1;
     fVerbose     =    0;
     fVeryVerbose =    0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FPCMLNBsbrtvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FPCMLNBsbrtvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPref = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPref = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPref < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nClauses = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nClauses = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nClauses < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLevels = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevels = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLevels < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutsMax < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBatches = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBatches = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBatches < 0 )
                 goto usage;
             break;
@@ -30630,19 +30900,20 @@ int Abc_CommandEnlarge( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     nFrames      = 5;
     fVerbose     = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Fvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Fvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 1 )
                 goto usage;
             break;
@@ -30714,41 +30985,42 @@ int Abc_CommandTempor( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fVerbose      =       0;
     int fVeryVerbose  =       0;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FTCbscvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FTCbscvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            TimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            TimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( TimeOut < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfMax < 0 )
                 goto usage;
             break;
@@ -30869,41 +31141,42 @@ int Abc_CommandInduction( Abc_Frame_t * pAbc, int argc, char ** argv )
     fGetCex      =     0;
     fVerbose     =     0;
     fVeryVerbose =     0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FCTuaxvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FCTuaxvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFramesMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut < 0 )
                 goto usage;
             break;
@@ -31018,52 +31291,53 @@ int Abc_CommandConstr( Abc_Frame_t * pAbc, int argc, char ** argv )
     fOldAlgo  =      0;
     fVerbose  =      0;
     nConstrs  =     -1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FCPNrpsiavh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FCPNrpsiavh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfs < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nProps = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nProps = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nProps < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConstrs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConstrs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConstrs < 0 )
                 goto usage;
             break;
@@ -31217,41 +31491,42 @@ int Abc_CommandUnfold( Abc_Frame_t * pAbc, int argc, char ** argv )
     fStruct   =      0;
     fOldAlgo  =      0;
     fVerbose  =      0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FCPsavh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FCPsavh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfs < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nProps = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nProps = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nProps < 0 )
                 goto usage;
             break;
@@ -31366,8 +31641,9 @@ int Abc_CommandFold( Abc_Frame_t * pAbc, int argc, char ** argv )
     fCompl    =   0;
     fVerbose  =   0;
     fSeqCleanup = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cvsh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "cvsh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -31454,8 +31730,9 @@ int Abc_CommandBm( Abc_Frame_t * pAbc, int argc, char ** argv )
     pOut = Abc_FrameReadOut(pAbc);
     pErr = Abc_FrameReadErr(pAbc);
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Ph" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Ph" ) ) != EOF )
     {
         switch ( c )
         {
@@ -31470,8 +31747,8 @@ int Abc_CommandBm( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( !Abc_NtkPrepareTwoNtks( pErr, pNtk, pArgvNew, nArgcNew , &pNtk1, &pNtk2, &fDelete1, &fDelete2, 1 ) )
         return 1;
 
@@ -31536,8 +31813,9 @@ int Abc_CommandBm2( Abc_Frame_t * pAbc, int argc, char ** argv )
     pOut = Abc_FrameReadOut(pAbc);
     pErr = Abc_FrameReadErr(pAbc);
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -31549,8 +31827,8 @@ int Abc_CommandBm2( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( !Abc_NtkPrepareTwoNtks( pErr, pNtk, pArgvNew, nArgcNew , &pNtk1, &pNtk2, &fDelete1, &fDelete2, 1 ) )
         return 1;
 
@@ -31646,34 +31924,35 @@ int Abc_CommandSaucy( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void saucyGateWay( Abc_Ntk_t * pNtk, Abc_Obj_t * pNodePo, FILE * gFile, int fBooleanMatching,
                               int fLookForSwaps, int fFixOutputs, int fFixInputs, int fQuiet, int fPrintTree);
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "OFiosqvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "OFiosqvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an output name or the keyword all.\n" );
                 goto usage;
             }
-            outputName = argv[globalUtilOptind];
-            if ( !strcmp(argv[globalUtilOptind], "all") )
+            outputName = argv[pOpt.optind];
+            if ( !strcmp(argv[pOpt.optind], "all") )
                 fOutputsOneAtTime ^= 1;
-            globalUtilOptind++;
+            pOpt.optind++;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a file name.\n" );
                 goto usage;
             }
-            if ( (gFile = fopen( argv[globalUtilOptind], "w" )) == NULL )
+            if ( (gFile = fopen( argv[pOpt.optind], "w" )) == NULL )
             {
-                Abc_Print( -1, "Cannot create output file \"%s\". ", argv[globalUtilOptind] );
+                Abc_Print( -1, "Cannot create output file \"%s\". ", argv[pOpt.optind] );
                 return 1;
             }
-            globalUtilOptind++;
+            pOpt.optind++;
             break;
         case 'i':
             fFixOutputs ^= 1;
@@ -31789,19 +32068,20 @@ int Abc_CommandTestCex( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     int nOutputs = 0;
     int fCheckAnd = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Oah" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Oah" ) ) != EOF )
     {
         switch ( c )
         {
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nOutputs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOutputs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nOutputs < 0 )
                 goto usage;
             break;
@@ -31894,127 +32174,128 @@ int Abc_CommandPdr( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pLogFileName = NULL;
     int c;
     Pdr_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "MFCDQTHGSLIaxrmuyfqipdegjonctkvwzhb" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "MFCDQTHGSLIaxrmuyfqipdegjonctkvwzhb" ) ) != EOF )
     {
         switch ( c )
         {
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRecycle = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRecycle = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRecycle < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFrameMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFrameMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFrameMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nConfLimit < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nConfGenLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nConfGenLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nConfGenLimit < 0 )
                 goto usage;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRestLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRestLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRestLimit < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOut < 0 )
                 goto usage;
             break;
         case 'H':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-H\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOutOne = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOutOne = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOutOne < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOutGap = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOutGap = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOutGap < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRandomSeed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRandomSeed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRandomSeed < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pPars->pInvFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pInvFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'a':
             pPars->fSolveAll ^= 1;
@@ -32195,8 +32476,9 @@ int Abc_CommandReconcile( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk1 = NULL, * pNtk2 = NULL;
     Aig_Man_t * pAig1 = NULL, * pAig2 = NULL;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -32208,7 +32490,7 @@ int Abc_CommandReconcile( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc != globalUtilOptind + 2 && argc != globalUtilOptind )
+    if ( argc != pOpt.optind + 2 && argc != pOpt.optind )
     {
         Abc_Print( 1,"Does not seen to have two files names as arguments.\n" );
         return 1;
@@ -32219,13 +32501,13 @@ int Abc_CommandReconcile( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
 
-    if ( argc == globalUtilOptind + 2 )
+    if ( argc == pOpt.optind + 2 )
     {
         // derive networks
-        pNtk1 = Io_Read( argv[globalUtilOptind], Io_ReadFileType(argv[globalUtilOptind]), 1, 0 );
+        pNtk1 = Io_Read( argv[pOpt.optind], Io_ReadFileType(argv[pOpt.optind]), 1, 0 );
         if ( pNtk1 == NULL )
             return 1;
-        pNtk2 = Io_Read( argv[globalUtilOptind+1], Io_ReadFileType(argv[globalUtilOptind+1]), 1, 0 );
+        pNtk2 = Io_Read( argv[pOpt.optind+1], Io_ReadFileType(argv[pOpt.optind+1]), 1, 0 );
         if ( pNtk2 == NULL )
         {
             Abc_NtkDelete( pNtk1 );
@@ -32235,7 +32517,7 @@ int Abc_CommandReconcile( Abc_Frame_t * pAbc, int argc, char ** argv )
         pAig1 = Abc_NtkToDar( pNtk1, 0, 0 );
         pAig2 = Abc_NtkToDar( pNtk2, 0, 0 );
     }
-    else if ( argc == globalUtilOptind )
+    else if ( argc == pOpt.optind )
     {
         if ( pAbc->pNtkCur == NULL )
         {
@@ -32304,8 +32586,9 @@ usage:
 int Abc_CommandCexSave( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -32345,8 +32628,9 @@ usage:
 int Abc_CommandCexLoad( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -32396,30 +32680,31 @@ int Abc_CommandCexCut( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fUseOne     = 0;
     int fAllFrames  = 0;
     int fVerbose    = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FGcnmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FGcnmvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iFrStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iFrStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iFrStart < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iFrStop = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iFrStop = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iFrStop < 0 )
                 goto usage;
             break;
@@ -32518,30 +32803,31 @@ int Abc_CommandCexMerge( Abc_Frame_t * pAbc, int argc, char ** argv )
     int iFrStart = 0;
     int iFrStop  = ABC_INFINITY;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FGvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FGvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iFrStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iFrStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iFrStart < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iFrStop = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iFrStop = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iFrStop < 0 )
                 goto usage;
             break;
@@ -32612,30 +32898,31 @@ int Abc_CommandCexMin( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nConfLimit = 1000;
     int nRounds    =    1;
     int fVerbose   =    0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CRvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CRvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRounds < 0 )
                 goto usage;
             break;
@@ -32730,19 +33017,20 @@ int Abc_CommandDualRail( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fCheckZero = 0;
     int fCheckOne  = 0;
     int fVerbose   = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Itxfczovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Itxfczovh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nDualPis = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDualPis = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nDualPis < 0 )
                 goto usage;
             break;
@@ -32839,19 +33127,20 @@ int Abc_CommandBlockPo( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     int nCycles = 0;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Fvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Fvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCycles = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCycles = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCycles < 0 )
                 goto usage;
             break;
@@ -32922,8 +33211,9 @@ int Abc_CommandIso( Abc_Frame_t * pAbc, int argc, char ** argv )
     Aig_Man_t * pAig, * pTemp;
     Vec_Ptr_t * vPosEquivs = NULL;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -32995,8 +33285,9 @@ int Abc_CommandTraceStart( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
     int c;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -33050,8 +33341,9 @@ int Abc_CommandTraceCheck( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
     int c;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -33151,8 +33443,9 @@ static inline int Abc_NtkCompareWithBest( Abc_Ntk_t * pBest, Abc_Ntk_t * p,
 int Abc_CommandAbcSave( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fArea = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ah" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ah" ) ) != EOF )
     {
         switch ( c )
         {
@@ -33206,8 +33499,9 @@ usage:
 int Abc_CommandAbcLoad( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -33264,8 +33558,9 @@ int Abc_CommandAbc9Read( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fSkipStrash = 0;
     int fNewReader = 0;
     int fDetectXors = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "csxmnlpvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "csxmnlpvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -33297,8 +33592,8 @@ int Abc_CommandAbc9Read( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "There is no file name.\n" );
@@ -33380,8 +33675,9 @@ int Abc_CommandAbc9ReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * FileName, * pTemp;
     int nArgcNew;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -33392,8 +33688,8 @@ int Abc_CommandAbc9ReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "There is no file name.\n" );
@@ -33451,19 +33747,20 @@ int Abc_CommandAbc9ReadCBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pModelName = NULL;
     int nArgcNew;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Mvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Mvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pModelName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pModelName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -33472,8 +33769,8 @@ int Abc_CommandAbc9ReadCBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "There is no file name.\n" );
@@ -33529,19 +33826,20 @@ int Abc_CommandAbc9ReadStg( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, nArgcNew;
     int kHot = 1;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Kvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Kvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            kHot = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            kHot = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( kHot < 1 || kHot > 5 )
                 goto usage;
             break;
@@ -33552,8 +33850,8 @@ int Abc_CommandAbc9ReadStg( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "There is no file name.\n" );
@@ -33603,8 +33901,9 @@ int Abc_CommandAbc9ReadVer( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileName, * pTemp;
     int nArgcNew;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -33615,8 +33914,8 @@ int Abc_CommandAbc9ReadVer( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "There is no file name.\n" );
@@ -33678,8 +33977,9 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pGia, * pTemp;
     char * pInits;
     int c, fGiaSimple = 0, fMapped = 0, fNames = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cmnvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "cmnvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -33796,8 +34096,9 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fUseBuffs    = 0;
     int c, fVerbose  = 0;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "seovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "seovh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -33938,8 +34239,9 @@ usage:
 int Abc_CommandAbc9MoveNames( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "nvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "nvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34032,8 +34334,9 @@ static inline int Gia_ManCompareWithBest( Gia_Man_t * pBest, Gia_Man_t * p, int 
 int Abc_CommandAbc9Save( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fArea = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ah" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ah" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34085,8 +34388,9 @@ usage:
 int Abc_CommandAbc9Save2( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fArea = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ah" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ah" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34138,8 +34442,9 @@ usage:
 int Abc_CommandAbc9SaveAig( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fClear = 0, fArea = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cah" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "cah" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34197,8 +34502,9 @@ usage:
 int Abc_CommandAbc9Load( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34240,8 +34546,9 @@ usage:
 int Abc_CommandAbc9Load2( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34287,8 +34594,9 @@ usage:
 int Abc_CommandAbc9LoadAig( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34334,19 +34642,20 @@ int Abc_CommandAbc9WriteVer( Abc_Frame_t * pAbc, int argc, char ** argv )
     char ** pArgvNew;
     int c, nArgcNew;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Svh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Svh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pFileSpec = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pFileSpec = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -34357,14 +34666,14 @@ int Abc_CommandAbc9WriteVer( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "Expecting output file name on the command line.\n" );
         return 1;
     }
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( pAbc->pNtkCur == NULL )
     {
         Abc_Print( -1, "There is no mapped file to write.\n" );
@@ -34425,8 +34734,9 @@ int Abc_CommandAbc9Write( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fReverse = 0;
     int fSkipComment = 0;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "upqicabmlnrsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "upqicabmlnrsvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34475,8 +34785,8 @@ int Abc_CommandAbc9Write( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "There is no file name.\n" );
@@ -34487,7 +34797,7 @@ int Abc_CommandAbc9Write( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9Write(): There is no AIG to write.\n" );
         return 1;
     }
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( fUnique )
     {
         Gia_Man_t * pGia = Gia_ManIsoCanonicize( pAbc->pGia, fVerbose );
@@ -34545,8 +34855,9 @@ int Abc_CommandAbc9WriteLut( Abc_Frame_t * pAbc, int argc, char ** argv )
     char ** pArgvNew;
     int c, nArgcNew;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34559,14 +34870,14 @@ int Abc_CommandAbc9WriteLut( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "There is no file name.\n" );
         return 1;
     }
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( pAbc->pGia == NULL )
     {
         Abc_Print( -1, "Abc_CommandAbc9WriteLut(): There is no AIG to write.\n" );
@@ -34605,8 +34916,9 @@ int Abc_CommandAbc9Ps( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gps_Par_t Pars, * pPars = &Pars;
     int c, fBest = 0;
     memset( pPars, 0, sizeof(Gps_Par_t) );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Dtpcnlmasozxbh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Dtpcnlmasozxbh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34644,13 +34956,13 @@ int Abc_CommandAbc9Ps( Abc_Frame_t * pAbc, int argc, char ** argv )
             pPars->fNoColor ^= 1;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pPars->pDumpFile = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pDumpFile = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'b':
             fBest ^= 1;
@@ -34716,19 +35028,20 @@ int Abc_CommandAbc9PFan( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
     int nNodes = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNodes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodes < 0 )
                 goto usage;
             break;
@@ -34769,8 +35082,9 @@ int Abc_CommandAbc9Pms( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Obj_t * pObj;
     int c, nSat = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34820,8 +35134,9 @@ int Abc_CommandAbc9PSig( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
     int fSetReset = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "rh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "rh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34869,8 +35184,9 @@ usage:
 int Abc_CommandAbc9Status( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -34913,19 +35229,20 @@ int Abc_CommandAbc9MuxProfile( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Acec_StatsCollect( Gia_Man_t * p, int fVerbose );
     extern void Acec_ManProfile( Gia_Man_t * p, int fVerbose );
     int c, fNpn = 0, fMuxes = 0, fAdders = 0, nLimit = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nnmavh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nnmavh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLimit < 0 )
                 goto usage;
             break;
@@ -34997,8 +35314,9 @@ int Abc_CommandAbc9MuxPos( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManDupWithMuxPos( Gia_Man_t * p );
     Gia_Man_t * pGia;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -35044,8 +35362,9 @@ int Abc_CommandAbc9MuxStr( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManCofStructure( Gia_Man_t * p );
     Gia_Man_t * pGia;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -35092,8 +35411,9 @@ int Abc_CommandAbc9MuxDec( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManPerformMuxDec( Gia_Man_t * p );
     Gia_Man_t * pGia;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -35143,30 +35463,31 @@ int Abc_CommandAbc9PrintTruth( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern word Gia_LutComputeTruth6Simple( Gia_Man_t * p, int iPo );
     int i, c, iOutNum = 0, nOutRange = -1, fVerbose = 0; word Truth;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ORvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ORvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iOutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iOutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iOutNum < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nOutRange = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOutRange = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nOutRange < 0 )
                 goto usage;
             break;
@@ -35230,8 +35551,9 @@ int Abc_CommandAbc9Unate( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Gia_ManCheckUnateTest( Gia_Man_t * p, int fComputeAll, int fVerbose );
     int c, fComputeAll = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "avh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "avh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -35283,8 +35605,9 @@ int Abc_CommandAbc9Rex2Gia( Abc_Frame_t * pAbc, int argc, char ** argv )
     char ** pArgvNew;
     int nArgcNew;
     int c, fOrder = 1, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "avh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "avh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -35300,8 +35623,8 @@ int Abc_CommandAbc9Rex2Gia( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "No regular expression is entered on the command line.\n" );
@@ -35344,30 +35667,31 @@ int Abc_CommandAbc9RexWalk( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Gia_ManAutomWalk( Gia_Man_t * p, int nSteps, int nWalks, int fVerbose );
     int c, nSteps = 50, nWalks = 5, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "SRvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "SRvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nSteps = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSteps = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSteps < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWalks = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWalks = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWalks < 0 )
                 goto usage;
             break;
@@ -35413,8 +35737,9 @@ int Abc_CommandAbc9Show( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Vec_Int_t * vBold = NULL;
     int c, fAdders = 0, fFadds = 0, fPath = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "afph" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "afph" ) ) != EOF )
     {
         switch ( c )
         {
@@ -35477,19 +35802,20 @@ usage:
 int Abc_CommandAbc9SetRegNum( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, nRegNum = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRegNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRegNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRegNum < 0 )
                 goto usage;
             break;
@@ -35549,30 +35875,31 @@ int Abc_CommandAbc9Strash( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fStrMuxes  = 0;
     int fRehashMap = 0;
     int fInvert    = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "LMbacmrsih" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "LMbacmrsih" ) ) != EOF )
     {
         switch ( c )
         {
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Limit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Limit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Limit < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Multi = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Multi = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Multi <= 0 )
                 goto usage;
             break;
@@ -35727,8 +36054,9 @@ int Abc_CommandAbc9Topand( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp;
     int c, fVerbose = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -35778,8 +36106,9 @@ int Abc_CommandAbc9Add1Hot( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp;
     int c, fVerbose = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -35826,52 +36155,53 @@ int Abc_CommandAbc9Cof( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp;
     int c, fVerbose = 0;
     int iVar = 0, Const = -1, nLimFan = 0, nVars = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "VCLNvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "VCLNvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iVar = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iVar = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iVar < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Const = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Const = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Const < 0 || Const > 1 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLimFan = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLimFan = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLimFan < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 0 )
                 goto usage;
             break;
@@ -35948,30 +36278,31 @@ int Abc_CommandAbc9Cofs( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManDupCofs( Gia_Man_t * p, Vec_Int_t * vVarNums );
     Gia_Man_t * pTemp;  Vec_Int_t * vVars = NULL;
     int c, iVar = 0, nVars = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "VNvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "VNvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iVar = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iVar = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iVar < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 0 )
                 goto usage;
             break;
@@ -35998,9 +36329,9 @@ int Abc_CommandAbc9Cofs( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( 0, "Cofactoring the first %d inputs.\n", nVars );
         vVars = Vec_IntStartNatural( nVars );
     }
-    else if ( globalUtilOptind < argc ) {
+    else if ( pOpt.optind < argc ) {
         vVars = Vec_IntAlloc( argc );
-        for ( c = globalUtilOptind; c < argc; c++ )
+        for ( c = pOpt.optind; c < argc; c++ )
             Vec_IntPush( vVars, atoi(argv[c]) );
     }
     else {
@@ -36043,19 +36374,20 @@ int Abc_CommandAbc9Trim( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fDualOut = 0;
     int fPoFedByPi = 0;
     int fPoFedByPo = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Viocpdh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Viocpdh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer.\n" );
                 goto usage;
             }
-            OutValue = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            OutValue = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( OutValue < 0 )
                 goto usage;
             break;
@@ -36136,8 +36468,9 @@ int Abc_CommandAbc9Dfs( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fRevOuts = 0;
     int fLeveled = 0;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ncfolvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ncfolvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -36211,63 +36544,64 @@ int Abc_CommandAbc9Sim( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileName = NULL;
     int c;
     Gia_ManSimSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FWNTImvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FWNTImvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nIters < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->RandSeed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->RandSeed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->RandSeed < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeLimit < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pFileName = argv[pOpt.optind];
+            pOpt.optind++;
             if ( pFileName == NULL )
                 goto usage;
             break;
@@ -36347,52 +36681,53 @@ int Abc_CommandAbc9Sim2( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pGias[2]; FILE * pFile;
     char ** pArgvNew; int nArgcNew;
     int c, RetValue = 0, fVerbose = 0, nWords = 16, nRounds = 10, RandSeed = 1, TimeLimit = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WRNTvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WRNTvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRounds < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            RandSeed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            RandSeed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( RandSeed < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( TimeLimit < 0 )
                 goto usage;
             break;
@@ -36405,8 +36740,8 @@ int Abc_CommandAbc9Sim2( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew > 2 )
     {
         Abc_Print( -1, "Abc_CommandAbc9Cec(): Wrong number of command-line arguments.\n" );
@@ -36526,96 +36861,97 @@ int Abc_CommandAbc9Sim3( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     Ssw_RarSetDefaultParams( pPars );
     // parse command line
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FWBRSNTGgvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FWBRSNTGgvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFrames < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBinSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBinSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBinSize < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRounds < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRestart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRestart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRestart < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRandSeed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRandSeed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRandSeed < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeOut < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeOutGap = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeOutGap = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeOutGap < 0 )
                 goto usage;
             break;
@@ -36680,30 +37016,31 @@ int Abc_CommandAbc9MLGen( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileName = NULL;
     char ** pArgvNew;
     int nArgcNew;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WSbvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WSbvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Seed < 0 )
                 goto usage;
             break;
@@ -36730,8 +37067,8 @@ int Abc_CommandAbc9MLGen( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
     Vec_WrdFreeP( &pAbc->pGia->vSimsPi );
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew == 0 )
         printf( "Default file names will be used.\n" );
     else
@@ -36777,19 +37114,20 @@ int Abc_CommandAbc9MLTest( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pDumpFile = NULL;
     char ** pArgvNew;
     int nArgcNew;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Dvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Dvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pDumpFile = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pDumpFile = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -36811,8 +37149,8 @@ int Abc_CommandAbc9MLTest( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
     Vec_WrdFreeP( &pAbc->pGia->vSimsPi );
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "Abc_CommandAbc9MLTest(): Expecting data file name on the command line.\n" );
@@ -36849,19 +37187,20 @@ int Abc_CommandAbc9Iwls21Test( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pDumpFile = NULL;
     char ** pArgvNew;
     int nArgcNew;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Dvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Dvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pDumpFile = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pDumpFile = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -36872,8 +37211,8 @@ int Abc_CommandAbc9Iwls21Test( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew == 2 )
     {
         Gia_Man_t * pAig = Gia_AigerRead( pArgvNew[0], 0, 0, 0 );
@@ -36947,19 +37286,20 @@ int Abc_CommandAbc9ReadSim( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fOutputs = 0, nWords = 4, fTruth = 0, fReverse = 0, fVerbose = 0;
     char ** pArgvNew;
     int nArgcNew;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Wtrovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Wtrovh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords < 0 )
                 goto usage;
             break;
@@ -37004,8 +37344,8 @@ int Abc_CommandAbc9ReadSim( Abc_Frame_t * pAbc, int argc, char ** argv )
         pAbc->pGia->vSimsPo = Gia_ManSimPatSimOut( pAbc->pGia, pAbc->pGia->vSimsPi, 1 );
         return 0;
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "File name is not given on the command line.\n" );
@@ -37070,8 +37410,9 @@ int Abc_CommandAbc9WriteSim( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fOutputs = 0, fTrans = 0, fBool = 0, fVerbose = 0;
     char ** pArgvNew;
     int nArgcNew;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "otbvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "otbvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -37108,8 +37449,8 @@ int Abc_CommandAbc9WriteSim( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9WriteSim(): Does not have simulation information available.\n" );
         return 0;
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "File name is not given on the command line.\n" );
@@ -37196,8 +37537,9 @@ int Abc_CommandAbc9PrintSim( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Gia_ManSimProfile( Gia_Man_t * pGia );
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -37254,30 +37596,31 @@ int Abc_CommandAbc9GenSim( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Gia_ManPatDistImprove( Gia_Man_t * p, int fVerbose );
     extern void Gia_ManPatRareImprove( Gia_Man_t * p, int RareLimit, int fVerbose );
     int c, nWords = 4, nRare = -1, fDist = 0, fSatBased = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WRsdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WRsdvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRare = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRare = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRare < 0 )
                 goto usage;
             break;
@@ -37370,19 +37713,20 @@ int Abc_CommandAbc9SimRsb( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern int Gia_ManSimRsb( Gia_Man_t * p, int nCands, int fVerbose );
     int c, nCands = 32, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCands = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCands = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCands < 0 )
                 goto usage;
             break;
@@ -37438,19 +37782,20 @@ int Abc_CommandAbc9Resim( Abc_Frame_t * pAbc, int argc, char ** argv )
     Cec_ParSim_t Pars, * pPars = &Pars;
     int c, RetValue;
     Cec_ManSimSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Fmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Fmvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFrames < 0 )
                 goto usage;
             break;
@@ -37507,30 +37852,31 @@ int Abc_CommandAbc9SpecI( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fCheckMiter =     1;
     int fVerbose    =     0;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FCfmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FCfmvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBTLimit < 0 )
                 goto usage;
             break;
@@ -37587,63 +37933,64 @@ int Abc_CommandAbc9Equiv( Abc_Frame_t * pAbc, int argc, char ** argv )
     Cec_ParSim_t Pars, * pPars = &Pars;
     int c;
     Cec_ManSimSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WFRSTsmdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WFRSTsmdvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFrames < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRounds < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nNonRefines = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nNonRefines = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nNonRefines < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeLimit < 0 )
                 goto usage;
             break;
@@ -37712,63 +38059,64 @@ int Abc_CommandAbc9Equiv2( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fLatchOnly =    0;
     int fVerbose   =    0;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FCRTSxlvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FCRTSxlvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFramesMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfMax < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRounds < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( TimeLimit < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            TimeLimit2 = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            TimeLimit2 = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( TimeLimit2 < 0 )
                 goto usage;
             break;
@@ -37849,85 +38197,86 @@ int Abc_CommandAbc9Equiv3( Abc_Frame_t * pAbc, int argc, char ** argv )
     Ssw_RarPars_t Pars, * pPars = &Pars;
     int c;
     Ssw_RarSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FWBRSNTmxlvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FWBRSNTmxlvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFrames < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBinSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBinSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBinSize < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRounds < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRestart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRestart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRestart < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRandSeed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRandSeed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRandSeed < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeOut < 0 )
                 goto usage;
             break;
@@ -38018,85 +38367,86 @@ int Abc_CommandAbc9Semi( Abc_Frame_t * pAbc, int argc, char ** argv )
     Cec_ParSmf_t Pars, * pPars = &Pars;
     int c;
     Cec_ManSmfSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WRFSMCTmdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WRFSMCTmdvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRounds < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFrames < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nNonRefines = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nNonRefines = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nNonRefines < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMinOutputs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMinOutputs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMinOutputs < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeLimit < 0 )
                 goto usage;
             break;
@@ -38156,19 +38506,20 @@ int Abc_CommandAbc9Times( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp;
     int c, nTimes = 2, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimes < 0 )
                 goto usage;
             break;
@@ -38221,30 +38572,31 @@ int Abc_CommandAbc9Frames( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fNewAlgo = 0;
     int fInitSpecial = 0;
     Gia_ManFraSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FLsoibavh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FLsoibavh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFrames < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCofFanLit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCofFanLit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCofFanLit < 0 )
                 goto usage;
             break;
@@ -38325,19 +38677,20 @@ int Abc_CommandAbc9Retime( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     int nMaxIters = 100;
     int fVerbose  =   0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMaxIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMaxIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMaxIters < 0 )
                 goto usage;
             break;
@@ -38390,8 +38743,9 @@ int Abc_CommandAbc9Enable( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     int fRemove  = 0;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "rvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "rvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -38444,8 +38798,9 @@ int Abc_CommandAbc9Dc2( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp;
     int c, fVerbose = 0;
     int fUpdateLevel = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -38496,8 +38851,9 @@ int Abc_CommandAbc9Dsd( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp;
     int c, fVerbose = 0;
     int fUpdateLevel = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -38547,8 +38903,9 @@ int Abc_CommandAbc9Bidec( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp;
     int c, fVerbose = 0;
     int fUpdateLevel = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -38605,19 +38962,20 @@ int Abc_CommandAbc9Shrink( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c,fVerbose = 0;
     int fKeepLevel = 0;
     int nFanoutMax = 50;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nlvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nlvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a char string.\n" );
                 goto usage;
             }
-            nFanoutMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFanoutMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFanoutMax < 0 )
                 goto usage;
             break;
@@ -38684,30 +39042,31 @@ int Abc_CommandAbc9Fx( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fVerbose  =       0;
     int fVeryVerbose =       0;
     // set the defaults
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "NMrvwh")) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "NMrvwh")) != EOF )
     {
         switch (c)
         {
             case 'N':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                nNewNodesMax = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nNewNodesMax = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nNewNodesMax < 0 )
                     goto usage;
                 break;
             case 'M':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                LitCountMax = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                LitCountMax = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( LitCountMax < 0 )
                     goto usage;
                 break;
@@ -38774,19 +39133,20 @@ int Abc_CommandAbc9Extract( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nMultiSize = 3;
     int c, fAnds = 0;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "Kavh")) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "Kavh")) != EOF )
     {
         switch (c)
         {
             case 'K':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                     goto usage;
                 }
-                nMultiSize = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nMultiSize = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nMultiSize < 0 )
                     goto usage;
                 break;
@@ -38843,19 +39203,20 @@ int Abc_CommandAbc9Balance( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fKeepLevel   = 0;
     int c, fVerbose  = 0;
     int fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Ndaslvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Ndaslvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a char string.\n" );
                 goto usage;
             }
-            nNewNodesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNewNodesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNewNodesMax < 0 )
                 goto usage;
             break;
@@ -38932,30 +39293,31 @@ int Abc_CommandAbc9BalanceLut( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fOptArea     = 1;
     int c, fVerbose  = 0;
     int fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCnmravwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCnmravwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a char string.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a char string.\n" );
                 goto usage;
             }
-            nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutNum < 0 )
                 goto usage;
             break;
@@ -39030,41 +39392,42 @@ int Abc_CommandAbc9Resub( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nDivs        =  0;
     int c, fVerbose  =  0;
     int fVeryVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NSDvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NSDvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-N\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            nNodes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodes < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-S\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            nSupp = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSupp = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSupp < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            nDivs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDivs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nDivs < 0 )
                 goto usage;
             break;
@@ -39080,9 +39443,9 @@ int Abc_CommandAbc9Resub( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        pTemp = Gia_ManResub1( argv[globalUtilOptind], nNodes, nSupp, nDivs, 0, 0, fVerbose, fVeryVerbose );
+        pTemp = Gia_ManResub1( argv[pOpt.optind], nNodes, nSupp, nDivs, 0, 0, fVerbose, fVeryVerbose );
         Abc_FrameUpdateGia( pAbc, pTemp );
         return 0;
     }
@@ -39127,8 +39490,9 @@ int Abc_CommandAbc9Reshape( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fUseSimple   =  0;
     int c, fVerbose  =  0;
     int fVeryVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "asvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "asvwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -39194,19 +39558,20 @@ int Abc_CommandAbc9Syn2( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nRelaxRatio  = 20;
     int fDelayMin    =  0;
     int fVeryVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Rakmdvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Rakmdvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            nRelaxRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRelaxRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRelaxRatio < 0 )
                 goto usage;
             break;
@@ -39287,63 +39652,64 @@ int Abc_CommandAbc9Synch2( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     Dch_ManSetDefaultParams( pPars );
     pPars->nBTLimit = 100;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WCSKRfrvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WCSKRfrvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSatVarMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSatVarMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSatVarMax < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a char string.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            nRelaxRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRelaxRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRelaxRatio < 0 )
                 goto usage;
             break;
@@ -39402,8 +39768,9 @@ int Abc_CommandAbc9Syn3( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp;
     int c, fVerbose = 0;
     int fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -39453,8 +39820,9 @@ int Abc_CommandAbc9Syn4( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp;
     int c, fVerbose = 0;
     int fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -39507,30 +39875,31 @@ int Abc_CommandAbc9False( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nTimeOut = 0;
     int c, fVerbose = 0;
     int fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "STvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "STvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a char string.\n" );
                 goto usage;
             }
-            nSlackMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSlackMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSlackMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a char string.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut < 0 )
                 goto usage;
             break;
@@ -39598,19 +39967,20 @@ int Abc_CommandAbc9Miter( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fTransZ  = 0;
     int fWithCare= 0;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Idsptxyzcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Idsptxyzcvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a char string.\n" );
                 goto usage;
             }
-            nInsDup = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nInsDup = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nInsDup < 0 )
                 goto usage;
             break;
@@ -39695,8 +40065,8 @@ int Abc_CommandAbc9Miter( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "File name is not given on the command line.\n" );
@@ -39770,8 +40140,9 @@ int Abc_CommandAbc9Miter2( Abc_Frame_t * pAbc, int argc, char ** argv )
     char ** pArgvNew;
     int nArgcNew;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -39784,8 +40155,8 @@ int Abc_CommandAbc9Miter2( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "File name is not given on the command line.\n" );
@@ -39850,8 +40221,9 @@ int Abc_CommandAbc9Append( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nArgcNew;
     int c, fShareCis = 0;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ivh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -39868,8 +40240,8 @@ int Abc_CommandAbc9Append( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "File name is not given on the command line.\n" );
@@ -39936,8 +40308,9 @@ int Abc_CommandAbc9Scl( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fEquiv = 1;
     int fVerbose = 0;
     int fVerboseFlops = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cevwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "cevwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -40011,52 +40384,53 @@ int Abc_CommandAbc9Lcorr( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     Cec_ManCorSetDefaultParams( pPars );
     pPars->fLatchCorr = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FCPXrcvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FCPXrcvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFrames < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nPrefix = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nPrefix = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nPrefix < 0 )
                 goto usage;
             break;
         case 'X':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-X\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLimitMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLimitMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLimitMax < 0 )
                 goto usage;
             break;
@@ -40139,85 +40513,86 @@ int Abc_CommandAbc9Scorr( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fUseOld = 0, c;
     Cec_ManCorSetDefaultParams( pPars );
     pPars->nProcs = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FCGXPSZpkrecqowvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FCGXPSZpkrecqowvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFrames < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nPrefix = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nPrefix = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nPrefix < 0 )
                 goto usage;
             break;
         case 'X':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-X\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLimitMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLimitMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLimitMax < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nProcs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nProcs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nProcs < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nPartSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nPartSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nPartSize < 0 )
                 goto usage;
             break;            
         case 'Z':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Z\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFlopIncFreq = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFlopIncFreq = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFlopIncFreq < 0 )
                 goto usage;
             break;            
@@ -40351,19 +40726,20 @@ int Abc_CommandAbc9Choice( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp;
     int c;
     Cec_ManChcSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Ccvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Ccvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
@@ -40416,63 +40792,64 @@ int Abc_CommandAbc9Sat( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     int fNewSolver = 0, fNewSolver2 = 0, fCSat = 0, f0Proved = 0, nRestarts = 1;
     Cec_ManSatSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "JCRSNanmtcxyzvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "JCRSNanmtcxyzvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'J':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-J\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->SolverType = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->SolverType = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->SolverType < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRestarts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRestarts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRestarts < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSatVarMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSatVarMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSatVarMax < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nCallsRecycle = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCallsRecycle = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCallsRecycle < 0 )
                 goto usage;
             break;
@@ -40578,30 +40955,31 @@ int Abc_CommandAbc9SatEnum( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern int Gia_ManSatEnum( Gia_Man_t * p, int nConfLimit, int nTimeOut, int fVerbose );
     int c, nConfLimit = 0, nTimeOut = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CTvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CTvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut < 0 )
                 goto usage;
             break;
@@ -40650,74 +41028,75 @@ int Abc_CommandAbc9AdvGenSim( Abc_Frame_t * pAbc, int argc, char ** argv )
     Cec_ParSimGen_t ParsFra, * pPars = &ParsFra; Gia_Man_t * pTemp;
     int c;
     Cec_SimGenSetParDefault( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "EOStiFwvV" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "EOStiFwvV" ) ) != EOF )
     {
         switch ( c )
         {
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->expId = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->expId = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->expId < 0 )
                 goto usage;
             break;
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->bitwidthOutgold = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->bitwidthOutgold = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->bitwidthOutgold <= 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSimWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSimWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSimWords <= 0 )
                 goto usage;
             break;
         case 't':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-t\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->timeOutSim = atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->timeOutSim = atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->timeOutSim <= 0 )
                 goto usage;
             break;
         case 'i':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-i\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nMaxIter = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nMaxIter = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nMaxIter <= -2 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a string.\n" );
                 goto usage;
             }
-            pPars->pFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;  
         case 'w':
             pPars->fUseWatchlist = 1;
@@ -40788,129 +41167,130 @@ int Abc_CommandAbc9Fraig( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fUseAlgo = 0, fUseAlgoG = 0, fUseAlgoX = 0, fUseAlgoY = 0, fUseSave = 0, fUseIvy = 0, fUseProve = 0;
     int fCbs = 1, approxLim = 600, subBatchSz = 1, adaRecycle = 500, nMaxNodes = 0;
     Cec4_ManSetParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "JWRILDCNPMFrmdckngxysopwqvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "JWRILDCNPMFrmdckngxysopwqvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'J':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-J\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->jType = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->jType = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->jType < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRounds < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nItersMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nItersMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nItersMax < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLevelMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLevelMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLevelMax < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nDepthMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nDepthMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nDepthMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nCallsRecycle = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCallsRecycle = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCallsRecycle < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nGenIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nGenIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nGenIters < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMaxNodes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMaxNodes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMaxNodes < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->pDumpName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pDumpName = argv[pOpt.optind];
+            pOpt.optind++;
             break;            
         case 'r':
             pPars->fRewriting ^= 1;
@@ -41042,30 +41422,31 @@ int Abc_CommandAbc9CFraig( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     Ssc_Pars_t Pars, * pPars = &Pars;
     Ssc_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WCacvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WCacvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
@@ -41127,19 +41508,20 @@ int Abc_CommandAbc9Srm( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fSkipSome = 0;
     int fDualOut = 0;
     int fComb = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Adrsfcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Adrsfcvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pFileNameIn = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pFileNameIn = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'd':
             fDualOut ^= 1;
@@ -41243,8 +41625,9 @@ int Abc_CommandAbc9Srm2( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp, * pAux;
     int fLatchA = 0, fLatchB = 0;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "abvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "abvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -41273,14 +41656,14 @@ int Abc_CommandAbc9Srm2( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Equivalences are not defined.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 2 )
+    if ( argc != pOpt.optind + 2 )
     {
         Abc_Print( -1, "Abc_CommandAbc9Srm2(): Expecting two file names on the command line.\n" );
         return 1;
     }
     // get the input file name
-    pFileName1 = argv[globalUtilOptind];
-    pFileName2 = argv[globalUtilOptind+1];
+    pFileName1 = argv[pOpt.optind];
+    pFileName2 = argv[pOpt.optind+1];
     // create file name
     sprintf(pFileName,  "gsrm.aig" );
     pTemp = Gia_ManDup( pAbc->pGia );
@@ -41339,8 +41722,9 @@ int Abc_CommandAbc9Filter( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileName1 = NULL, * pFileName2 = NULL;
     int fFlopsOnly = 0, fFlopsWith = 0, fUseRiDrivers = 0;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "fgivh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "fgivh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -41372,7 +41756,7 @@ int Abc_CommandAbc9Filter( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Equivalences are not defined.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind && argc != globalUtilOptind + 2 )
+    if ( argc != pOpt.optind && argc != pOpt.optind + 2 )
     {
         Abc_Print( -1, "Abc_CommandAbc9Srm2(): Expecting two file names on the command line.\n" );
         return 1;
@@ -41381,10 +41765,10 @@ int Abc_CommandAbc9Filter( Abc_Frame_t * pAbc, int argc, char ** argv )
     if ( fFlopsOnly ^ fFlopsWith )
         Gia_ManFilterEquivsUsingLatches( pAbc->pGia, fFlopsOnly, fFlopsWith, fUseRiDrivers );
     // get the input file name
-    if ( argc == globalUtilOptind + 2 )
+    if ( argc == pOpt.optind + 2 )
     {
-        pFileName1 = argv[globalUtilOptind];
-        pFileName2 = argv[globalUtilOptind+1];
+        pFileName1 = argv[pOpt.optind];
+        pFileName2 = argv[pOpt.optind+1];
         if ( !Gia_ManFilterEquivsUsingParts( pAbc->pGia, pFileName1, pFileName2 ) )
         {
             Abc_Print( -1, "Filtering equivalences using PartA and PartB has failed.\n" );
@@ -41422,8 +41806,9 @@ int Abc_CommandAbc9Reduce( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fVerbose = 0;
     int fUseAll = 0;
     int fDualOut = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "advh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "advh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -41485,8 +41870,9 @@ int Abc_CommandAbc9EquivMark( Abc_Frame_t * pAbc, int argc, char ** argv )
     char * pFileName;
     int c, fVerbose = 0;
     int fSkipSome = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "fvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "fvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -41507,10 +41893,10 @@ int Abc_CommandAbc9EquivMark( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9EquivMark(): There is no AIG.\n" );
         return 1;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     // mark equivalences
     Gia_ManEquivMark( pAbc->pGia, pFileName, fSkipSome, fVerbose );
     return 0;
@@ -41548,8 +41934,9 @@ int Abc_CommandAbc9EquivFilter( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Gia_ManEquivFilter( Gia_Man_t * p, Vec_Int_t * vPoIds, int fVerbose );
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -41598,30 +41985,31 @@ int Abc_CommandAbc9Cec( Abc_Frame_t * pAbc, int argc, char ** argv )
     char ** pArgvNew;
     int c, nArgcNew, fUseSim = 0, fUseNewX = 0, fUseNewY = 0, fMiter = 0, fDualOutput = 0, fDumpMiter = 0;
     Cec_ManCecSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CTnmdasxytvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CTnmdasxytvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeLimit < 0 )
                 goto usage;
             break;
@@ -41666,8 +42054,8 @@ int Abc_CommandAbc9Cec( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( 0, "It looks like the current AIG is derived by &st -m.  Such AIG contains XOR gates and cannot be verified before &st is applied.\n" );
         return 1;
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( fMiter )
     {
         if ( pAbc->pGia == NULL || nArgcNew != 0 )
@@ -41926,30 +42314,31 @@ int Abc_CommandAbc9ICec( Abc_Frame_t * pAbc, int argc, char ** argv )
     char ** pArgvNew;
     int c, nArgcNew, fUseNew = 0, fDumpMiter = 0;
     Cec_ManCecSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CTaxvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CTaxvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeLimit < 0 )
                 goto usage;
             break;
@@ -41971,8 +42360,8 @@ int Abc_CommandAbc9ICec( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew > 2 )
     {
         Abc_Print( -1, "Abc_CommandAbc9Cec(): Wrong number of command-line arguments.\n" );
@@ -42107,30 +42496,31 @@ int Abc_CommandAbc9Verify( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     char * pFileSpec = NULL;
     int c, nBTLimit = 1000, nTimeLim = 0, fSeq = 0, fDumpFiles = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CTsdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CTsdvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBTLimit < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeLim = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeLim = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeLim < 0 )
                 goto usage;
             break;
@@ -42149,9 +42539,9 @@ int Abc_CommandAbc9Verify( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        pFileSpec = argv[globalUtilOptind];
+        pFileSpec = argv[pOpt.optind];
         Extra_FileNameCorrectPath( pFileSpec );
         printf( "Taking spec from file \"%s\".\n", pFileSpec );
     }
@@ -42188,41 +42578,42 @@ int Abc_CommandAbc9Sweep( Abc_Frame_t * pAbc, int argc, char ** argv )
     Dch_Pars_t Pars, * pPars = &Pars;
     int c;
     Dch_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WCStvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WCStvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSatVarMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSatVarMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSatVarMax < 0 )
                 goto usage;
             break;
@@ -42285,19 +42676,20 @@ int Abc_CommandAbc9Force( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fClustered =  1;
     int fVerbose   =  1;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Icvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Icvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
@@ -42356,30 +42748,31 @@ int Abc_CommandAbc9Embed( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->fDumpLarge =  0;
     pPars->fShowImage =  0;
     pPars->fVerbose   =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "DIrcdlsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "DIrcdlsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nDims = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nDims = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nDims < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nIters < 0 )
                 goto usage;
             break;
@@ -42451,52 +42844,53 @@ int Abc_CommandAbc9Sopb( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nCutNum     = 8;
     int nRelaxRatio = 0;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "LWCRvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "LWCRvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLevelMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevelMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLevelMax < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeWindow = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeWindow = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeWindow < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutNum < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRelaxRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRelaxRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRelaxRatio < 0 )
                 goto usage;
             break;
@@ -42553,63 +42947,64 @@ int Abc_CommandAbc9Dsdb( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nCutNum     = 8;
     int nRelaxRatio = 0;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "LWKCRvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "LWKCRvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLevelMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevelMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLevelMax < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeWindow = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeWindow = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeWindow < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
          case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutNum < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRelaxRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRelaxRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRelaxRatio < 0 )
                 goto usage;
             break;
@@ -42676,30 +43071,31 @@ int Abc_CommandAbc9Flow( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fMinAve     =  0;
     int fUseMfs     =  0;
     int c, fVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCtmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCtmvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
          case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutNum < 0 )
                 goto usage;
             break;
@@ -42758,30 +43154,31 @@ int Abc_CommandAbc9Flow2( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fMinAve     =  0;
     int fUseMfs     =  0;
     int c, fVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCbtmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCbtmvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
          case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutNum < 0 )
                 goto usage;
             break;
@@ -42845,30 +43242,31 @@ int Abc_CommandAbc9Flow3( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fUseMfs     =  1;
     int fUseLutLib  =  0;
     int c, fVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCbtmlvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCbtmlvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
          case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutNum < 0 )
                 goto usage;
             break;
@@ -42946,153 +43344,154 @@ int Abc_CommandAbc9If( Abc_Frame_t * pAbc, int argc, char ** argv )
         pAbc->pLibLut = If_LibLutSetSimple( 6 );
     }
     pPars->pLutLib = (If_LibLut_t *)pAbc->pLibLut;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCFAGRDEWSJTXYZqalepmrsdbgxyofuijkztncvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCFAGRDEWSJTXYZqalepmrsdbgxyofuijkztncvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 0 )
                 goto usage;
             // if the LUT size is specified, disable library
             pPars->pLutLib = NULL;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nCutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutsMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nFlowIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFlowIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFlowIters < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nAreaIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nAreaIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nAreaIters < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by a positive integer no less than 3.\n" );
                 goto usage;
             }
-            pPars->nGateSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nGateSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nGateSize < 2 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            pPars->nRelaxRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRelaxRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRelaxRatio < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a positive integer 0,1,or 2.\n" );
                 goto usage;
             }
-            pPars->nStructType = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nStructType = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nStructType < 0 || pPars->nStructType > 2 )
                 goto usage;
             break;
         case 'X':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-X\" should be followed by a positive integer 0,1,or 2.\n" );
                 goto usage;
             }
-            pPars->nAndDelay = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nAndDelay = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nAndArea < 0 )
                 goto usage;
             break;
         case 'Y':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Y\" should be followed by a positive integer 0,1,or 2.\n" );
                 goto usage;
             }
-            pPars->nAndArea = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nAndArea = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nAndDelay < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->DelayTarget = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DelayTarget = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DelayTarget <= 0.0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->Epsilon = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->Epsilon = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->Epsilon < 0.0 || pPars->Epsilon > 1.0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->WireDelay = (float)atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->WireDelay = (float)atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->WireDelay < 0.0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by string.\n" );
                 goto usage;
             }
-            pPars->pLutStruct = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pLutStruct = argv[pOpt.optind];
+            pOpt.optind++;
             if ( strlen(pPars->pLutStruct) != 2 && strlen(pPars->pLutStruct) != 3 )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a 2- or 3-char string (e.g. \"44\" or \"555\").\n" );
@@ -43100,14 +43499,14 @@ int Abc_CommandAbc9If( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'J':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by string.\n" );
                 goto usage;
             }
-            pPars->pLutStruct = argv[globalUtilOptind];
+            pPars->pLutStruct = argv[pOpt.optind];
             pPars->fEnableStructN = 1;
-            globalUtilOptind++;
+            pOpt.optind++;
             if ( strlen(pPars->pLutStruct) != 2 )
             {
                 Abc_Print( -1, "Command line switch \"-J\" should be followed by a 2-char string (e.g. \"44\" or \"55\").\n" );
@@ -43115,14 +43514,14 @@ int Abc_CommandAbc9If( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'Z':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Z\" should be followed by a positive integer 3, 4, 5, or 6.\n" );
                 goto usage;
             }
-            pPars->nLutDecSize = atoi(argv[globalUtilOptind]);
+            pPars->nLutDecSize = atoi(argv[pOpt.optind]);
             pPars->fUserLutDec = 1;
-            globalUtilOptind++;
+            pOpt.optind++;
             if ( pPars->nLutDecSize < 3 || pPars->nLutDecSize > 6 )
                 goto usage;
             break;
@@ -43596,8 +43995,9 @@ int Abc_CommandAbc9Iff( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Gia_ManIffTest( Gia_Man_t * pGia, If_LibLut_t * pLib, int fVerbose );
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -43658,28 +44058,29 @@ int Abc_CommandAbc9Iiff( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fUseLuts     =  0;
     int c, fVerbose  =  0;
     Gia_Man_t * pNew;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCgclvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCgclvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nNumCuts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNumCuts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'g':
             fUseGates ^= 1;
@@ -43699,8 +44100,8 @@ int Abc_CommandAbc9Iiff( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 1 )
-        pFileName = argv[globalUtilOptind];
+    if ( argc == pOpt.optind + 1 )
+        pFileName = argv[pOpt.optind];
     if ( pAbc->pGia == NULL )
     {
         Abc_Print( -1, "Abc_CommandAbc9Iiff(): There is no AIG to map.\n" );
@@ -43752,19 +44153,20 @@ int Abc_CommandAbc9If2( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, nLutSize = 6;
     // set defaults
     Mpm_ManSetParsDefault( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCDtmzrcuxvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCDtmzrcuxvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 2 || nLutSize > 16 )
             {
                 Abc_Print( -1, "LUT size %d is not supported.\n", nLutSize );
@@ -43772,24 +44174,24 @@ int Abc_CommandAbc9If2( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nNumCuts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nNumCuts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nNumCuts < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->DelayTarget = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DelayTarget = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DelayTarget <= 0.0 )
                 goto usage;
             break;
@@ -43926,19 +44328,20 @@ int Abc_CommandAbc9Sif( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManSifPerform( Gia_Man_t * p, int nLutSize, int fEvalOnly, int fVerbose );
     Gia_Man_t * pNew;
     int c, nLutSize = 6, fEvalOnly = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Kevh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Kevh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 2 || nLutSize > 16 )
             {
                 Abc_Print( -1, "LUT size %d is not supported.\n", nLutSize );
@@ -43993,19 +44396,20 @@ int Abc_CommandAbc9Jf( Abc_Frame_t * pAbc, int argc, char ** argv )
     Jf_Par_t Pars, * pPars = &Pars;
     Gia_Man_t * pNew; int c;
     Jf_ManSetDefaultPars( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCDWaekmdcgvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCDWaekmdcgvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 2 || pPars->nLutSize > pPars->nLutSizeMax )
             {
                 Abc_Print( -1, "LUT size %d is not supported.\n", pPars->nLutSize );
@@ -44013,13 +44417,13 @@ int Abc_CommandAbc9Jf( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutNum < 1 || pPars->nCutNum > pPars->nCutNumMax )
             {
                 Abc_Print( -1, "This number of cuts (%d) is not supported.\n", pPars->nCutNum );
@@ -44027,24 +44431,24 @@ int Abc_CommandAbc9Jf( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->DelayTarget = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DelayTarget = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DelayTarget <= 0.0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nVerbLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nVerbLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nVerbLimit < 0 )
                 goto usage;
             break;
@@ -44155,19 +44559,20 @@ int Abc_CommandAbc9Kf( Abc_Frame_t * pAbc, int argc, char ** argv )
     Jf_Par_t Pars, * pPars = &Pars;
     Gia_Man_t * pNew; int c;
     Kf_ManSetDefaultPars( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCPDWaekmdcgtsvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCPDWaekmdcgtsvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 2 || pPars->nLutSize > pPars->nLutSizeMax )
             {
                 Abc_Print( -1, "LUT size %d is not supported.\n", pPars->nLutSize );
@@ -44175,13 +44580,13 @@ int Abc_CommandAbc9Kf( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutNum < 1 || pPars->nCutNum > pPars->nCutNumMax )
             {
                 Abc_Print( -1, "This number of cuts (%d) is not supported.\n", pPars->nCutNum );
@@ -44189,35 +44594,35 @@ int Abc_CommandAbc9Kf( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nProcNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nProcNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nProcNum < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->DelayTarget = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DelayTarget = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DelayTarget <= 0.0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nVerbLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nVerbLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nVerbLimit < 0 )
                 goto usage;
             break;
@@ -44319,19 +44724,20 @@ int Abc_CommandAbc9Lf( Abc_Frame_t * pAbc, int argc, char ** argv )
     Jf_Par_t Pars, * pPars = &Pars;
     Gia_Man_t * pNew; int c;
     Lf_ManSetDefaultPars( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCFARLEDWMekmupstgvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCFARLEDWMekmupstgvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 2 || pPars->nLutSize > pPars->nLutSizeMax )
             {
                 Abc_Print( -1, "LUT size %d is not supported.\n", pPars->nLutSize );
@@ -44339,13 +44745,13 @@ int Abc_CommandAbc9Lf( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutNum < 1 || pPars->nCutNum > pPars->nCutNumMax )
             {
                 Abc_Print( -1, "This number of cuts (%d) is not supported.\n", pPars->nCutNum );
@@ -44353,90 +44759,90 @@ int Abc_CommandAbc9Lf( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRounds < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nRoundsEla = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRoundsEla = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRoundsEla < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            pPars->nRelaxRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRelaxRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRelaxRatio < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            pPars->nCoarseLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCoarseLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCoarseLimit < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-E\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            pPars->nAreaTuner = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nAreaTuner = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nAreaTuner < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->DelayTarget = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DelayTarget = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DelayTarget <= 0.0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nVerbLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nVerbLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nVerbLimit < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nLutSizeMux = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSizeMux = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSizeMux < 2 || pPars->nLutSizeMux > pPars->nLutSizeMax )
             {
                 Abc_Print( -1, "LUT size %d is not supported.\n", pPars->nLutSizeMux );
@@ -44564,19 +44970,20 @@ int Abc_CommandAbc9Mf( Abc_Frame_t * pAbc, int argc, char ** argv )
     Jf_Par_t Pars, * pPars = &Pars;
     Gia_Man_t * pNew; int c;
     Mf_ManSetDefaultPars( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCFARLEDWaekmclgvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCFARLEDWaekmclgvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 2 || pPars->nLutSize > pPars->nLutSizeMax )
             {
                 Abc_Print( -1, "LUT size %d is not supported.\n", pPars->nLutSize );
@@ -44584,13 +44991,13 @@ int Abc_CommandAbc9Mf( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutNum < 1 || pPars->nCutNum > pPars->nCutNumMax )
             {
                 Abc_Print( -1, "This number of cuts (%d) is not supported.\n", pPars->nCutNum );
@@ -44598,79 +45005,79 @@ int Abc_CommandAbc9Mf( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRounds < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nRoundsEla = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRoundsEla = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRoundsEla < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            pPars->nRelaxRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRelaxRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRelaxRatio < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            pPars->nCoarseLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCoarseLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCoarseLimit < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-E\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            pPars->nAreaTuner = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nAreaTuner = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nAreaTuner < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->DelayTarget = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DelayTarget = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DelayTarget <= 0.0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nVerbLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nVerbLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nVerbLimit < 0 )
                 goto usage;
             break;
@@ -44772,19 +45179,20 @@ int Abc_CommandAbc9Nf( Abc_Frame_t * pAbc, int argc, char ** argv )
     Jf_Par_t Pars, * pPars = &Pars;
     Gia_Man_t * pNew; int c;
     Nf_ManSetDefaultPars( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCFARLEDQWZakpqfvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCFARLEDQWZakpqfvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 2 || pPars->nLutSize > pPars->nLutSizeMax )
             {
                 Abc_Print( -1, "LUT size %d is not supported.\n", pPars->nLutSize );
@@ -44792,13 +45200,13 @@ int Abc_CommandAbc9Nf( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutNum < 1 || pPars->nCutNum > pPars->nCutNumMax )
             {
                 Abc_Print( -1, "This number of cuts (%d) is not supported.\n", pPars->nCutNum );
@@ -44806,101 +45214,101 @@ int Abc_CommandAbc9Nf( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRounds < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nRoundsEla = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRoundsEla = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRoundsEla < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by an integer number.\n" );
                 return 0;
             }
-            pPars->nRelaxRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRelaxRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRelaxRatio < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by an integer number.\n" );
                 return 0;
             }
-            pPars->nCoarseLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCoarseLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCoarseLimit < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-E\" should be followed by an integer number.\n" );
                 return 0;
             }
-            pPars->nAreaTuner = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nAreaTuner = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nAreaTuner < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer number.\n" );
                 goto usage;
             }
-            pPars->DelayTarget = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DelayTarget = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DelayTarget <= 0 )
                 goto usage;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer number.\n" );
                 goto usage;
             }
-            pPars->nReqTimeFlex = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nReqTimeFlex = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nReqTimeFlex < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nVerbLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nVerbLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nVerbLimit < 0 )
                 goto usage;
             break;
         case 'Z':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Z\" should be followed by an output file name.\n" );
                 goto usage;
             }
-            pPars->ZFile = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->ZFile = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'a':
             pPars->fAreaOnly ^= 1;
@@ -44997,19 +45405,20 @@ int Abc_CommandAbc9Of( Abc_Frame_t * pAbc, int argc, char ** argv )
     Jf_Par_t Pars, * pPars = &Pars;
     Gia_Man_t * pNew; int c;
     Of_ManSetDefaultPars( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KCFARLEDNMQekmpgtvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KCFARLEDNMQekmpgtvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 2 || pPars->nLutSize > pPars->nLutSizeMax )
             {
                 Abc_Print( -1, "LUT size %d is not supported.\n", pPars->nLutSize );
@@ -45017,13 +45426,13 @@ int Abc_CommandAbc9Of( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutNum < 1 || pPars->nCutNum > pPars->nCutNumMax )
             {
                 Abc_Print( -1, "This number of cuts (%d) is not supported.\n", pPars->nCutNum );
@@ -45031,101 +45440,101 @@ int Abc_CommandAbc9Of( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRounds < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nRoundsEla = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRoundsEla = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRoundsEla < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            pPars->nRelaxRatio = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRelaxRatio = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRelaxRatio < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-R\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            pPars->nCoarseLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCoarseLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCoarseLimit < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( 1, "Command line switch \"-E\" should be followed by a floating point number.\n" );
                 return 0;
             }
-            pPars->nAreaTuner = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nAreaTuner = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nAreaTuner < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a floating point number.\n" );
                 goto usage;
             }
-            pPars->DelayTarget = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->DelayTarget = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->DelayTarget <= 0.0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nDelayLut1 = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nDelayLut1 = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nDelayLut1 < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nDelayLut2 = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nDelayLut2 = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nDelayLut2 < 0 )
                 goto usage;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            pPars->nFastEdges = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFastEdges = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFastEdges < 0 )
                 goto usage;
             break;
@@ -45225,19 +45634,20 @@ int Abc_CommandAbc9Simap( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Mio_IntallSimpleLibrary();
     extern int Gia_ManSimpleMapping( Gia_Man_t * p, int nBound, int Seed, int nBTLimit, int nTimeout, int fVerbose, int fKeepFile, int argc, char ** argv );
     int c, Seed = 0, nBTLimit = 0, nBound = 0, nTimeout = 0, fKeepFile = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "BRCTfvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "BRCTfvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nBound = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBound = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBound < 0 )
             {
                 Abc_Print( -1, "Bound on a solution should be a positive integer.\n" );
@@ -45245,22 +45655,22 @@ int Abc_CommandAbc9Simap( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBTLimit < 0 )
             {
                 Abc_Print( -1, "Conflict limit should be a positive integer.\n" );
@@ -45268,13 +45678,13 @@ int Abc_CommandAbc9Simap( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nTimeout = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeout = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;            
         case 'f':
             fKeepFile ^= 1;
@@ -45327,19 +45737,20 @@ int Abc_CommandAbc9Exmap( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManKSatMapping( word Truth, int nIns, int nNodes, int nBound, int Seed, int fMultiLevel, int nBTLimit, int nTimeout, int fVerbose, int fKeepFile, int argc, char ** argv, char * pGuide );
     Gia_Man_t * pTemp = NULL; char * pTruth = NULL, * pGuide = NULL; word Truth = 0;
     int c, nVars = 0, nNodes = 0, nVars2, Seed = 0, nBTLimit = 0, nBound = 0, fMultiLevel = 0, nTimeout = 0, fKeepFile = 0, fVerbose = 0; 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NBRCTSmfvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NBRCTSmfvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nNodes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodes < 0 )
             {
                 Abc_Print( -1, "Bound on a solution should be a positive integer.\n" );
@@ -45347,13 +45758,13 @@ int Abc_CommandAbc9Exmap( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nBound = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBound = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBound < 0 )
             {
                 Abc_Print( -1, "Bound on a solution should be a positive integer.\n" );
@@ -45361,22 +45772,22 @@ int Abc_CommandAbc9Exmap( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBTLimit < 0 )
             {
                 Abc_Print( -1, "Conflict limit should be a positive integer.\n" );
@@ -45384,22 +45795,22 @@ int Abc_CommandAbc9Exmap( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nTimeout = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeout = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;            
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pGuide = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pGuide = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'm':
             fMultiLevel ^= 1;
@@ -45415,12 +45826,12 @@ int Abc_CommandAbc9Exmap( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "Truth table should be given on the command line.\n" );
         return 1;
     }
-    pTruth = argv[globalUtilOptind];
+    pTruth = argv[pOpt.optind];
     nVars = Abc_Base2Log(4*strlen(pTruth));
     if ( (1 << nVars) != 4*strlen(pTruth) ) 
     {
@@ -45477,19 +45888,20 @@ int Abc_CommandAbc9Pack( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Gia_ManLutPacking( Gia_Man_t * p, int nBlock, int DelayRoute, int DelayDir, int fVerbose );
     int c, nBlock = 2, DelayRoute = 10, DelayDir = 2, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NRDvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NRDvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nBlock = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBlock = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBlock < 2 )
             {
                 Abc_Print( -1, "LUT block size (%d) should be more than 1.\n", nBlock );
@@ -45497,13 +45909,13 @@ int Abc_CommandAbc9Pack( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            DelayRoute = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            DelayRoute = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( DelayRoute <= 0 )
             {
                 Abc_Print( -1, "Rounting delay (%d) should be more than 0.\n", DelayRoute);
@@ -45511,13 +45923,13 @@ int Abc_CommandAbc9Pack( Abc_Frame_t * pAbc, int argc, char ** argv )
             }
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            DelayDir = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            DelayDir = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( DelayDir <= 0 )
             {
                 Abc_Print( -1, "Direct delay (%d) should be more than 0.\n", DelayRoute);
@@ -45578,46 +45990,47 @@ int Abc_CommandAbc9Edge( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Sle_ManExplore( Gia_Man_t * pGia, int nBTLimit, int DelayInit, int fDynamic, int fTwoEdges, int fVerbose );
 
     int c, nBTLimit = 0, DelayMax = 0, nFanouts = 0, nEdges = 1, fReverse = 0, fUsePack = 0, fUseOld = 0, fMapping = 0, fDynamic = 1, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CDFErpomdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CDFErpomdvh" ) ) != EOF )
     {
         switch ( c )
         {
             case 'C':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                     goto usage;
                 }
-                nBTLimit = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nBTLimit = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 break;
             case 'D':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-D\" should be followed by a positive integer.\n" );
                     goto usage;
                 }
-                DelayMax = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                DelayMax = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 break;
             case 'F':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-F\" should be followed by a positive integer.\n" );
                     goto usage;
                 }
-                nFanouts = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nFanouts = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 break;
             case 'E':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-E\" should be followed by a positive integer.\n" );
                     goto usage;
                 }
-                nEdges = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nEdges = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nEdges != 1 && nEdges != 2 )
                 {
                     Abc_Print( -1, "Edge limit (%d) should be 1 or 2.\n", nEdges );
@@ -45728,60 +46141,61 @@ int Abc_CommandAbc9SatLut( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Gia_ManLutSat( Gia_Man_t * p, int LutSize, int nNumber, int nImproves, int nBTLimit, int DelayMax, int nEdges, int fDelay, int fReverse, int fVerbose, int fVeryVerbose );
     int c, LutSize = 0, nNumber = 32, nImproves = 0, nBTLimit = 100, DelayMax = 0, nEdges = 0;
     int fDelay = 0, fReverse = 0, fVeryVerbose = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NICDQdrwvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NICDQdrwvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nNumber = atoi(argv[globalUtilOptind]);
+            nNumber = atoi(argv[pOpt.optind]);
             if ( nNumber > 128 )
             {
                 Abc_Print( -1, "The number of AIG nodes should not exceed 128.\n" );
                 goto usage;
             }
-            globalUtilOptind++;
+            pOpt.optind++;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nImproves = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nImproves = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            DelayMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            DelayMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nEdges = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nEdges = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'd':
             fDelay ^= 1;
@@ -45849,8 +46263,9 @@ int Abc_CommandAbc9LNetRead( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Vec_WrdReadTest( char * pFileName );
     extern void Gia_ManReadSimInfoInputs( char * pFileName, char * pFileOut1, int fVerbose );
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -45862,17 +46277,17 @@ int Abc_CommandAbc9LNetRead( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind + 2 ) // read 1 file, write 1 file
+    if ( argc == pOpt.optind + 2 ) // read 1 file, write 1 file
     {
-        Gia_ManReadSimInfoInputs( argv[globalUtilOptind], argv[globalUtilOptind+1], fVerbose );
+        Gia_ManReadSimInfoInputs( argv[pOpt.optind], argv[pOpt.optind+1], fVerbose );
         return 0;
     }
-    if ( strstr(argv[globalUtilOptind], ".v") )
+    if ( strstr(argv[pOpt.optind], ".v") )
     {
-        Gia_Man_t * pNew = Vec_WrdReadTest( argv[globalUtilOptind] );
+        Gia_Man_t * pNew = Vec_WrdReadTest( argv[pOpt.optind] );
         if ( pNew == NULL )
         {
-            printf( "Cannot read network from file \"%s\".\n", argv[globalUtilOptind] );
+            printf( "Cannot read network from file \"%s\".\n", argv[pOpt.optind] );
             return 0;
         }
         Abc_FrameUpdateGia( pAbc, pNew );
@@ -45904,8 +46319,9 @@ int Abc_CommandAbc9LNetSim( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Gia_ManSimInfoPassTest( Gia_Man_t * p, char * pFileName, char * pFileName2, int fVerbose );
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -45922,12 +46338,12 @@ int Abc_CommandAbc9LNetSim( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Empty GIA network.\n" );
         return 1;
     }
-    if ( argc != globalUtilOptind + 2 )
+    if ( argc != pOpt.optind + 2 )
     {
         Abc_Print( -1, "Expecting two file names on the command line.\n" );
         return 1;
     }
-    Gia_ManSimInfoPassTest( pAbc->pGia, argv[globalUtilOptind], argv[globalUtilOptind+1], fVerbose );
+    Gia_ManSimInfoPassTest( pAbc->pGia, argv[pOpt.optind], argv[pOpt.optind+1], fVerbose );
     return 0;
 
 usage:
@@ -45955,19 +46371,20 @@ int Abc_CommandAbc9LNetEval( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Gia_ManSimInfoEval( Gia_Man_t * p, char * pFileName, char * pFileName2, int nOuts, int fVerbose );
     int c, nOuts = -1, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Ovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Ovh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nOuts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOuts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -45982,12 +46399,12 @@ int Abc_CommandAbc9LNetEval( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Empty GIA network.\n" );
         return 1;
     }
-    if ( argc != globalUtilOptind + 2 )
+    if ( argc != pOpt.optind + 2 )
     {
         Abc_Print( -1, "Expecting two file names on the command line.\n" );
         return 1;
     }
-    Gia_ManSimInfoEval( pAbc->pGia, argv[globalUtilOptind], argv[globalUtilOptind+1], nOuts, fVerbose );
+    Gia_ManSimInfoEval( pAbc->pGia, argv[pOpt.optind], argv[pOpt.optind+1], nOuts, fVerbose );
     return 0;
 
 usage:
@@ -46019,46 +46436,47 @@ int Abc_CommandAbc9LNetOpt( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp;
     char * pFileName = NULL;
     int c, nIns = 6, nOuts = 2, Limit = 0, nRounds = 20, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IORXvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IORXvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nIns = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIns = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nOuts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOuts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            Limit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Limit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'X':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-X\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -46068,7 +46486,7 @@ int Abc_CommandAbc9LNetOpt( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         return 0;
     }
@@ -46077,16 +46495,16 @@ int Abc_CommandAbc9LNetOpt( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Empty GIA network.\n" );
         return 1;
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        FILE * pFile = fopen( argv[globalUtilOptind], "rb" );
+        FILE * pFile = fopen( argv[pOpt.optind], "rb" );
         if ( pFile == NULL )
         {
-            Abc_Print( -1, "Abc_CommandAbc9BCore(): Cannot open file \"%s\" for reading the simulation information.\n", argv[globalUtilOptind] );
+            Abc_Print( -1, "Abc_CommandAbc9BCore(): Cannot open file \"%s\" for reading the simulation information.\n", argv[pOpt.optind] );
             return 0;
         }
         fclose( pFile );
-        pFileName = argv[globalUtilOptind];
+        pFileName = argv[pOpt.optind];
     }
     pTemp = Gia_ManPerformLNetOptNew( pAbc->pGia, pFileName, nIns, nOuts, Limit, nRounds, fVerbose );
     Abc_FrameUpdateGia( pAbc, pTemp );
@@ -46121,46 +46539,47 @@ int Abc_CommandAbc9Ttopt( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp;
     char * pFileName = NULL;
     int c, nIns = 6, nOuts = 2, Limit = 0, nRounds = 20, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IORXvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IORXvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nIns = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIns = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nOuts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOuts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            Limit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Limit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'X':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-X\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nRounds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRounds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -46170,7 +46589,7 @@ int Abc_CommandAbc9Ttopt( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         return 0;
     }
@@ -46179,16 +46598,16 @@ int Abc_CommandAbc9Ttopt( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Empty GIA network.\n" );
         return 1;
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        FILE * pFile = fopen( argv[globalUtilOptind], "rb" );
+        FILE * pFile = fopen( argv[pOpt.optind], "rb" );
         if ( pFile == NULL )
         {
-            Abc_Print( -1, "Abc_CommandAbc9BCore(): Cannot open file \"%s\" for reading the simulation information.\n", argv[globalUtilOptind] );
+            Abc_Print( -1, "Abc_CommandAbc9BCore(): Cannot open file \"%s\" for reading the simulation information.\n", argv[pOpt.optind] );
             return 0;
         }
         fclose( pFile );
-        pFileName = argv[globalUtilOptind];
+        pFileName = argv[pOpt.optind];
     }
     if ( pFileName )
         pTemp = Gia_ManTtoptCare( pAbc->pGia, nIns, nOuts, nRounds, pFileName, Limit );
@@ -46230,64 +46649,65 @@ int Abc_CommandAbc9Transduction( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp, * pExdc = NULL;
     int c, nType = 1, fMspf = 0, nRandom = 0, nSortType = 0, nPiShuffle = 0, nParameter = 0, fLevel = 0, fTruth = 0, fNewLine = 0, nVerbose = 2;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "TSIPRVtmnlh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "TSIPRVtmnlh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nType = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nType = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nRandom = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRandom = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nSortType = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSortType = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nPiShuffle = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPiShuffle = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nParameter = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nParameter = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nVerbose = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVerbose = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 't':
             fTruth ^= 1;
@@ -46306,7 +46726,7 @@ int Abc_CommandAbc9Transduction( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
@@ -46316,16 +46736,16 @@ int Abc_CommandAbc9Transduction( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Empty GIA network.\n" );
         return 1;
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        FILE * pFile = fopen( argv[globalUtilOptind], "rb" );
+        FILE * pFile = fopen( argv[pOpt.optind], "rb" );
         if ( pFile == NULL )
         {
-            Abc_Print( -1, "Cannot open input file \"%s\". ", argv[globalUtilOptind] );
+            Abc_Print( -1, "Cannot open input file \"%s\". ", argv[pOpt.optind] );
             return 1;
         }
         fclose( pFile );
-        pExdc = Gia_AigerRead( argv[globalUtilOptind], 0, 0, 0 );
+        pExdc = Gia_AigerRead( argv[pOpt.optind], 0, 0, 0 );
         if ( pExdc == NULL )
         {
             Abc_Print( -1, "Reading AIGER has failed.\n" );
@@ -46398,55 +46818,56 @@ int Abc_CommandAbc9TranStoch( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManTranStoch( Gia_Man_t * pGia, int nRestarts, int nHops, int nSeedBase, int fMspf, int fMerge, int fResetHop, int fZeroCostHop, int fRefactor, int fTruth, int fSingle, int fOriginalOnly, int fNewLine, Gia_Man_t * pExdc, int nThreads, int nVerbose );
     Gia_Man_t * pTemp, * pExdc = NULL;
     int c, nRestarts = 0, nHops = 10, nSeedBase = 0, fMspf = 1, fMerge = 1, fResetHop = 1, fZeroCostHop = 0, fRefactor = 0, fTruth = 0, fSingle = 0, fOriginalOnly = 0, fNewLine = 0, nThreads = 1, nVerbose = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NMRPVmgrzftsonh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NMRPVmgrzftsonh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nRestarts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRestarts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nHops = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nHops = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nSeedBase = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSeedBase = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nThreads = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nThreads = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nVerbose = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVerbose = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'm':
             fMspf ^= 1;
@@ -46480,7 +46901,7 @@ int Abc_CommandAbc9TranStoch( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
@@ -46490,16 +46911,16 @@ int Abc_CommandAbc9TranStoch( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Empty GIA network.\n" );
         return 1;
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        FILE * pFile = fopen( argv[globalUtilOptind], "rb" );
+        FILE * pFile = fopen( argv[pOpt.optind], "rb" );
         if ( pFile == NULL )
         {
-            Abc_Print( -1, "Cannot open input file \"%s\". ", argv[globalUtilOptind] );
+            Abc_Print( -1, "Cannot open input file \"%s\". ", argv[pOpt.optind] );
             return 1;
         }
         fclose( pFile );
-        pExdc = Gia_AigerRead( argv[globalUtilOptind], 0, 0, 0 );
+        pExdc = Gia_AigerRead( argv[pOpt.optind], 0, 0, 0 );
         if ( pExdc == NULL )
         {
             Abc_Print( -1, "Reading AIGER has failed.\n" );
@@ -46553,90 +46974,91 @@ int Abc_CommandAbc9Rrr( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t *pNew;
     int c;
     int iSeed = 0, nWords = 10, nTimeout = 0, nSchedulerVerbose = 0, nPartitionerVerbose = 0, nOptimizerVerbose = 0, nAnalyzerVerbose = 0, nSimulatorVerbose = 0, nSatSolverVerbose = 0, fUseBddCspf = 0, fUseBddMspf = 0, nConflictLimit = 0, nSortType = -1, nOptimizerFlow = 0, nSchedulerFlow = 0, nPartitionType = 0, nDistance = 0, nJobs = 1, nThreads = 1, nPartitionSize = 0, nPartitionSizeMin = 0, fDeterministic = 1, nParallelPartitions = 1, fOptOnInsert = 0, fGreedy = 1;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "XYZNJKLBDRWTCGVPOAQSabdegh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "XYZNJKLBDRWTCGVPOAQSabdegh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'X':
-            nOptimizerFlow = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOptimizerFlow = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'Y':
-            nSchedulerFlow = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSchedulerFlow = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'Z':
-            nPartitionType = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPartitionType = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'N':
-            nJobs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nJobs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'J':
-            nThreads = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nThreads = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'K':
-            nPartitionSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPartitionSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'L':
-            nPartitionSizeMin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPartitionSizeMin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'B':
-            nParallelPartitions = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nParallelPartitions = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'D':
-            nDistance = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDistance = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'R':
-            iSeed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iSeed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'W':
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'T':
-            nTimeout = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeout = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'C':
-            nConflictLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConflictLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'G':
-            nSortType = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSortType = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'V':
-            nSchedulerVerbose = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSchedulerVerbose = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'P':
-            nPartitionerVerbose = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPartitionerVerbose = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'O':
-            nOptimizerVerbose = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOptimizerVerbose = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'A':
-            nAnalyzerVerbose = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nAnalyzerVerbose = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'Q':
-            nSimulatorVerbose = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSimulatorVerbose = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'S':
-            nSatSolverVerbose = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSatSolverVerbose = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'a':
             fUseBddCspf ^= 1;
@@ -46660,7 +47082,7 @@ int Abc_CommandAbc9Rrr( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc > globalUtilOptind ) {
+    if ( argc > pOpt.optind ) {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
     }
@@ -46781,133 +47203,134 @@ int Abc_CommandAbc9Rewire( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t *pTemp, *pExc = NULL;
     int c, nIters = 100000, nExpands = 128, nGrowth = 4, nDivs = -1, nFaninMax = 8, nSeed = 1, nTimeOut = 0, nVerbose = 1, nMode = 0, nMappedMode = 0, nDist = 0, fCheck = 0, fChoices = 0, fDch = 1, fTiming = 0;
     float nLevelGrowRatio = 0;
-    Extra_UtilGetoptReset();
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
 
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IEGDFSTMALRCVcsdth" ) ) != EOF ) {
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IEGDFSTMALRCVcsdth" ) ) != EOF ) {
         switch ( c ) {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nExpands = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nExpands = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nGrowth = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nGrowth = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nDivs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDivs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nFaninMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFaninMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nSeed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSeed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nMode = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMode = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nMappedMode = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMappedMode = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nDist = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDist = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a positive number.\n" );
                 goto usage;
             }
-            nLevelGrowRatio = atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevelGrowRatio = atof(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'C':
-            pFile = fopen( argv[globalUtilOptind], "rb" );
+            pFile = fopen( argv[pOpt.optind], "rb" );
             if ( pFile == NULL )
             {
-                Abc_Print( -1, "Cannot open input file \"%s\".\n", argv[globalUtilOptind] );
+                Abc_Print( -1, "Cannot open input file \"%s\".\n", argv[pOpt.optind] );
                 return 1;
             }
             fclose( pFile );
-            pExc = Gia_AigerRead( argv[globalUtilOptind], 0, 0, 0 );
+            pExc = Gia_AigerRead( argv[pOpt.optind], 0, 0, 0 );
             if ( pExc == NULL )
             {
                 Abc_Print( -1, "Reading AIGER has failed.\n" );
                 return 1;
             }
-            globalUtilOptind++;
+            pOpt.optind++;
             break;
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nVerbose = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVerbose = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'c':
             fCheck ^= 1;
@@ -46926,7 +47349,7 @@ int Abc_CommandAbc9Rewire( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc > globalUtilOptind + 1 )
+    if ( argc > pOpt.optind + 1 )
     {
         Abc_Print( -1, "Wrong number of auguments.\n" );
         goto usage;
@@ -46990,28 +47413,29 @@ int Abc_CommandAbc9LNetMap( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pTemp;
     char * pFileName = NULL;
     int c, fTryNew = 1, nIns = 6, nOuts = 2, fUseFixed = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IOfxvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IOfxvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nIns = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIns = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nOuts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOuts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             break;
         case 'f':
             fUseFixed ^= 1;
@@ -47032,16 +47456,16 @@ int Abc_CommandAbc9LNetMap( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Empty GIA network.\n" );
         return 1;
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
-        FILE * pFile = fopen( argv[globalUtilOptind], "rb" );
+        FILE * pFile = fopen( argv[pOpt.optind], "rb" );
         if ( pFile == NULL )
         {
-            Abc_Print( -1, "Abc_CommandAbc9BCore(): Cannot open file \"%s\" for reading the simulation information.\n", argv[globalUtilOptind] );
+            Abc_Print( -1, "Abc_CommandAbc9BCore(): Cannot open file \"%s\" for reading the simulation information.\n", argv[pOpt.optind] );
             return 0;
         }
         fclose( pFile );
-        pFileName = argv[globalUtilOptind];
+        pFileName = argv[pOpt.optind];
     }
     pTemp = Gia_ManPerformLNetMap( pAbc->pGia, nOuts, fUseFixed, fTryNew, fVerbose );
     Abc_FrameReplaceCurrentNetwork( pAbc, pTemp );
@@ -47075,8 +47499,9 @@ int Abc_CommandAbc9Unmap( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Gia_ManTestStruct( Gia_Man_t * p );
     int c, fConvert = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "cvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -47134,8 +47559,9 @@ int Abc_CommandAbc9Struct( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fVerbose;
     // set defaults
     fVerbose   = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -47194,8 +47620,9 @@ int Abc_CommandAbc9Trace( Abc_Frame_t * pAbc, int argc, char ** argv )
     // set defaults
     fUseLutLib = 0;
     fVerbose   = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "lvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "lvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -47260,30 +47687,31 @@ int Abc_CommandAbc9Speedup( Abc_Frame_t * pAbc, int argc, char ** argv )
     Degree       = 2;
     fVerbose     = 0;
     fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PNlvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PNlvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Percentage = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Percentage = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Percentage < 1 || Percentage > 100 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Degree = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Degree = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Degree < 1 || Degree > 5 )
                 goto usage;
             break;
@@ -47352,19 +47780,20 @@ int Abc_CommandAbc9Era( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern int Gia_ManCollectReachable( Gia_Man_t * pAig, int nStatesMax, int fMiter, int fDumpFile, int fVerbose );
     extern int Gia_ManArePerform( Gia_Man_t * pAig, int nStatesMax, int fMiter, int fVerbose );
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Smcdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Smcdvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nStatesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nStatesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nStatesMax < 0 )
                 goto usage;
             break;
@@ -47439,41 +47868,42 @@ int Abc_CommandAbc9Dch( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fMinLevel = 0, fEquiv = 0, fRandom = 0;
     // set defaults
     Dch_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WCSsptfremngcxyvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WCSsptfremngcxyvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWords < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nSatVarMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nSatVarMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nSatVarMax < 0 )
                 goto usage;
             break;
@@ -47595,19 +48025,20 @@ int Abc_CommandAbc9Rpm( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fUseOldAlgo  =  0;
     int fVerbose     =  0;
     int fVeryVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Cnavwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Cnavwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutMax < 0 )
                 goto usage;
             break;
@@ -47675,41 +48106,42 @@ int Abc_CommandAbc9BackReach( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nFrameMax = 1000000;
     int nConfMax  = 1000000;
     int nTimeMax  =      10;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FCTvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FCTvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrameMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrameMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrameMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeMax < 0 )
                 goto usage;
             break;
@@ -47764,19 +48196,20 @@ int Abc_CommandAbc9Posplit( Abc_Frame_t * pAbc, int argc, char ** argv )
     Aig_Man_t * pMan, * pAux;
     Gia_Man_t * pTemp = NULL;
     int c, nVars = 5, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 0 )
                 goto usage;
             break;
@@ -47831,19 +48264,20 @@ int Abc_CommandAbc9Permute( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManDupRandPerm( Gia_Man_t * p );
     Gia_Man_t * pTemp;
     int c, RandSeed = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Svh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Svh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            RandSeed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            RandSeed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( RandSeed < 0 )
                 goto usage;
             break;
@@ -47905,85 +48339,86 @@ int Abc_CommandAbc9ReachM( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     Llb_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "TBFCHSLripcsyzvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "TBFCHSLripcsyzvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeLimit < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBddMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBddMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBddMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nIterMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nIterMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nIterMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nClusterMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nClusterMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nClusterMax < 0 )
                 goto usage;
             break;
         case 'H':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-H\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nHintDepth = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nHintDepth = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nHintDepth < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->HintFirst = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->HintFirst = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->HintFirst < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'r':
             pPars->fReorder ^= 1;
@@ -48085,63 +48520,64 @@ int Abc_CommandAbc9ReachP( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     Llb_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NBFTLrbyzdvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NBFTLrbyzdvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nPartValue = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nPartValue = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nPartValue < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBddMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBddMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBddMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nIterMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nIterMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nIterMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeLimit < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'r':
             pPars->fReorder ^= 1;
@@ -48235,52 +48671,53 @@ int Abc_CommandAbc9ReachN( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     // set defaults
     Llb_ManSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "BFTLryzvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "BFTLryzvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBddMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBddMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBddMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nIterMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nIterMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nIterMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeLimit < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'r':
             pPars->fReorder ^= 1;
@@ -48368,63 +48805,64 @@ int Abc_CommandAbc9ReachY( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->fReorder = 0;
     pPars->nBddMax     = 100;
     pPars->nClusterMax = 500;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "BCFTLbcryzvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "BCFTLbcryzvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBddMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBddMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBddMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nClusterMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nClusterMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nClusterMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nIterMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nIterMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nIterMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeLimit < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'b':
             pPars->fBackward ^= 1;
@@ -48515,8 +48953,9 @@ int Abc_CommandAbc9Undo( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "h" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "h" ) ) != EOF )
     {
         switch ( c )
         {
@@ -48569,41 +49008,42 @@ int Abc_CommandAbc9Mesh( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fUseSatoko = 1;
     int c, fVerbose = 1;
     // set defaults
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "XYTsh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "XYTsh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'X':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-X\" should be followed by an integer.\n" );
                 goto usage;
             }
-            X = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            X = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( X < 3 )
                 goto usage;
             break;
         case 'Y':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Y\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Y = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Y = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Y < 3 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            T = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            T = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( T < 2 )
                 goto usage;
             break;
@@ -48674,8 +49114,9 @@ int Abc_CommandAbc9Iso( Abc_Frame_t * pAbc, int argc, char ** argv )
     Vec_Ptr_t * vPosEquivs;
 //    Vec_Ptr_t * vPiPerms;
     int c, fNewAlgo = 1, fEstimate = 0, fBetterQual = 0, fDualOut = 0, fVerbose = 0, fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "neqdvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "neqdvwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -48760,8 +49201,9 @@ int Abc_CommandAbc9IsoNpn( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pAig;
     Vec_Ptr_t * vPosEquivs;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -48827,8 +49269,9 @@ int Abc_CommandAbc9IsoSt( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pAig;
     Vec_Ptr_t * vPosEquivs;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -48891,8 +49334,9 @@ usage:
 int Abc_CommandAbc9Store( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fClean = 0, fPrint = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cpvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "cpvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -48952,8 +49396,9 @@ int Abc_CommandAbc9Compare( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pGia0, * pGia1;
     char ** pArgvNew; int nArgcNew;
     int c, fFunc = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "fvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "fvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -48969,8 +49414,8 @@ int Abc_CommandAbc9Compare( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 2 )
     {
         Abc_Print( -1, "Abc_CommandAbc9Compare(): This command expects two AIG file names on the command line.\n" );
@@ -49017,19 +49462,20 @@ int Abc_CommandAbc9RevEng( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pGia0, * pGia1;
     char ** pArgvNew; int nArgcNew;
     int c, nWords = 4, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Wvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Wvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords < 0 )
                 goto usage;
             break;
@@ -49047,8 +49493,8 @@ int Abc_CommandAbc9RevEng( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9RevEng(): There is no AIG.\n" );
         return 1;
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew != 1 )
     {
         Abc_Print( -1, "Abc_CommandAbc9RevEng(): This command expects one AIG file name on the command line.\n" );
@@ -49093,8 +49539,9 @@ int Abc_CommandAbc9Uif( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManDupBlackBox( Gia_Man_t * p );
     Gia_Man_t * pNew = NULL, * pTemp = NULL;
     int c, fBlackBox = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "bvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "bvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -49153,8 +49600,9 @@ int Abc_CommandAbc9CexInfo( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Bmc_CexTest( Gia_Man_t * p, Abc_Cex_t * pCex, int fVerbose );
     int c, fDualOut = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "dvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "dvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -49206,19 +49654,20 @@ int Abc_CommandAbc9Cycle( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp;
     int c, nFrames = 10, fUseCex = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Fcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Fcvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
@@ -49271,63 +49720,64 @@ int Abc_CommandAbc9Cone( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp;
     Vec_Int_t * vPos;
     int c, nRegs = 0, iOutNum = -1, nOutRange = 1, iPartNum = -1, nLevelMax = 0, nTimeWindow = 0, fUseAllCis = 0, fExtractAll = 0, fComb = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ORPLWaecvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ORPLWaecvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iOutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iOutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iOutNum < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nOutRange = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOutRange = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nOutRange < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iPartNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iPartNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iPartNum < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLevelMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevelMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLevelMax < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeWindow = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeWindow = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeWindow < 0 )
                 goto usage;
             break;
@@ -49453,19 +49903,20 @@ int Abc_CommandAbc9Slice( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp;
     int c, nSuppSize = 6, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Svh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Svh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nSuppSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSuppSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSuppSize < 0 )
                 goto usage;
             break;
@@ -49513,19 +49964,20 @@ int Abc_CommandAbc9PoPart( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp;
     Vec_Ptr_t * vPosEquivs = NULL;
     int c, SelectShift = 0, fOnlyCis = 0, fSetLargest = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Simvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Simvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            SelectShift = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            SelectShift = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( SelectShift < 0 )
                 goto usage;
             break;
@@ -49584,52 +50036,53 @@ int Abc_CommandAbc9PoPart2( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp = NULL;
     Vec_Ptr_t * vPosEquivs = NULL;
     int c, iStartNum = 0, nDelta = 10, nOutsMin = 100, nOutsMax = 1000, fSetLargest = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "SDLUmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "SDLUmvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iStartNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iStartNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iStartNum < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nDelta = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDelta = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nDelta < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nOutsMin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOutsMin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nOutsMin < 0 )
                 goto usage;
             break;
         case 'U':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-U\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nOutsMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOutsMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nOutsMax < 0 )
                 goto usage;
             break;
@@ -49686,30 +50139,31 @@ int Abc_CommandAbc9GroupProve( Abc_Frame_t * pAbc, int argc, char ** argv )
     Vec_Int_t * vStatus;
     char * pCommLine = NULL;
     int c, nGroupSize = 1, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "GSvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "GSvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nGroupSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nGroupSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nGroupSize <= 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pCommLine = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pCommLine = argv[pOpt.optind];
+            pOpt.optind++;
         case 'v':
             fVerbose ^= 1;
             break;
@@ -49766,63 +50220,64 @@ int Abc_CommandAbc9MultiProve( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->TimeOutInc = 100;
     pPars->TimeOutGap =   0;
     pPars->TimePerOut =   0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "TLMGHsdvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "TLMGHsdvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeOutGlo = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeOutGlo = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeOutGlo < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeOutLoc = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeOutLoc = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeOutLoc <= 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeOutInc = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeOutInc = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeOutInc <= 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeOutGap = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeOutGap = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeOutGap <= 0 )
                 goto usage;
             break;
         case 'H':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-H\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimePerOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimePerOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimePerOut <= 0 )
                 goto usage;
             break;
@@ -49891,52 +50346,53 @@ int Abc_CommandAbc9SplitProve( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern int Cec_GiaSplitTest( Gia_Man_t * p, int nProcs, int nTimeOut, int nIterMax, int LookAhead, int fVerbose, int fVeryVerbose, int fSilent );
     int c, nProcs = 1, nTimeOut = 10, nIterMax = 0, LookAhead = 1, fVerbose = 0, fVeryVerbose = 0, fSilent = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PTILsvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PTILsvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nProcs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nProcs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nProcs <= 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut <= 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIterMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIterMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIterMax < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            LookAhead = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            LookAhead = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( LookAhead <= 0 || LookAhead > 100 )
             {
                 Abc_Print( -1, "Look-ahead value (\"-L <num>\") should be between 1 and 100.\n", LookAhead );
@@ -50001,52 +50457,53 @@ int Abc_CommandAbc9SProve( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern int Cec_GiaProveTest( Gia_Man_t * p, int nProcs, int nTimeOut, int nTimeOut2, int nTimeOut3, int fVerbose, int fVeryVerbose, int fSilent );
     int c, nProcs = 5, nTimeOut = 3, nTimeOut2 = 10, nTimeOut3 = 100, fVerbose = 0, fVeryVerbose = 0, fSilent = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PTUWsvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PTUWsvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nProcs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nProcs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nProcs <= 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut <= 0 )
                 goto usage;
             break;
         case 'U':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-U\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nTimeOut2 = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut2 = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut2 <= 0 )
                 goto usage;
             break;    
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nTimeOut3 = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut3 = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut3 <= 0 )
                 goto usage;
             break;                          
@@ -50108,96 +50565,97 @@ int Abc_CommandAbc9SplitSat( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Cnf_SplitSat( char * pFileName, int iVarBeg, int iVarEnd, int nLits, int Value, int TimeOut, int nProcs, int nIters, int Seed, int fPrepro, int fVerbose );
     int c, iVarBeg = 0, iVarEnd = ABC_INFINITY, nLits = 10, Value = 2, TimeOut = 5, nProcs = 1, nIters = 1, Seed = 0, fPrepro = 0, fVerbose = 0; char * pFileName = NULL;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "BENVTPISpvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "BENVTPISpvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            iVarBeg = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iVarBeg = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iVarBeg < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            iVarEnd = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iVarEnd = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iVarEnd < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nLits = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLits = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLits < 0 )
                 goto usage;
             break;                                    
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            Value = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Value = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Value < 0 || Value > 2 )
                 goto usage;
             break;                  
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            TimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            TimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( TimeOut < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by a positive integer.\n" );
                 goto usage;
             }
-            nProcs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nProcs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nProcs <= 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Seed < 0 )
                 goto usage;
             break;            
@@ -50214,14 +50672,14 @@ int Abc_CommandAbc9SplitSat( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
     // get the file name
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "Abc_CommandAbc9SplitSat(): CNF file names should be given on the command line.\n" );
         return 1;
     }
     {        
         FILE * pFile;
-        pFileName = argv[globalUtilOptind];
+        pFileName = argv[pOpt.optind];
         pFile = fopen( pFileName, "r" );
         if ( pFile == NULL )
         {
@@ -50283,63 +50741,64 @@ int Abc_CommandAbc9Bmc( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->iFrame        =    0;  // explored up to this frame
     pPars->nFailOuts     =    0;  // the number of failed outputs
     pPars->nDropOuts     =    0;  // the number of dropped outputs
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "SFATKdscvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "SFATKdscvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nStart < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesMax < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesAdd = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesAdd = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesAdd < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOut < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 0 )
                 goto usage;
             break;
@@ -50429,63 +50888,64 @@ int Abc_CommandAbc9SBmc( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->nDropOuts     =    0;  // the number of dropped outputs
     pPars->pFuncOnFrameDone = pAbc->pFuncOnFrameDone; // frame done callback
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PCFATgevwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PCFATgevwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nProcs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nProcs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nProcs < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nConfLimit < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesMax < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesAdd = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesAdd = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesAdd < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOut < 0 )
                 goto usage;
             break;
@@ -50558,30 +51018,31 @@ int Abc_CommandAbc9ChainBmc( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fVerbose     =    0;
     int fVeryVerbose =    0;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FCvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FCvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrameMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrameMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrameMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfMax < 0 )
                 goto usage;
             break;
@@ -50646,52 +51107,53 @@ int Abc_CommandAbc9BCore( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->pFilePivots   = NULL;  // file name with AIG IDs of pivot objects
     pPars->pFileProof    = NULL;  // file name to write the resulting proof
     pPars->fVerbose      =    0;  // verbose output
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FOTVvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FOTVvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->iFrame = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->iFrame = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->iFrame < 0 )
                 goto usage;
             break;
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->iOutput = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->iOutput = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->iOutput < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOut < 0 )
                 goto usage;
             break;
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pPars->pFilePivots = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pFilePivots = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'v':
             pPars->fVerbose ^= 1;
@@ -50725,10 +51187,10 @@ int Abc_CommandAbc9BCore( Abc_Frame_t * pAbc, int argc, char ** argv )
         fclose( pFile );
     }
     // get the file name
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
         FILE * pFile;
-        pPars->pFileProof = argv[globalUtilOptind];
+        pPars->pFileProof = argv[pOpt.optind];
         pFile = fopen( pPars->pFileProof, "wb" );
         if ( pFile == NULL )
         {
@@ -50767,30 +51229,31 @@ usage:
 int Abc_CommandAbc9ICheck( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, nFramesMax = 1, nTimeOut = 0, fEmpty = 0, fSearch = 1, fReverse = 0, fBackTopo = 0, fDump = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "MTesrbdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "MTesrbdvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFramesMax <= 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut < 0 )
                 goto usage;
             break;
@@ -50866,8 +51329,9 @@ int Abc_CommandAbc9SatTest( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Bmc_LoadTest( Gia_Man_t * pGia, int fLoadCnf, int fVerbose );
     int c, fLoadCnf = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "cvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "cvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -50920,81 +51384,82 @@ int Abc_CommandAbc9FFTest( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pGold = NULL;
     int c;
     Gia_ParFfSetDefault( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ATNKSGFkbsfcdeunvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ATNKSGFkbsfcdeunvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->Algo = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->Algo = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->Algo < 0 || pPars->Algo > 4 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOut < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nIterCheck = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nIterCheck = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nIterCheck < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nCardConstr = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCardConstr = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCardConstr <= 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a string.\n" );
                 goto usage;
             }
-            pPars->pFormStr = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pFormStr = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pFileName2 = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pFileName2 = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'k':
             pPars->fNonStrict ^= 1;
@@ -51087,10 +51552,10 @@ int Abc_CommandAbc9FFTest( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
     // get the file name
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
         FILE * pFile;
-        pPars->pFileName = argv[globalUtilOptind];
+        pPars->pFileName = argv[pOpt.optind];
         pFile = fopen( pPars->pFileName, "r" );
         if ( pFile == NULL )
         {
@@ -51221,63 +51686,64 @@ int Abc_CommandAbc9Qbf( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fDumpCnf2  =  0;
     int fGlucose   =  0;
     int fVerbose   =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "PICTKdegvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "PICTKdegvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPars < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIterLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIterLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIterLimit < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nEncVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nEncVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nEncVars < 0 )
                 goto usage;
             break;
@@ -51393,19 +51859,20 @@ int Abc_CommandAbc9QVar( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fQuantU    =  0;
     int fQuantE    =  0;
     int fVerbose   =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Puevh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Puevh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPars < 0 )
                 goto usage;
             break;
@@ -51476,52 +51943,53 @@ int Abc_CommandAbc9GenQbf( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fVerbose  =    0;
     int c;
     Gia_Man_t * pTemp;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FKNSovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FKNSovh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutNum < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a string.\n" );
                 goto usage;
             }
-            pStr = Abc_UtilStrsav(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pStr = Abc_UtilStrsav(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pStr == NULL )
                 goto usage;
             break;
@@ -51593,30 +52061,31 @@ int Abc_CommandAbc9HomoQbf( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fVerbose  =  0;
     int c;
     Gia_Man_t * pTemp;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KNvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KNvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutNum < 0 )
                 goto usage;
             break;
@@ -51662,30 +52131,31 @@ int Abc_CommandAbc9SatFx( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nDiv2Add = 10;
     int c, fDec  =  1;
     int fVerbose =  0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IDdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IDdvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIterMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIterMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIterMax < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nDiv2Add = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nDiv2Add = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nDiv2Add < 0 )
                 goto usage;
             break;
@@ -51744,30 +52214,31 @@ int Abc_CommandAbc9SatClp( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
 
     Vec_Str_t * vSop;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CLcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CLcvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCubeLim = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCubeLim = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCubeLim < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBTLimit < 0 )
                 goto usage;
             break;
@@ -51820,41 +52291,42 @@ int Abc_CommandAbc9Inse( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern Vec_Int_t * Gia_ManInseTest( Gia_Man_t * p, Vec_Int_t * vInit, int nFrames, int nWords, int nTimeOut, int fSim, int fVerbose );
     int c, nFrames = 10, nWords = 1000, nTimeOut = 0, fSim = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FWTsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FWTsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut < 0 )
                 goto usage;
             break;
@@ -51916,41 +52388,42 @@ int Abc_CommandAbc9Maxi( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Vec_Int_t * Gia_ManMaxiTest( Gia_Man_t * p, Vec_Int_t * vInit, int nFrames, int nWords, int nTimeOut, int fSim, int fVerbose );
     Vec_Int_t * vTemp;
     int c, nFrames = 5, nWords = 1000, nTimeOut = 0, fSim = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FWTsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FWTsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut < 0 )
                 goto usage;
             break;
@@ -52007,41 +52480,42 @@ int Abc_CommandAbc9Bmci( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern int Gia_ManBmciTest( Gia_Man_t * p, Vec_Int_t * vInit, int nFrames, int nWords, int nTimeOut, int fSim, int fVerbose );
     int c, nFrames = 1000, nWords = 1000, nTimeOut = 0, fSim = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FWTsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FWTsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut < 0 )
                 goto usage;
             break;
@@ -52102,19 +52576,20 @@ int Abc_CommandAbc9PoXsim( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern Vec_Int_t * Gia_ManPoXSim( Gia_Man_t * p, int nFrames, int fVerbose );
     int c, nFrames = 1000, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Fvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Fvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
@@ -52165,8 +52640,9 @@ int Abc_CommandAbc9Demiter( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp;
     int c, fDumpFiles = 0, fDumpFilesTwo = 0, fDual = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ftdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ftdvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -52267,63 +52743,64 @@ int Abc_CommandAbc9Fadds( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp, * pTemp2;
     int c, nFaddMin = 3, fUseNat = 0, fUseArt = 0, fVerbose = 0;
     int DelayC = 0, nPathMin = 3, nPathMax = 32, nPathLimit = 50, fUseFanout = 0, fUseXorTrick = 0, fIgnoreBoxDelays = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NBSLPnafxbvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NBSLPnafxbvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFaddMin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFaddMin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFaddMin < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            DelayC = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            DelayC = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( DelayC < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPathMin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPathMin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPathMin < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPathMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPathMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPathMax < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPathLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPathLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPathLimit < 0 )
                 goto usage;
             break;
@@ -52407,8 +52884,9 @@ int Abc_CommandAbc9ATree( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_PolynCoreDetectTest( Gia_Man_t * pGia, int fAddExtra, int fAddCones, int fVerbose );
     Gia_Man_t * pTemp = NULL;
     int c, fAddExtra = 0, fAddCones = 0, fVerbose = 0, fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ecvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ecvwh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -52466,30 +52944,31 @@ int Abc_CommandAbc9Polyn( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Gia_PolynBuild2Test( Gia_Man_t * pGia, char * pSign, int nExtra, int fSigned, int fVerbose, int fVeryVerbose );
     Vec_Int_t * vOrder = NULL; char * pSign = NULL;
     int c, nExtra = 0, fOld = 0, fSimple = 1, fSigned = 0, fVerbose = 0, fVeryVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NSoasvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NSoasvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nExtra = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nExtra = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nExtra < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by a char string without spaces.\n" );
                 goto usage;
             }
-            pSign = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pSign = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'o':
             fOld ^= 1;
@@ -52517,9 +52996,9 @@ int Abc_CommandAbc9Polyn( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9Esop(): There is no AIG.\n" );
         return 0;
     }
-    if ( argc >= globalUtilOptind + 1 )
+    if ( argc >= pOpt.optind + 1 )
     {
-        printf( "Trailing symbols on the command line (\"%s\").\n", argv[globalUtilOptind] );
+        printf( "Trailing symbols on the command line (\"%s\").\n", argv[pOpt.optind] );
         return 0;
     }
     if ( fOld )
@@ -52575,30 +53054,31 @@ int Abc_CommandAbc9Acec( Abc_Frame_t * pAbc, int argc, char ** argv )
     char ** pArgvNew;
     int c, nArgcNew;
     Acec_ManCecSetDefaultParams( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CTmdtbvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CTmdtbvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->TimeLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->TimeLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->TimeLimit < 0 )
                 goto usage;
             break;
@@ -52626,7 +53106,7 @@ int Abc_CommandAbc9Acec( Abc_Frame_t * pAbc, int argc, char ** argv )
     if ( pPars->fMiter )
     {
         Gia_Man_t * pGia0, * pGia1, * pDual;
-        if ( argc != globalUtilOptind )
+        if ( argc != pOpt.optind )
         {
             Abc_Print( -1, "Abc_CommandAbc9Acec(): If the input is a miter, it cannot be given on the command line.\n" );
             return 1;
@@ -52675,8 +53155,8 @@ int Abc_CommandAbc9Acec( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 0;
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( nArgcNew == 0 || nArgcNew == 1 )
     {
         Gia_Man_t * pSecond;
@@ -52786,8 +53266,9 @@ int Abc_CommandAbc9Anorm( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp;
     int c, fBooth = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "bvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "bvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -52836,8 +53317,9 @@ int Abc_CommandAbc9Decla( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp;
     int c, fBooth = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "bvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "bvh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -52888,8 +53370,9 @@ int Abc_CommandAbc9Esop( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Eso_ManCompute( Gia_Man_t * pGia, int fVerbose, Vec_Wec_t ** pvRes );
     Gia_Man_t * pTemp;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -52943,41 +53426,42 @@ int Abc_CommandAbc9Exorcism( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, Quality = 2, Verbosity = 0, nCubesMax = 20000, fUseQCost = 0, fVerbose = 0;
     int nInputs = -1, nOutputs = -1;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "QVCqvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "QVCqvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Quality = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Quality = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Quality < 0 )
                 goto usage;
             break;
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Verbosity = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Verbosity = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Verbosity < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCubesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCubesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCubesMax < 0 )
                 goto usage;
             break;
@@ -52994,14 +53478,14 @@ int Abc_CommandAbc9Exorcism( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
 
-    if ( argc == globalUtilOptind + 2 )
+    if ( argc == pOpt.optind + 2 )
     {
-        pFileNameIn = argv[globalUtilOptind];
-        pFileNameOut = argv[globalUtilOptind + 1];
+        pFileNameIn = argv[pOpt.optind];
+        pFileNameOut = argv[pOpt.optind + 1];
     }
-    else if ( argc == globalUtilOptind + 1 )
+    else if ( argc == pOpt.optind + 1 )
     {
-        pFileNameOut = argv[globalUtilOptind];
+        pFileNameOut = argv[pOpt.optind];
     }
     else
     {
@@ -53083,85 +53567,86 @@ int Abc_CommandAbc9Mfs( Abc_Frame_t * pAbc, int argc, char ** argv )
     pPars->nTfoLevMax  =    5;
     pPars->nDepthMax   =  100;
     pPars->nWinSizeMax = 2000;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WFDMLCNdaeblvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WFDMLCNdaeblvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTfoLevMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTfoLevMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTfoLevMax < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFanoutMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFanoutMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFanoutMax < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nDepthMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nDepthMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nDepthMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWinSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWinSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWinSizeMax < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nGrowthLevel = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nGrowthLevel = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nGrowthLevel < 0 || pPars->nGrowthLevel > ABC_INFINITY )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nNodesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nNodesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nNodesMax < 0 )
                 goto usage;
             break;
@@ -53270,96 +53755,97 @@ int Abc_CommandAbc9Mfsd( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp; int c;
     Sbd_Par_t Pars, * pPars = &Pars;
     Sbd_ParSetDefault( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KSNPWFMCmcdpvwh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KSNPWFMCmcdpvwh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutSize < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLutNum < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nCutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutSize < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nCutNum < 0 )
                 goto usage;
             break;
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTfoLevels = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTfoLevels = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTfoLevels < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTfoFanMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTfoFanMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTfoFanMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nWinSizeMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nWinSizeMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nWinSizeMax < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nBTLimit < 0 )
                 goto usage;
             break;
@@ -53439,63 +53925,64 @@ int Abc_CommandAbc9DeepSyn( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern Gia_Man_t * Gia_ManDeepSyn( Gia_Man_t * pGia, int nIters, int nNoImpr, int TimeOut, int nAnds, int Seed, int fUseTwo, int fVerbose );
     Gia_Man_t * pTemp; int c, nIters = 1, nNoImpr = ABC_INFINITY, TimeOut = 0, nAnds = 0, Seed = 0, fUseTwo = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IJTAStvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IJTAStvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
         case 'J':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-J\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNoImpr = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNoImpr = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNoImpr < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            TimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            TimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( TimeOut < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nAnds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nAnds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nAnds < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Seed < 0 )
                 goto usage;
             break;
@@ -53549,19 +54036,20 @@ int Abc_CommandAbc9RandSyn( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern Gia_Man_t * Gia_ManRandSyn( Gia_Man_t * p, unsigned random_seed );
     Gia_Man_t * pTemp; int c, Seed = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Svh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Svh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Seed < 0 )
                 goto usage;
             break;
@@ -53611,41 +54099,42 @@ int Abc_CommandAbc9SatSyn( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern Gia_Man_t * Gia_ManSyn( Gia_Man_t * p, int nNodes, int nOuts, int TimeOut, int fUseXor, int fFancy, int fVerbose );
     Gia_Man_t * pTemp; int c, nNodes = 0, nOuts = 0, TimeOut = 0, fUseXor = 0, fFancy = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NTafvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NTafvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNodes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNodes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNodes < 0 )
                 goto usage;
             break;
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nOuts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nOuts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nOuts < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            TimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            TimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( TimeOut < 0 )
                 goto usage;
             break;
@@ -53701,74 +54190,75 @@ int Abc_CommandAbc9StochSyn( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Gia_ManStochSyn( int nSuppMax, int nMaxSize, int nIters, int TimeOut, int Seed, int fVerbose, char * pScript, int nProcs, int fDelayOpt, int fChoices );
     int c, nSuppMax = 0, nMaxSize = 1000, nIters = 10, TimeOut = 0, Seed = 0, nProcs = 1, fDelayOpt = 0, fChoices = 0, fVerbose = 0; char * pScript;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NMITSPdcvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NMITSPdcvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nSuppMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSuppMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSuppMax < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMaxSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMaxSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMaxSize < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            TimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            TimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( TimeOut < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Seed < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nProcs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nProcs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nProcs < 0 )
                 goto usage;
             break;            
@@ -53792,7 +54282,7 @@ int Abc_CommandAbc9StochSyn( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9StochSyn(): There is no AIG.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         printf( "Expecting a synthesis script in quotes on the command line (for example: \"&st; &dch; &if\").\n" );
         goto usage;
@@ -53802,7 +54292,7 @@ int Abc_CommandAbc9StochSyn( Abc_Frame_t * pAbc, int argc, char ** argv )
         printf( "The number of iterations should be more than 1.\n" );
         goto usage;
     }    
-    pScript = Abc_UtilStrsav( argv[globalUtilOptind] );
+    pScript = Abc_UtilStrsav( argv[pOpt.optind] );
     Gia_ManStochSyn( nSuppMax, nMaxSize, nIters, TimeOut, Seed, fVerbose, pScript, nProcs, fDelayOpt, fChoices );
     ABC_FREE( pScript );
     return 0;
@@ -53858,30 +54348,31 @@ int Abc_CommandAbc9CexMerge( Abc_Frame_t * pAbc, int argc, char ** argv )
     int iFrStart = 0;
     int iFrStop  = ABC_INFINITY;
     int fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FGvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FGvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iFrStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iFrStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iFrStart < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iFrStop = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iFrStop = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iFrStop < 0 )
                 goto usage;
             break;
@@ -53953,30 +54444,31 @@ int Abc_CommandAbc9CexMin( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fJustMax = 1;
     int fUseAll = 0;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FNjavh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FNjavh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iFrameStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iFrameStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iFrameStart < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRealPis = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRealPis = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRealPis < 0 )
                 goto usage;
             break;
@@ -54044,8 +54536,9 @@ int Abc_CommandAbc9AbsCreate( Abc_Frame_t * pAbc, int argc, char ** argv )
     //Gia_Man_t * pTemp = NULL;
     char * pStr, * pFlopNum;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -54075,12 +54568,12 @@ int Abc_CommandAbc9AbsCreate( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     pAbc->pGia->vFlopClasses = Vec_IntStart( Gia_ManRegNum(pAbc->pGia) );
     // read the flop list
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "Flop list should be specified on the command line.\n" );
         return 0;
     }
-    pStr = argv[globalUtilOptind];
+    pStr = argv[pOpt.optind];
     // parse flop list
     pFlopNum = strtok( pStr, " ," );
     while ( pFlopNum )
@@ -54115,8 +54608,9 @@ int Abc_CommandAbc9AbsDerive( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp = NULL;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -54176,19 +54670,20 @@ int Abc_CommandAbc9AbsRefine( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fSensePath  = 0;
     int fVerbose    = 0;
 
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Mtsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Mtsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFfToAddMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFfToAddMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFfToAddMax < 0 )
                 goto usage;
             break;
@@ -54253,8 +54748,9 @@ int Abc_CommandAbc9GlaDerive( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp = NULL;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -54322,30 +54818,31 @@ int Abc_CommandAbc9GlaRefine( Abc_Frame_t * pAbc, int argc, char ** argv )
     int iFrameExtra = 0;
     int fMinCut = 1;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FGmvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FGmvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iFrameStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iFrameStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iFrameStart < 0 )
                 goto usage;
             break;
         case 'G':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-G\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iFrameExtra = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iFrameExtra = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iFrameExtra < 0 )
                 goto usage;
             break;
@@ -54410,30 +54907,31 @@ int Abc_CommandAbc9GlaShrink( Abc_Frame_t * pAbc, int argc, char ** argv )
     int nFrameMax = 0;
     int nTimeOut = 0;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FTpsbvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FTpsbvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrameMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrameMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrameMax < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nTimeOut < 0 )
                 goto usage;
             break;
@@ -54499,149 +54997,150 @@ int Abc_CommandAbc9Gla( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fNewAlgo = 1;
     char * pLogFileName = NULL;
     Abs_ParSetDefaults( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FSCMDETRQPBALtfardmnscbpquwvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FSCMDETRQPBALtfardmnscbpquwvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesMax < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesStart < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nConfLimit < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLearnedStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLearnedStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLearnedStart < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLearnedDelta = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLearnedDelta = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLearnedDelta < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLearnedPerce = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLearnedPerce = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLearnedPerce < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOut < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRatioMin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRatioMin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRatioMin < 0 )
                 goto usage;
             break;
         case 'Q':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-Q\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRatioMin2 = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRatioMin2 = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRatioMin2 < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRatioMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRatioMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRatioMax < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesNoChangeLim = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesNoChangeLim = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesNoChangeLim < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pPars->pFileVabs = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pFileVabs = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pLogFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pLogFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 't':
             pPars->fUseTermVars ^= 1;
@@ -54805,118 +55304,119 @@ int Abc_CommandAbc9Vta( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abs_Par_t Pars, * pPars = &Pars;
     int c;
     Abs_ParSetDefaults( pPars );
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "FSPCLDETRAtradvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "FSPCLDETRAtradvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesMax < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesStart < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nFramesPast = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nFramesPast = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nFramesPast < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nConfLimit < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLearnedStart = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLearnedStart = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLearnedStart < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLearnedDelta = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLearnedDelta = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLearnedDelta < 0 )
                 goto usage;
             break;
         case 'E':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-E\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nLearnedPerce = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nLearnedPerce = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nLearnedPerce < 0 )
                 goto usage;
             break;
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nTimeOut = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nTimeOut = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nTimeOut < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pPars->nRatioMin = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pPars->nRatioMin = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pPars->nRatioMin < 0 )
                 goto usage;
             break;
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pPars->pFileVabs = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pPars->pFileVabs = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 't':
             pPars->fUseTermVars ^= 1;
@@ -55005,8 +55505,9 @@ usage:
 int Abc_CommandAbc9Vta2Gla( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -55057,19 +55558,20 @@ int Abc_CommandAbc9Gla2Vta( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fVerbose = 0;
     int nFrames = pAbc->nFrames;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Fvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Fvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
@@ -55125,8 +55627,9 @@ usage:
 int Abc_CommandAbc9Fla2Gla( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -55176,8 +55679,9 @@ usage:
 int Abc_CommandAbc9Gla2Fla( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -55238,85 +55742,86 @@ int Abc_CommandAbc9Gen( Abc_Frame_t * pAbc, int argc, char ** argv )
     int Multi       =   0;
     int fXor        =   1;
     int c, fVerbose =   0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "AKNDLBMxvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "AKNDLBMxvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Algo = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Algo = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Algo < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            LutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            LutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( LutSize < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLuts = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLuts = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLuts < 0 )
                 goto usage;
             break;
         case 'D':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLevels = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLevels = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLevels < 0 )
                 goto usage;
             break;
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Limit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Limit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Limit < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBestTries = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBestTries = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBestTries < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Multi = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Multi = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Multi < 0 )
                 goto usage;
             break;
@@ -55375,63 +55880,64 @@ int Abc_CommandAbc9Cfs( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fDagNodes   =   0;
     float FlipProb  =   0;
     int c, fVerbose =   0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "LNURPrcdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "LNURPrcdvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'L':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-L\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Limit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Limit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Limit < 0 )
                 goto usage;
             break;
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Reps = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Reps = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Reps < 0 )
                 goto usage;
             break;
         case 'U':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-U\" should be followed by an integer.\n" );
                 goto usage;
             }
-            UnseenUse = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            UnseenUse = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( UnseenUse < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            RareUse = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            RareUse = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( RareUse < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            FlipProb = atof(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            FlipProb = atof(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( FlipProb < 0 )
                 goto usage;
             break;
@@ -55496,41 +56002,42 @@ int Abc_CommandAbc9ProdAdd( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fSigned     =   0;
     int fCla        =   0;
     int c, fVerbose =   0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "ABSscvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "ABSscvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'A':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-A\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nArgA = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nArgA = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nArgA < 0 )
                 goto usage;
             break;
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nArgB = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nArgB = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nArgB < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Seed < 0 )
                 goto usage;
             break;
@@ -55581,8 +56088,9 @@ int Abc_CommandAbc9AddFlop( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManDupAddFlop( Gia_Man_t * p );
     Gia_Man_t * pTemp;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -55634,19 +56142,20 @@ int Abc_CommandAbc9BMiter( Abc_Frame_t * pAbc, int argc, char ** argv )
     FILE * pFile = NULL;
     int c, fVerbose = 0;
     int bi  = 0;
-    Extra_UtilGetoptReset();
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
     // TODO: use a flag to block Bnd_Man
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Ivh" ) ) != EOF )
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Ivh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            bi = atoi(argv[globalUtilOptind++]);
+            bi = atoi(argv[pOpt.optind++]);
             break;    
         case 'v':
             fVerbose ^= 1;
@@ -55662,14 +56171,14 @@ int Abc_CommandAbc9BMiter( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9BMiter(): There is no AIG.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( -1, "Abc_CommandAbc9BMiter(): AIG should be given on the command line.\n" );
         return 0;
     }
 
     // get the input file name
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     if ( (pFile = fopen( FileName, "r" )) == NULL )
     {
         Abc_Print( -1, "Cannot open input file \"%s\". ", FileName );
@@ -55720,18 +56229,19 @@ int Abc_CommandAbc9GenHie( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fVerbose = 0;
     char ** pArgvNew;
     int     nArgcNew;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Fvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Fvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pFileName = argv[globalUtilOptind++];
+            pFileName = argv[pOpt.optind++];
             break;            
         case 'v':
             fVerbose ^= 1;
@@ -55742,8 +56252,8 @@ int Abc_CommandAbc9GenHie( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;    
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;    
     if ( nArgcNew < 1 )
     {
         Abc_Print( -1, "Abc_CommandAbc9GenHie(): At least one AIG file should be given on the command line.\n" );
@@ -55780,8 +56290,9 @@ int Abc_CommandAbc9PutOnTop( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c, fVerbose = 0;
     char ** pArgvNew;
     int     nArgcNew;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {        
@@ -55794,8 +56305,8 @@ int Abc_CommandAbc9PutOnTop( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;    
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;    
     if ( nArgcNew < 1 )
     {
         Abc_Print( -1, "Abc_CommandAbc9PutOnTop(): At least one AIG file should be given on the command line.\n" );
@@ -55854,8 +56365,9 @@ int Abc_CommandAbc9BRecover( Abc_Frame_t * pAbc, int argc, char ** argv )
     pParsFra -> fBMiterInfo = 1;
 
     // parse options
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vhCkeo" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vhCkeo" ) ) != EOF )
     {
         switch ( c )
         {
@@ -55864,13 +56376,13 @@ int Abc_CommandAbc9BRecover( Abc_Frame_t * pAbc, int argc, char ** argv )
             pParsFra->fVerbose ^= 1;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pParsFra->nBTLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            pParsFra->nBTLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( pParsFra->nBTLimit < 0 )
                 goto usage;
             break;
@@ -55894,15 +56406,15 @@ int Abc_CommandAbc9BRecover( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9BRecover(): There is no AIG.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
-        printf("%d\n", argc-globalUtilOptind);
+        printf("%d\n", argc-pOpt.optind);
         Abc_Print( -1, "Abc_CommandAbc9BRecover(): AIG should be given on the command line.\n" );
         return 0;
     }
 
     // read spec
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     if ( (pFile = fopen( FileName, "r" )) == NULL )
     {
         Abc_Print( -1, "Cannot open input file \"%s\". ", FileName );
@@ -56092,8 +56604,9 @@ int Abc_CommandAbc9StrEco( Abc_Frame_t * pAbc, int argc, char ** argv )
     pParsFra -> fBMiterInfo = 1;
 
     // parse options
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vsh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vsh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -56114,15 +56627,15 @@ int Abc_CommandAbc9StrEco( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9StrEco(): There is no AIG.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
-        printf("%d\n", argc-globalUtilOptind);
+        printf("%d\n", argc-pOpt.optind);
         Abc_Print( -1, "Abc_CommandAbc9StrEco(): AIG should be given on the command line.\n" );
         return 0;
     }
 
     // read patch
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     if ( (pFile = fopen( FileName, "r" )) == NULL )
     {
         Abc_Print( -1, "Cannot open input file \"%s\". ", FileName );
@@ -56200,41 +56713,42 @@ int Abc_CommandAbc9GenCex( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fBlif     =  0;
     int fVerbose  =  0;
     int c;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CMFstcbvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CMFstcbvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMinCexes = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMinCexes = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMinCexes < 0 )
                 goto usage;
             break;
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nMaxTries = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nMaxTries = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nMaxTries < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;     
         case 's':
             fUseSim ^= 1;
@@ -56296,19 +56810,20 @@ int Abc_CommandAbc9Odc( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManDupOdc( Gia_Man_t * p, int iObj, int fVerbose );
     Gia_Man_t * pTemp;
     int c, iNode = -1, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iNode = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iNode = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iNode < 0 )
                 goto usage;
             break;
@@ -56360,28 +56875,29 @@ int Abc_CommandAbc9GenRel( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Gia_ManGenRel( Gia_Man_t * pGia, Vec_Int_t * vInsOuts, int nIns, char * pFileName, int fVerbose );
     Vec_Int_t * vInsOuts = NULL; char * pIns = NULL, * pOuts = NULL;
     int c, nIns = -1, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IOvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IOvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pIns = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pIns = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'O':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-O\" should be followed by an integer.\n" );
                 goto usage;
             }
-            pOuts = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pOuts = argv[pOpt.optind];
+            pOpt.optind++;
             break;
         case 'v':
             fVerbose ^= 1;
@@ -56397,7 +56913,7 @@ int Abc_CommandAbc9GenRel( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9GenRel(): There is no AIG.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind+1 )
+    if ( argc != pOpt.optind+1 )
     {
         Abc_Print( -1, "Abc_CommandAbc9GenRel(): The output file name should be given as the last entry on the command line.\n" );
         return 0;
@@ -56426,7 +56942,7 @@ int Abc_CommandAbc9GenRel( Abc_Frame_t * pAbc, int argc, char ** argv )
         printf( "Deriving relation for %d inputs and %d outputs: ", nIns, Vec_IntSize(vInsOuts)-nIns );
         Vec_IntPrint( vInsOuts );
     }
-    Gia_ManGenRel( pAbc->pGia, vInsOuts, nIns, argv[globalUtilOptind], fVerbose );
+    Gia_ManGenRel( pAbc->pGia, vInsOuts, nIns, argv[pOpt.optind], fVerbose );
     Vec_IntFree( vInsOuts );
     return 0;
 
@@ -56458,19 +56974,20 @@ int Abc_CommandAbc9GenMux( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pTemp = NULL;
     int c, nIns = 0, fVerbose = 0;
     char * pNums = NULL;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Kvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Kvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIns = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIns = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIns < 0 )
                 goto usage;
             break;
@@ -56483,7 +57000,7 @@ int Abc_CommandAbc9GenMux( Abc_Frame_t * pAbc, int argc, char ** argv )
             goto usage;
         }
     }
-    if ( argc == globalUtilOptind && nIns > 0 ) 
+    if ( argc == pOpt.optind && nIns > 0 ) 
     {
         extern char * Wlc_NtkMuxTreeString( int nIns );
         if ( nIns <= 16 )
@@ -56494,10 +57011,10 @@ int Abc_CommandAbc9GenMux( Abc_Frame_t * pAbc, int argc, char ** argv )
             return 0;            
         }
     }
-    else if ( argc == globalUtilOptind+1 ) 
+    else if ( argc == pOpt.optind+1 ) 
     {
         int nIns2 = 0;
-        pNums = argv[globalUtilOptind];
+        pNums = argv[pOpt.optind];
         for ( c = 0; pNums[c]; c++ )
             nIns2 += (int)(pNums[c] - '0');
         if ( nIns > 0 && nIns2 > 0 && nIns != nIns2 ) 
@@ -56543,19 +57060,20 @@ int Abc_CommandAbc9GenComp( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManDupGenComp( int nBits, int fInterleave, int fSigned );
     Gia_Man_t * pTemp = NULL;
     int c, nBits = 4, fInter = 0, fSigned = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Kisvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Kisvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBits = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBits = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBits < 0 )
                 goto usage;
             break;
@@ -56612,19 +57130,20 @@ int Abc_CommandAbc9GenSorter( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManGenSorter( int LogN );
     Gia_Man_t * pTemp = NULL;
     int c, LogN = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Kvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Kvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            LogN = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            LogN = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( LogN < 0 )
                 goto usage;
             break;
@@ -56673,30 +57192,31 @@ int Abc_CommandAbc9GenNeuron( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManGenNeuron( char * pFileName, int nIBits, int nLutSize, int fDump, int fVerbose );
     Gia_Man_t * pTemp = NULL;
     int c, nBits = 0, nLutSize = 0, fDump = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "IKdvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "IKdvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBits = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBits = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBits < 0 )
                 goto usage;
             break;
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;
@@ -56717,12 +57237,12 @@ int Abc_CommandAbc9GenNeuron( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9GenNeuron(): The number of inputs (0 < K < 32) should be defined on the command line \"-K num\".\n" );
         return 0;            
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( 1, "Input file is not given.\n" );
         return 0;
     }
-    pTemp = Gia_ManGenNeuron( argv[globalUtilOptind], nBits, nLutSize, fDump, fVerbose );
+    pTemp = Gia_ManGenNeuron( argv[pOpt.optind], nBits, nLutSize, fDump, fVerbose );
     if ( fVerbose )
         printf( "Generated %d-argument neuron with %d-bit inputs and %d-bit output.\n", Gia_ManCiNum(pTemp)/nBits, nBits, Gia_ManCoNum(pTemp) );
     Abc_FrameUpdateGia( pAbc, pTemp );
@@ -56756,19 +57276,20 @@ int Abc_CommandAbc9GenAdder( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern Gia_Man_t * Gia_ManGenAdder( int nVars, int fSK, int fBK, int fHC, int fCarries, int fVerbose );
     Gia_Man_t * pTemp = NULL;
     int c, nBits = 0, fSK = 0, fBK = 0, fHC = 0, fCarries = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Nsbhcv" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Nsbhcv" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBits = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBits = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBits < 0 )
                 goto usage;
             break;
@@ -56838,63 +57359,64 @@ int Abc_CommandAbc9GenPrefix( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern Gia_Man_t * Gia_ManDupFromArray( int * pObjs, int nObjs, int nIns, int nLatches, int nOuts, int nAnds );
     int c, nBits = 8, nFans = 4, Seed = 0, nIters = 1, DelayRelax = 0, fDumpVer = 0, fDumpMiter = 0, fVerbose = 0, use_or = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "NFSIRdmov" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "NFSIRdmov" ) ) != EOF )
     {
         switch ( c )
         {
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBits = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBits = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBits < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFans = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFans = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFans < 0 )
                 goto usage;
             break;
         case 'S':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
                 goto usage;
             }
-            Seed = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            Seed = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( Seed < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIters = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIters = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIters < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            DelayRelax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            DelayRelax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( DelayRelax < 0 )
                 goto usage;
             break;
@@ -56972,8 +57494,9 @@ int Abc_CommandAbc9Window( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pNew = NULL;
     Vec_Int_t * vCut = NULL;
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -56991,7 +57514,7 @@ int Abc_CommandAbc9Window( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9Window(): There is no AIG.\n" );
         return 0;
     }
-    if ( argc == globalUtilOptind )
+    if ( argc == pOpt.optind )
     {
         int nCutSize = 6, nCuts = 30;
         extern void Gia_ManExploreCutsTest( Gia_Man_t * pGia, int nCutSize, int nCuts, int fVerbose );
@@ -56999,13 +57522,13 @@ int Abc_CommandAbc9Window( Abc_Frame_t * pAbc, int argc, char ** argv )
         Gia_ManExploreCutsTest( pAbc->pGia, nCutSize, nCuts, fVerbose );
         return 0;
     }
-    if ( argc-globalUtilOptind < 1 )
+    if ( argc-pOpt.optind < 1 )
     {
         Abc_Print( -1, "Abc_CommandAbc9Window(): The window should have at least one support variable.\n" );
         return 0;
     }
     vCut = Vec_IntAlloc( 100 );
-    for ( c = globalUtilOptind; c < argc; c++ )
+    for ( c = pOpt.optind; c < argc; c++ )
         Vec_IntPush( vCut, atoi(argv[c]) );    
     pNew = Gia_ManDupWindow( pAbc->pGia, vCut );
     Abc_FrameUpdateGia( pAbc, pNew );
@@ -57041,30 +57564,31 @@ int Abc_CommandAbc9FunAbs( Abc_Frame_t * pAbc, int argc, char ** argv )
     Gia_Man_t * pNew = NULL;
     Vec_Int_t * vVars = NULL;
     int c, nVars = 6, nRands = 0, fEnum = 0, fPrint = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "KRepvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "KRepvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nVars = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nVars = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nVars < 0 )
                 goto usage;
             break;
         case 'R':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nRands = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nRands = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nRands < 0 )
                 goto usage;
             break;
@@ -57104,13 +57628,13 @@ int Abc_CommandAbc9FunAbs( Abc_Frame_t * pAbc, int argc, char ** argv )
         Gia_ManCofClassEnum( pAbc->pGia, nVars );
         return 0;
     }
-    if ( argc == globalUtilOptind ) {
+    if ( argc == pOpt.optind ) {
         vVars = Vec_IntStartNatural( nVars );
         printf( "Abstracting the first %d variables of the AIG.\n", nVars );
     }
     else {
         vVars = Vec_IntAlloc( argc );
-        for ( c = globalUtilOptind; c < argc; c++ )
+        for ( c = pOpt.optind; c < argc; c++ )
             Vec_IntPush( vVars, atoi(argv[c]) );
         printf( "Abstracting variables: " );
         Vec_IntPrint( vVars );
@@ -57156,19 +57680,20 @@ int Abc_CommandAbc9DsdInfo( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Gia_ManCheckDsd( Gia_Man_t * p, int OffSet, int fVerbose );
     extern void Gia_ManRecurDsd( Gia_Man_t * p, int fVerbose );
     int c, iIn = -1, fDsd = 0, fAll = 0, fRecur = 0, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Vdarvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Vdarvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'V':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer.\n" );
                 goto usage;
             }
-            iIn = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            iIn = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( iIn < 0 )
                 goto usage;
             break;
@@ -57272,63 +57797,64 @@ int Abc_CommandAbc9FunTrace( Abc_Frame_t * pAbc, int argc, char ** argv )
     extern void Abc_TtStoreDump( char * pFileName, Vec_Mem_t * vTtMem, int nBytes );
     int c, nVars, nVars2, nCutNum = 8, nCutSize = 0, nNumFuncs = 5, nNumCones = 3, fOutputs = 0, fVerbose = 0; word * pTruth = NULL;
     char * pStr = NULL, * pFuncFileName = "_npn_member_funcs_.data"; Vec_Mem_t * vTtMem = NULL; Gia_Man_t * pTemp;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "CKNMFovh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "CKNMFovh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutNum < 0 )
                 goto usage;
             break;            
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutSize < 0 )
                 goto usage;
             break;            
         case 'N':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-N\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNumFuncs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNumFuncs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNumFuncs < 0 )
                 goto usage;
             break;            
         case 'M':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nNumCones = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nNumCones = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nNumCones < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by a file name.\n" );
                 goto usage;
             }
-            pFuncFileName = argv[globalUtilOptind];
-            globalUtilOptind++;
+            pFuncFileName = argv[pOpt.optind];
+            pOpt.optind++;
             break;            
         case 'o':
             fOutputs ^= 1;
@@ -57347,7 +57873,7 @@ int Abc_CommandAbc9FunTrace( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9FunTrace(): There is no AIG.\n" );
         return 0;
     }
-    if ( argc == globalUtilOptind )
+    if ( argc == pOpt.optind )
     {
         abctime clkStart = Abc_Clock();
         int nFileSize = Gia_FileSize( pFuncFileName );
@@ -57369,18 +57895,18 @@ int Abc_CommandAbc9FunTrace( Abc_Frame_t * pAbc, int argc, char ** argv )
         Vec_MemFree( vTtMem );
         return 0;        
     }
-    if ( strstr(argv[globalUtilOptind], ".aig") ) 
+    if ( strstr(argv[pOpt.optind], ".aig") ) 
     { // the entry on the command line is an AIGER file
         extern void Gia_ManMatchCones( Gia_Man_t * pBig, Gia_Man_t * pSmall, int nCutSize, int nCutNum, int nNumFuncs, int nNumCones, int fVerbose );
         extern void Gia_ManMatchConesOutput( Gia_Man_t * pBig, Gia_Man_t * pSmall, int nCutNum, int fVerbose );
-        pTemp = Gia_AigerRead( argv[globalUtilOptind], 0, 0, 0 );
+        pTemp = Gia_AigerRead( argv[pOpt.optind], 0, 0, 0 );
         if ( pTemp == NULL ) {
-            Abc_Print( -1, "Abc_CommandAbc9FunTrace(): Cannot read input AIG \"%s\".\n", argv[globalUtilOptind] );
+            Abc_Print( -1, "Abc_CommandAbc9FunTrace(): Cannot read input AIG \"%s\".\n", argv[pOpt.optind] );
             return 0;                
         }
         if ( fOutputs ) {
             if ( Gia_ManCiNum(pTemp) > 16 ) {
-                Abc_Print( -1, "Abc_CommandAbc9FunTrace(): The AIG \"%s\" has more than 16 primary inputs.\n", argv[globalUtilOptind] );
+                Abc_Print( -1, "Abc_CommandAbc9FunTrace(): The AIG \"%s\" has more than 16 primary inputs.\n", argv[pOpt.optind] );
                 Gia_ManStop( pTemp );
                 return 0;                   
             }
@@ -57396,7 +57922,7 @@ int Abc_CommandAbc9FunTrace( Abc_Frame_t * pAbc, int argc, char ** argv )
         Gia_ManStop( pTemp );
         return 0;
     }
-    pStr = argv[globalUtilOptind];
+    pStr = argv[pOpt.optind];
     if ( pStr[0] == '0' && pStr[1] == 'x' )
         pStr += 2;
     nVars = Abc_Base2Log(strlen(pStr)*4);
@@ -57455,19 +57981,20 @@ int Abc_CommandAbc9MulFind( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern void Gia_ManMulFind( Gia_Man_t * p, int nCutNum, int fVerbose );
     int c, nCutNum = 8, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "Cvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Cvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nCutNum = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nCutNum = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nCutNum < 0 )
                 goto usage;
             break;            
@@ -57512,52 +58039,53 @@ int Abc_CommandAbc9BsFind( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern int Gia_ManBsFindBest( Gia_Man_t * pGia, int nWords, int nLutSize, int nBest, int nIterMax, int fVerbose );
     int c, nWords = 256, nLutSize = 6, nBest = 20, nIterMax = 10, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WKBIvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WKBIvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords < 0 )
                 goto usage;
             break;            
         case 'K':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-K\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nLutSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nLutSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nLutSize < 0 )
                 goto usage;
             break;            
         case 'B':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-B\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nBest = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nBest = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nBest < 0 )
                 goto usage;
             break;            
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nIterMax = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nIterMax = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nIterMax < 0 )
                 goto usage;
             break;            
@@ -57605,8 +58133,9 @@ int Abc_CommandAbc9AndCare( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern Gia_Man_t * Gia_ManDupAndCare( Gia_Man_t * p, Gia_Man_t * pCare );
     Gia_Man_t * pTemp = NULL, * pCare = NULL; int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "vh" ) ) != EOF )
     {
         switch ( c )
         {
@@ -57624,12 +58153,12 @@ int Abc_CommandAbc9AndCare( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9AndCare(): There is no AIG.\n" );
         return 0;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         Abc_Print( 1,"Abc_CommandAbc9AndCare(): There is no careset AIG.\n" );
         return 0;
     }
-    pCare = Gia_AigerRead( argv[globalUtilOptind], 0, 0, 0 );
+    pCare = Gia_AigerRead( argv[pOpt.optind], 0, 0, 0 );
     if ( pCare == NULL )
         Abc_Print( -1, "Abc_CommandAbc9AndCare(): Reading careset from file has failed.\n" );
     else if ( Gia_ManPiNum(pAbc->pGia) != Gia_ManPiNum(pCare) )
@@ -57674,41 +58203,42 @@ int Abc_CommandAbc9Test( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fSwitch = 0;
     int nWords = 1000;
     int nProcs = 2;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "WPFsvh" ) ) != EOF )
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "WPFsvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'W':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-W\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nWords = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nWords = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nWords < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nProcs = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nProcs = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nProcs < 0 )
                 goto usage;
             break;
         case 'F':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 Abc_Print( -1, "Command line switch \"-F\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nFrames = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nFrames = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nFrames < 0 )
                 goto usage;
             break;
@@ -57745,10 +58275,10 @@ int Abc_CommandAbc9Test( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9Test(): There is no AIG.\n" );
         return 1;
     }
-    if ( argc == globalUtilOptind + 1 )
+    if ( argc == pOpt.optind + 1 )
     {
         extern void Gia_ManUpdateCoPhase( Gia_Man_t * pNew, Gia_Man_t * pOld );
-        Gia_Man_t * pTemp = Gia_AigerRead( argv[globalUtilOptind], 0, 0, 0 );
+        Gia_Man_t * pTemp = Gia_AigerRead( argv[pOpt.optind], 0, 0, 0 );
         Gia_ManUpdateCoPhase( pAbc->pGia, pTemp );
         Gia_ManStop( pTemp );
         return 0;
@@ -57775,106 +58305,107 @@ int Abc_CommandAbc9eSLIM( Abc_Frame_t * pAbc, int argc, char ** argv ) {
   int c;
   Gia_Man_t * pTemp;
   seteSLIMParams(&params);
-  Extra_UtilGetoptReset();
-  while ( ( c = Extra_UtilGetopt( argc, argv, "DIMPRSTVZdfhns" ) ) != EOF ) {
+  
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+  while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "DIMPRSTVZdfhns" ) ) != EOF ) {
       switch ( c ) {
         case 'D':
-          if ( globalUtilOptind >= argc )
+          if ( pOpt.optind >= argc )
           {
               Abc_Print( -1, "Command line switch \"-D\" should be followed by an integer.\n" );
               goto usage;
           }
-          params.timeout_inprocessing = atoi(argv[globalUtilOptind]);
-          globalUtilOptind++;
+          params.timeout_inprocessing = atoi(argv[pOpt.optind]);
+          pOpt.optind++;
           if ( params.timeout_inprocessing < 1 )
               goto usage;
           break;
         case 'I':
-          if ( globalUtilOptind >= argc )
+          if ( pOpt.optind >= argc )
           {
               Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
               goto usage;
           }
-          params.iterations = atoi(argv[globalUtilOptind]);
-          globalUtilOptind++;
+          params.iterations = atoi(argv[pOpt.optind]);
+          pOpt.optind++;
           if ( params.iterations < 0 )
               goto usage;
           break;
         case 'M':
-          if ( globalUtilOptind >= argc )
+          if ( pOpt.optind >= argc )
           {
               Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
               goto usage;
           }
-          params.mode = atoi(argv[globalUtilOptind]);
-          globalUtilOptind++;
+          params.mode = atoi(argv[pOpt.optind]);
+          pOpt.optind++;
           if ( params.mode < 0 || params.mode > 2)
               goto usage;
           break;
         case 'P':
-          if ( globalUtilOptind >= argc )
+          if ( pOpt.optind >= argc )
           {
               Abc_Print( -1, "Command line switch \"-P\" should be followed by a float.\n" );
               goto usage;
           }
-          params.expansion_probability = atof(argv[globalUtilOptind]);
-          globalUtilOptind++;
+          params.expansion_probability = atof(argv[pOpt.optind]);
+          pOpt.optind++;
           if ( params.expansion_probability <= 0 || params.expansion_probability > 1)
               goto usage;
           break;
         case 'R':
-          if ( globalUtilOptind >= argc )
+          if ( pOpt.optind >= argc )
           {
               Abc_Print( -1, "Command line switch \"-R\" should be followed by an integer.\n" );
               goto usage;
           }
-          params.nruns = atoi(argv[globalUtilOptind]);
-          globalUtilOptind++;
+          params.nruns = atoi(argv[pOpt.optind]);
+          pOpt.optind++;
           if ( params.nruns < 1 )
               goto usage;
           break;
         case 'S':
-          if ( globalUtilOptind >= argc )
+          if ( pOpt.optind >= argc )
           {
               Abc_Print( -1, "Command line switch \"-S\" should be followed by an integer.\n" );
               goto usage;
           }
-          params.subcircuit_size_bound = atoi(argv[globalUtilOptind]);
-          globalUtilOptind++;
+          params.subcircuit_size_bound = atoi(argv[pOpt.optind]);
+          pOpt.optind++;
           if ( params.subcircuit_size_bound < 2 )
               goto usage;
           break;
         case 'T':
-          if ( globalUtilOptind >= argc )
+          if ( pOpt.optind >= argc )
           {
               Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
               goto usage;
           }
-          params.timeout = atoi(argv[globalUtilOptind]);
-          globalUtilOptind++;
+          params.timeout = atoi(argv[pOpt.optind]);
+          pOpt.optind++;
           if ( params.timeout < 1 )
               goto usage;
           break;
         case 'V':
-          if ( globalUtilOptind >= argc )
+          if ( pOpt.optind >= argc )
           {
               Abc_Print( -1, "Command line switch \"-V\" should be followed by an integer.\n" );
               goto usage;
           }
-          params.verbosity_level = atoi(argv[globalUtilOptind]);
-          globalUtilOptind++;
+          params.verbosity_level = atoi(argv[pOpt.optind]);
+          pOpt.optind++;
           if ( params.verbosity_level < 0 || params.verbosity_level > 3 )
               goto usage;
           break;
         case 'Z':
-          if ( globalUtilOptind >= argc )
+          if ( pOpt.optind >= argc )
           {
               Abc_Print( -1, "Command line switch \"-Z\" should be followed by an integer.\n" );
               goto usage;
           }
           params.fix_seed = 1;
-          params.seed = atoi(argv[globalUtilOptind]);
-          globalUtilOptind++;
+          params.seed = atoi(argv[pOpt.optind]);
+          pOpt.optind++;
           break;
         case 'd' :
           params.apply_inprocessing ^= 1;

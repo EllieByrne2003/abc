@@ -56,9 +56,17 @@ ABC_NAMESPACE_HEADER_START
 /* Stucture declarations                                                     */
 /*---------------------------------------------------------------------------*/
 
+struct Extra_UtilOpt_t_ {
+    const char * optarg;   // The current argument being looked at
+    int          optind;   // Index of current argument
+    const char * pScanStr; // Next char to look at in current argument
+};
+
 /*---------------------------------------------------------------------------*/
 /* Type declarations                                                         */
 /*---------------------------------------------------------------------------*/
+
+typedef struct Extra_UtilOpt_t_ Extra_UtilOpt_t; // TODO Ellie name this better?
 
 /*---------------------------------------------------------------------------*/
 /* Variable declarations                                                     */
@@ -398,16 +406,12 @@ extern unsigned    Extra_TruthSemiCanonicize( unsigned * pInOut, unsigned * pAux
 extern abctime       Extra_CpuTime();
 extern double        Extra_CpuTimeDouble();
 extern int           Extra_GetSoftDataLimit();
-extern ABC_DLL void  Extra_UtilGetoptReset();
-extern int           Extra_UtilGetopt( int argc, char *argv[], const char *optstring );
+extern int           Extra_UtilGetopt( Extra_UtilOpt_t * p, int argc, char *argv[], const char *optstring );
 extern char *        Extra_UtilPrintTime( long t );
 extern char *        Extra_UtilStrsav( const char *s );
 extern char *        Extra_UtilTildeExpand( char *fname );
 extern char *        Extra_UtilFileSearch( char *file, char *path, char *mode );
 extern void          (*Extra_UtilMMoutOfMemory)( long size );
-
-extern const char *  globalUtilOptarg;
-extern int           globalUtilOptind;
 
 /**AutomaticEnd***************************************************************/
 

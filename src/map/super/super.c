@@ -93,20 +93,21 @@ int Super_CommandSupergatesAnd( Abc_Frame_t * pAbc, int argc, char **argv )
     nVarsMax = 4;
     nLevels  = 3;
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "ILvh")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "ILvh")) != EOF ) 
     {
         switch (c) 
         {
             case 'I':
-                nVarsMax = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nVarsMax = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nVarsMax < 0 ) 
                     goto usage;
                 break;
             case 'L':
-                nLevels = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nLevels = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nLevels < 0 ) 
                     goto usage;
                 break;
@@ -176,52 +177,52 @@ int Super_CommandSupergates( Abc_Frame_t * pAbc, int argc, char **argv )
     fWriteOldFormat = 0;
     ExcludeFile = 0;
 
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "ILNTDAEsovh")) != EOF ) 
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "ILNTDAEsovh")) != EOF ) 
     {
         switch (c) 
         {
             case 'I':
-                nVarsMax = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nVarsMax = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nVarsMax < 0 ) 
                     goto usage;
                 break;
             case 'L':
-                nLevels = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nLevels = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nLevels < 0 ) 
                     goto usage;
                 break;
             case 'N':
-                nGatesMax = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nGatesMax = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( nGatesMax < 0 ) 
                     goto usage;
                 break;
             case 'T':
-                TimeLimit = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                TimeLimit = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( TimeLimit < 0 ) 
                     goto usage;
                 break;
             case 'D':
-                DelayLimit = (float)atof(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                DelayLimit = (float)atof(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( DelayLimit <= 0.0 ) 
                     goto usage;
                 break;
             case 'A':
-                AreaLimit = (float)atof(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                AreaLimit = (float)atof(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( AreaLimit <= 0.0 ) 
                     goto usage;
                 break;
             case 'E':
-                ExcludeFile = argv[globalUtilOptind];
+                ExcludeFile = argv[pOpt.optind];
                 if ( ExcludeFile == 0 )
                     goto usage;
-                globalUtilOptind++;
+                pOpt.optind++;
                 break;
             case 's':
                 fSkipInvs ^= 1;
@@ -241,7 +242,7 @@ int Super_CommandSupergates( Abc_Frame_t * pAbc, int argc, char **argv )
     }
 
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         fprintf( pErr, "The genlib library file should be given on the command line.\n" );
         goto usage;
@@ -254,7 +255,7 @@ int Super_CommandSupergates( Abc_Frame_t * pAbc, int argc, char **argv )
     }
 
     // get the input file name
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     if ( (pFile = Io_FileOpen( FileName, "open_path", "r", 0 )) == NULL )
 //    if ( (pFile = fopen( FileName, "r" )) == NULL )
     {

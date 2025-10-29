@@ -313,8 +313,9 @@ int Mio_CommandReadLiberty( Abc_Frame_t * pAbc, int argc, char **argv )
 
     // set the defaults
     fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "vh")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "vh")) != EOF ) 
     {
         switch (c) 
         {
@@ -329,11 +330,11 @@ int Mio_CommandReadLiberty( Abc_Frame_t * pAbc, int argc, char **argv )
         }
     }
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
 
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = Io_FileOpen( pFileName, "open_path", "r", 0 )) == NULL )
     {
         fprintf( pErr, "Cannot open input file \"%s\". ", pFileName );
@@ -405,39 +406,40 @@ int Mio_CommandReadGenlib( Abc_Frame_t * pAbc, int argc, char **argv )
 
     pOut = Abc_FrameReadOut(pAbc);
     pErr = Abc_FrameReadErr(pAbc);
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "WEKnvh")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "WEKnvh")) != EOF ) 
     {
         switch (c) 
         {
             case 'W':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-W\" should be followed by a floating point number.\n" );
                     goto usage;
                 }
-                WireDelay = (float)atof(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                WireDelay = (float)atof(argv[pOpt.optind]);
+                pOpt.optind++;
                 if ( WireDelay <= 0.0 ) 
                     goto usage;
                 break;
             case 'E':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-E\" should be followed by a file name.\n" );
                     goto usage;
                 }
-                pExcludeFile = argv[globalUtilOptind];
-                globalUtilOptind++;
+                pExcludeFile = argv[pOpt.optind];
+                pOpt.optind++;
                 break;
             case 'K':
-                if ( globalUtilOptind >= argc )
+                if ( pOpt.optind >= argc )
                 {
                     Abc_Print( -1, "Command line switch \"-K\" should be followed by a file name.\n" );
                     goto usage;
                 }
-                nFaninLimit = atoi(argv[globalUtilOptind]);
-                globalUtilOptind++;
+                nFaninLimit = atoi(argv[pOpt.optind]);
+                pOpt.optind++;
                 break;
             case 'n':
                 fShortNames ^= 1;
@@ -452,13 +454,13 @@ int Mio_CommandReadGenlib( Abc_Frame_t * pAbc, int argc, char **argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
 
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = Io_FileOpen( pFileName, "open_path", "r", 0 )) == NULL )
     {
         fprintf( pErr, "Cannot open input file \"%s\". ", pFileName );
@@ -538,8 +540,8 @@ int Mio_CommandWriteGenlib( Abc_Frame_t * pAbc, int argc, char **argv )
     pOut = Abc_FrameReadOut(pAbc);
     pErr = Abc_FrameReadErr(pAbc);
 
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "agvh")) != EOF ) 
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "agvh")) != EOF ) 
     {
         switch (c) 
         {
@@ -564,13 +566,13 @@ int Mio_CommandWriteGenlib( Abc_Frame_t * pAbc, int argc, char **argv )
         printf( "Library is not available.\n" );
         return 1;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         printf( "The file name is not given.\n" );
         return 1;
     }
 
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     pFile = fopen( pFileName, "w" );
     if ( pFile == NULL )
     {
@@ -619,8 +621,9 @@ int Mio_CommandPrintGenlib( Abc_Frame_t * pAbc, int argc, char **argv )
     pErr = Abc_FrameReadErr(pAbc);
 
     // set the defaults
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "savh")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "savh")) != EOF ) 
     {
         switch (c) 
         {
@@ -681,8 +684,9 @@ int Mio_CommandReadProfile( Abc_Frame_t * pAbc, int argc, char **argv )
     pErr = Abc_FrameReadErr(pAbc);
 
     // set the defaults
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "h")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "h")) != EOF ) 
     {
         switch (c) 
         {
@@ -693,7 +697,7 @@ int Mio_CommandReadProfile( Abc_Frame_t * pAbc, int argc, char **argv )
                 goto usage;
         }
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         goto usage;
     }
@@ -706,7 +710,7 @@ int Mio_CommandReadProfile( Abc_Frame_t * pAbc, int argc, char **argv )
     }
 
     // get the input file name
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     if ( (pFile = Io_FileOpen( pFileName, "open_path", "r", 0 )) == NULL )
     {
         fprintf( pErr, "Cannot open input file \"%s\". ", pFileName );
@@ -749,8 +753,9 @@ int Mio_CommandWriteProfile( Abc_Frame_t * pAbc, int argc, char **argv )
     pOut = Abc_FrameReadOut(pAbc);
     pErr = Abc_FrameReadErr(pAbc);
 
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "h")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "h")) != EOF ) 
     {
         switch (c) 
         {
@@ -766,13 +771,13 @@ int Mio_CommandWriteProfile( Abc_Frame_t * pAbc, int argc, char **argv )
         printf( "Library is not available.\n" );
         return 1;
     }
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
     {
         printf( "The file name is not given.\n" );
         return 1;
     }
 
-    pFileName = argv[globalUtilOptind];
+    pFileName = argv[pOpt.optind];
     pFile = fopen( pFileName, "w" );
     if ( pFile == NULL )
     {
@@ -815,8 +820,9 @@ int Mio_CommandPrintProfile( Abc_Frame_t * pAbc, int argc, char **argv )
     pErr = Abc_FrameReadErr(pAbc);
 
     // set the defaults
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "savh")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "savh")) != EOF ) 
     {
         switch (c) 
         {

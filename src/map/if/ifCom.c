@@ -109,8 +109,9 @@ int If_CommandReadLut( Abc_Frame_t * pAbc, int argc, char **argv )
 
     // set the defaults
     fVerbose = 1;
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "vh")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "vh")) != EOF ) 
     {
         switch (c) 
         {
@@ -125,11 +126,11 @@ int If_CommandReadLut( Abc_Frame_t * pAbc, int argc, char **argv )
         }
     }
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
 
     // get the input file name
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     if ( (pFile = fopen( FileName, "r" )) == NULL )
     {
         fprintf( pErr, "Cannot open input file \"%s\". ", FileName );
@@ -196,8 +197,9 @@ int If_CommandPrintLut( Abc_Frame_t * pAbc, int argc, char **argv )
 
     // set the defaults
     fVerbose = 1;
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "vh")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "vh")) != EOF ) 
     {
         switch (c) 
         {
@@ -212,7 +214,7 @@ int If_CommandPrintLut( Abc_Frame_t * pAbc, int argc, char **argv )
         }
     }
 
-    if ( argc != globalUtilOptind )
+    if ( argc != pOpt.optind )
         goto usage;
 
     // set the new network
@@ -256,8 +258,9 @@ int If_CommandReadBox( Abc_Frame_t * pAbc, int argc, char **argv )
     // set the defaults
     fExtended = 0;
     fVerbose = 1;
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "evh")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "evh")) != EOF ) 
     {
         switch (c) 
         {
@@ -275,11 +278,11 @@ int If_CommandReadBox( Abc_Frame_t * pAbc, int argc, char **argv )
         }
     }
 
-    if ( argc != globalUtilOptind + 1 )
+    if ( argc != pOpt.optind + 1 )
         goto usage;
 
     // get the input file name
-    FileName = argv[globalUtilOptind];
+    FileName = argv[pOpt.optind];
     if ( (pFile = fopen( FileName, "r" )) == NULL )
     {
         fprintf( pErr, "Cannot open input file \"%s\". ", FileName );
@@ -335,8 +338,9 @@ int If_CommandPrintBox( Abc_Frame_t * pAbc, int argc, char **argv )
 
     // set the defaults
     fVerbose = 1;
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "vh")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "vh")) != EOF ) 
     {
         switch (c) 
         {
@@ -351,7 +355,7 @@ int If_CommandPrintBox( Abc_Frame_t * pAbc, int argc, char **argv )
         }
     }
 
-    if ( argc != globalUtilOptind )
+    if ( argc != pOpt.optind )
         goto usage;
 
     // set the new network
@@ -389,8 +393,9 @@ int If_CommandWriteBox( Abc_Frame_t * pAbc, int argc, char **argv )
     pErr = Abc_FrameReadErr(pAbc);
 
     fVerbose = 1;
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "vh")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "vh")) != EOF ) 
     {
         switch (c) 
         {
@@ -405,10 +410,10 @@ int If_CommandWriteBox( Abc_Frame_t * pAbc, int argc, char **argv )
         }
     }
 
-    if ( argc != globalUtilOptind+1 )
+    if ( argc != pOpt.optind+1 )
         goto usage;
 
-    If_LibBoxWrite( argv[globalUtilOptind], (If_LibBox_t *)Abc_FrameReadLibBox() );
+    If_LibBoxWrite( argv[pOpt.optind], (If_LibBox_t *)Abc_FrameReadLibBox() );
     return 0;
 
 usage:
@@ -436,8 +441,9 @@ int If_CommandPrintTim( Abc_Frame_t * pAbc, int argc, char **argv )
 {
     Gia_Man_t * pGia = Abc_FrameReadGia(pAbc);
     int c, fVerbose = 0;
-    Extra_UtilGetoptReset();
-    while ( (c = Extra_UtilGetopt(argc, argv, "vh")) != EOF ) 
+    
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( (c = Extra_UtilGetopt( &pOpt, argc, argv, "vh")) != EOF ) 
     {
         switch (c) 
         {

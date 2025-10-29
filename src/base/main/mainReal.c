@@ -125,8 +125,8 @@ int Abc_RealMain( int argc, char * argv[] )
     sprintf( sReadCmd,  "read"  );
     sprintf( sWriteCmd, "write" );
 
-    Extra_UtilGetoptReset();
-    while ((c = Extra_UtilGetopt(argc, argv, "dm:l:c:q:C:Q:S:hf:F:o:st:T:xb")) != EOF) {
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ((c = Extra_UtilGetopt( &pOpt, argc, argv, "dm:l:c:q:C:Q:S:hf:F:o:st:T:xb")) != EOF) {
         switch(c) {
 
             case 'd':                                          
@@ -135,7 +135,7 @@ int Abc_RealMain( int argc, char * argv[] )
 
             case 'm': {
 #if !defined(WIN32) && !defined(ABC_NO_RLIMIT)
-                int maxMb = atoi(globalUtilOptarg);             
+                int maxMb = atoi(pOpt.optarg);             
                 printf("Limiting memory use to %d MB\n", maxMb);
                 struct rlimit limit = {                         
                     maxMb * (1llu << 20), /* soft limit */      
@@ -147,7 +147,7 @@ int Abc_RealMain( int argc, char * argv[] )
             }                                         
             case 'l': {
 #if !defined(WIN32) && !defined(ABC_NO_RLIMIT)
-                rlim_t maxTime = atoi(globalUtilOptarg);           
+                rlim_t maxTime = atoi(pOpt.optarg);           
                 printf("Limiting time to %d seconds\n", (int)maxTime);
                 struct rlimit limit = {                         
                     maxTime,             /* soft limit */       
@@ -162,7 +162,7 @@ int Abc_RealMain( int argc, char * argv[] )
                 {
                     Vec_StrAppend(sCommandUsr, " ; ");
                 }
-                Vec_StrAppend(sCommandUsr, globalUtilOptarg );
+                Vec_StrAppend(sCommandUsr, pOpt.optarg );
                 fBatch = BATCH;
                 break;
 
@@ -171,7 +171,7 @@ int Abc_RealMain( int argc, char * argv[] )
                 {
                     Vec_StrAppend(sCommandUsr, " ; ");
                 }
-                Vec_StrAppend(sCommandUsr, globalUtilOptarg );
+                Vec_StrAppend(sCommandUsr, pOpt.optarg );
                 fBatch = BATCH_QUIET;
                 break;
 
@@ -180,7 +180,7 @@ int Abc_RealMain( int argc, char * argv[] )
                 {
                     Vec_StrAppend(sCommandUsr, " ; ");
                 }
-                Vec_StrAppend(sCommandUsr, globalUtilOptarg );
+                Vec_StrAppend(sCommandUsr, pOpt.optarg );
                 fBatch = BATCH_QUIET_THEN_INTERACTIVE;
                 break;
 
@@ -189,7 +189,7 @@ int Abc_RealMain( int argc, char * argv[] )
                 {
                     Vec_StrAppend(sCommandUsr, " ; ");
                 }
-                Vec_StrAppend(sCommandUsr, globalUtilOptarg );
+                Vec_StrAppend(sCommandUsr, pOpt.optarg );
                 fBatch = BATCH_THEN_INTERACTIVE;
                 break;
 
@@ -198,7 +198,7 @@ int Abc_RealMain( int argc, char * argv[] )
                 {
                     Vec_StrAppend(sCommandUsr, " ; ");
                 }
-                Vec_StrAppend(sCommandUsr, globalUtilOptarg );
+                Vec_StrAppend(sCommandUsr, pOpt.optarg );
                 fBatch = BATCH_SMT;
                 break;
 
@@ -207,7 +207,7 @@ int Abc_RealMain( int argc, char * argv[] )
                 {
                     Vec_StrAppend(sCommandUsr, " ; ");
                 }
-                Vec_StrPrintF(sCommandUsr, "source %s", globalUtilOptarg );
+                Vec_StrPrintF(sCommandUsr, "source %s", pOpt.optarg );
                 fBatch = BATCH;
                 break;
 
@@ -216,7 +216,7 @@ int Abc_RealMain( int argc, char * argv[] )
                 {
                     Vec_StrAppend(sCommandUsr, " ; ");
                 }
-                Vec_StrPrintF(sCommandUsr, "source -x %s", globalUtilOptarg );
+                Vec_StrPrintF(sCommandUsr, "source -x %s", pOpt.optarg );
                 fBatch = BATCH;
                 break;
 
@@ -225,7 +225,7 @@ int Abc_RealMain( int argc, char * argv[] )
                 break;
 
             case 'o':
-                sOutFile = globalUtilOptarg;
+                sOutFile = pOpt.optarg;
                 fFinalWrite = 1;
                 break;
 
@@ -234,12 +234,12 @@ int Abc_RealMain( int argc, char * argv[] )
                 break;
 
             case 't':
-                if ( TypeCheck( pAbc, globalUtilOptarg ) )
+                if ( TypeCheck( pAbc, pOpt.optarg ) )
                 {
-                    if ( (!strcmp(globalUtilOptarg, "none")) == 0 )
+                    if ( (!strcmp(pOpt.optarg, "none")) == 0 )
                     {
                         fInitRead = 1;
-                        sprintf( sReadCmd, "read_%s", globalUtilOptarg );
+                        sprintf( sReadCmd, "read_%s", pOpt.optarg );
                     }
                 }
                 else {
@@ -249,12 +249,12 @@ int Abc_RealMain( int argc, char * argv[] )
                 break;
 
             case 'T':
-                if ( TypeCheck( pAbc, globalUtilOptarg ) )
+                if ( TypeCheck( pAbc, pOpt.optarg ) )
                 {
-                    if ( (!strcmp(globalUtilOptarg, "none")) == 0)
+                    if ( (!strcmp(pOpt.optarg, "none")) == 0)
                     {
                         fFinalWrite = 1;
-                        sprintf( sWriteCmd, "write_%s", globalUtilOptarg);
+                        sprintf( sWriteCmd, "write_%s", pOpt.optarg);
                     }
                 }
                 else {
@@ -299,14 +299,14 @@ int Abc_RealMain( int argc, char * argv[] )
     {
         pAbc->fBatchMode = 1;
 
-        if (argc - globalUtilOptind == 0)
+        if (argc - pOpt.optind == 0)
         {
             sInFile = NULL;
         }
-        else if (argc - globalUtilOptind == 1)
+        else if (argc - pOpt.optind == 1)
         {
             fInitRead = 1;
-            sInFile = argv[globalUtilOptind];
+            sInFile = argv[pOpt.optind];
         }
         else
         {

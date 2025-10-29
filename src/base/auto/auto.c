@@ -133,52 +133,53 @@ int Abc_ApiCec( Abc_Frame_t * pAbc, int argc, char ** argv )
     nInsLimit  = 0;
     fPartition = 0;
     fIgnoreNames = 0;
-    Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "TCIPpsnvh" ) ) != EOF )
+
+    Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
+    while ( ( c = Extra_UtilGetopt( &pOpt, argc, argv, "TCIPpsnvh" ) ) != EOF )
     {
         switch ( c )
         {
         case 'T':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 // Abc_Print( -1, "Command line switch \"-T\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nSeconds = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nSeconds = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nSeconds < 0 )
                 goto usage;
             break;
         case 'C':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 // Abc_Print( -1, "Command line switch \"-C\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nConfLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nConfLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nConfLimit < 0 )
                 goto usage;
             break;
         case 'I':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 // Abc_Print( -1, "Command line switch \"-I\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nInsLimit = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nInsLimit = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nInsLimit < 0 )
                 goto usage;
             break;
         case 'P':
-            if ( globalUtilOptind >= argc )
+            if ( pOpt.optind >= argc )
             {
                 // Abc_Print( -1, "Command line switch \"-P\" should be followed by an integer.\n" );
                 goto usage;
             }
-            nPartSize = atoi(argv[globalUtilOptind]);
-            globalUtilOptind++;
+            nPartSize = atoi(argv[pOpt.optind]);
+            pOpt.optind++;
             if ( nPartSize < 0 )
                 goto usage;
             break;
@@ -205,8 +206,8 @@ int Abc_ApiCec( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 2;
     }
 
-    pArgvNew = argv + globalUtilOptind;
-    nArgcNew = argc - globalUtilOptind;
+    pArgvNew = argv + pOpt.optind;
+    nArgcNew = argc - pOpt.optind;
     if ( !Abc_NtkPrepareTwoNtks( stdout, pNtk, pArgvNew, nArgcNew, &pNtk1, &pNtk2, &fDelete1, &fDelete2, 1 ) )
         return 2;
 
