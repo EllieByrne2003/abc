@@ -491,7 +491,7 @@ static inline void Cbs_ManCancelUntil( Cbs_Man_t * p, int iBound )
     Vec_IntShrink( p->vLevReas, 3*iBound );
 }
 
-int s_Counter = 0;
+// int s_Counter = 0;
 
 /**Function*************************************************************
 
@@ -947,7 +947,7 @@ int Cbs_ManSolve_rec( Cbs_Man_t * p, int Level )
 int Cbs_ManSolve( Cbs_Man_t * p, Gia_Obj_t * pObj )
 {
     int RetValue = 0;
-    s_Counter = 0;
+    // s_Counter = 0;
     assert( !p->pProp.iHead && !p->pProp.iTail );
     assert( !p->pJust.iHead && !p->pJust.iTail );
     assert( p->pClauses.iHead == 1 && p->pClauses.iTail == 1 );
@@ -970,7 +970,7 @@ int Cbs_ManSolve( Cbs_Man_t * p, Gia_Obj_t * pObj )
 int Cbs_ManSolve2( Cbs_Man_t * p, Gia_Obj_t * pObj, Gia_Obj_t * pObj2 )
 {
     int RetValue = 0;
-    s_Counter = 0;
+    // s_Counter = 0;
     assert( !p->pProp.iHead && !p->pProp.iTail );
     assert( !p->pJust.iHead && !p->pJust.iTail );
     assert( p->pClauses.iHead == 1 && p->pClauses.iTail == 1 );

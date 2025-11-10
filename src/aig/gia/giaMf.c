@@ -116,6 +116,8 @@ extern int Kit_TruthToGia( Gia_Man_t * pMan, unsigned * pTruth, int nVars, Vec_I
   SeeAlso     []
 
 ***********************************************************************/
+// TODO Ellie, these can both be made local and passed along
+// TODO Ellie, the functions in this file are unused
 static int s_nCalls = 0;
 static Vec_Mem_t * s_vTtMem = NULL;
 int Mf_ManTruthCanonicize( word * t, int nVars )

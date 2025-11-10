@@ -235,7 +235,7 @@ Abc_Ntk_t * Abc_NtkCollapse( Abc_Ntk_t * pNtk, int fBddSizeMax, int fDualRail, i
         pNtkNew->pExdc = Abc_NtkDup( pNtk->pExdc );
 
     // make sure that everything is okay
-    if ( !Abc_NtkCheck( pNtkNew ) )
+    if ( !Abc_NtkCheck( pNtkNew ) ) // TODO Ellie, this uses the global frame
     {
         printf( "Abc_NtkCollapse: The network check has failed.\n" );
         Abc_NtkDelete( pNtkNew );
