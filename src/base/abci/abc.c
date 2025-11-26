@@ -6511,7 +6511,7 @@ int Abc_CommandGlitch( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
     int nPats    = 4000;
     int Prob     =    8;
-    int fVerbose =    1;
+    int fVerbose =    0;
     int c;
 
     // set defaults
@@ -26237,7 +26237,7 @@ int Abc_CommandSynch( Abc_Frame_t * pAbc, int argc, char ** argv )
     pNtk = Abc_FrameReadNtk(pAbc);
     // set defaults
     nWords   =  32;
-    fVerbose =   1;
+    fVerbose =   0;
     
     Extra_UtilOpt_t pOpt = { NULL, 0, NULL };
     while ( ( c = Extra_UtilGetopt( &pOpt,argc, argv, "Wvh" ) ) != EOF )
