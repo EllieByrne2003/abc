@@ -45,8 +45,6 @@ static int Abc_NtkRenodeEvalMv( If_Man_t * p, If_Cut_t * pCut );
 static reo_man * s_pReo       = NULL;
 static DdManager * s_pDd      = NULL;
 
-static int nDsdCounter = 0;
-
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
 ////////////////////////////////////////////////////////////////////////
@@ -70,8 +68,6 @@ Abc_Ntk_t * Abc_NtkRenode( Abc_Ntk_t * pNtk, int nFaninMax, int nCubeMax, int nF
 
     if ( Abc_NtkGetChoiceNum( pNtk ) )
         printf( "Performing renoding with choices.\n" );
-
-    nDsdCounter = 0;
 
     // set defaults
     memset( pPars, 0, sizeof(If_Par_t) );
@@ -134,8 +130,6 @@ Abc_Ntk_t * Abc_NtkRenode( Abc_Ntk_t * pNtk, int nFaninMax, int nCubeMax, int nF
         s_pReo = NULL;
         s_pDd  = NULL;
     }
-
-//    printf( "Decomposed %d functions.\n", nDsdCounter );
 
     return pNtkNew;
 }
