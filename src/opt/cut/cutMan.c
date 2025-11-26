@@ -140,6 +140,8 @@ void Cut_ManStop( Cut_Man_t * p )
     if ( p->vNodeStarts ) Vec_IntFree( p->vNodeStarts );
     if ( p->vCutPairs )   Vec_IntFree( p->vCutPairs );
     if ( p->puTemp[0] )   ABC_FREE( p->puTemp[0] );
+
+    if ( p->pParams )     ABC_FREE( p->pParams );
     
     extern void Aig_RManStop( Aig_RMan_t * p );
     if ( p->pRMan )       Aig_RManStop( p->pRMan );

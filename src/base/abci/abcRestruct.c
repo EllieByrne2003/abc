@@ -960,7 +960,7 @@ Dec_Graph_t * Abc_NodeEvaluateDsd( Abc_ManRst_t * pManRst, Dsd_Node_t * pNodeDsd
 ***********************************************************************/
 Cut_Man_t * Abc_NtkStartCutManForRestruct( Abc_Ntk_t * pNtk, int nCutMax, int fDag )
 {
-    static Cut_Params_t Params, * pParams = &Params;
+    Cut_Params_t *pParams = ABC_ALLOC( Cut_Params_t, 1 );
     Cut_Man_t * pManCut;
     Abc_Obj_t * pObj;
     int i;

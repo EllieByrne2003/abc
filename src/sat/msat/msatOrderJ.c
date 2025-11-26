@@ -81,9 +81,6 @@ struct Msat_Order_t_
 static void Msat_OrderRingAddLast( Msat_OrderRing_t * pRing, Msat_OrderVar_t * pVar );
 static void Msat_OrderRingRemove( Msat_OrderRing_t * pRing, Msat_OrderVar_t * pVar );
 
-extern clock_t timeSelect;
-extern clock_t timeAssign;
-
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
 ////////////////////////////////////////////////////////////////////////
@@ -276,8 +273,6 @@ int Msat_OrderVarSelect( Msat_Order_t * p )
             pVarBest  = pVar;
         }
     }
-//timeSelect += clock() - clk;
-//timeAssign += clock() - clk;
 
 //if ( pVarBest && pVarBest->Num % 1000 == 0 )
 //printf( "%d ", p->rVars.nItems );
@@ -325,8 +320,6 @@ void Msat_OrderVarAssigned( Msat_Order_t * p, int Var )
             continue;
         Msat_OrderRingAddLast( &p->rVars, &p->pVars[vRound->pArray[i]] );
     }
-//timeSelect += clock() - clk;
-//    Msat_OrderCheck( p );
 }
 
 /**Function*************************************************************
@@ -372,8 +365,6 @@ void Msat_OrderVarUnassigned( Msat_Order_t * p, int Var )
             if ( k == vRound2->nSize ) // there is no assigned vars, delete this one
                 Msat_OrderRingRemove( &p->rVars, &p->pVars[vRound->pArray[i]] );
         }
-//timeSelect += clock() - clk;
-//    Msat_OrderCheck( p );
 }
 
 /**Function*************************************************************

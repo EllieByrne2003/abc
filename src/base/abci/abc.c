@@ -14830,7 +14830,7 @@ usage:
 ***********************************************************************/
 int Abc_CommandCut( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
-    Cut_Params_t Params, * pParams = &Params;
+    Cut_Params_t *pParams = ABC_ALLOC( Cut_Params_t, 1 );
     Cut_Man_t * pCutMan;
     Cut_Oracle_t * pCutOracle = NULL;
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);

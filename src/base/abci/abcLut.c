@@ -248,7 +248,7 @@ void Abc_NodeLutMap( Cut_Man_t * pManCuts, Abc_Obj_t * pObj )
 ***********************************************************************/
 Cut_Man_t * Abc_NtkStartCutManForScl( Abc_Ntk_t * pNtk, int nLutSize )
 {
-    static Cut_Params_t Params, * pParams = &Params;
+    Cut_Params_t *pParams = ABC_ALLOC( Cut_Params_t, 1 );
     Cut_Man_t * pManCut;
     Abc_Obj_t * pObj;
     int i;
