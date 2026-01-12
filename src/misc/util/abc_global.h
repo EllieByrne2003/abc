@@ -549,6 +549,7 @@ extern void   Abc_QuickSort2( word * pData, int nSize, int fDecrease );
 extern void   Abc_QuickSort3( word * pData, int nSize, int fDecrease );
 extern void   Abc_QuickSortCostData( int * pCosts, int nSize, int fDecrease, word * pData, int * pResult );
 extern int *  Abc_QuickSortCost( int * pCosts, int nSize, int fDecrease );
+extern void   Abc_QuickSortIntContext(int * pData, int count, int (*comp)(int, int, const void*), void *context);
 
 extern unsigned Abc_Random( int fReset );
 extern word     Abc_RandomW( int fReset );

@@ -99,10 +99,7 @@ ABC_NAMESPACE_IMPL_START
 static char rcsid[] DD_UNUSED = "$Id: cuddLinear.c,v 1.28 2009/02/19 16:21:03 fabio Exp $";
 #endif
 
-static  int     *entry;
-
 #ifdef DD_STATS
-extern  int     ddTotalNumberSwapping;
 extern  int     ddTotalNISwaps;
 static  int     ddTotalNumberLinearTr;
 #endif
@@ -121,7 +118,7 @@ static  int     zero = 0;
 /* Static function prototypes                                                */
 /*---------------------------------------------------------------------------*/
 
-static int ddLinearUniqueCompare (int *ptrX, int *ptrY);
+static int ddLinearUniqueCompare (int x, int y, int *entry);
 static int ddLinearAndSiftingAux (DdManager *table, int x, int xLow, int xHigh);
 static Move * ddLinearAndSiftingUp (DdManager *table, int y, int xLow, Move *prevMoves);
 static Move * ddLinearAndSiftingDown (DdManager *table, int x, int xHigh, Move *prevMoves);
@@ -258,7 +255,7 @@ cuddLinearAndSifting(
     size = table->size;
 
     var = NULL;
-    entry = NULL;
+    table->entry = NULL;
     if (table->linear == NULL) {
         result = cuddInitLinear(table);
         if (result == 0) goto cuddLinearAndSiftingOutOfMem;
@@ -278,8 +275,8 @@ cuddLinearAndSifting(
     }
 
     /* Find order in which to sift variables. */
-    entry = ABC_ALLOC(int,size);
-    if (entry == NULL) {
+    table->entry = ABC_ALLOC(int,size);
+    if (table->entry == NULL) {
         table->errorCode = CUDD_MEMORY_OUT;
         goto cuddLinearAndSiftingOutOfMem;
     }
@@ -291,11 +288,11 @@ cuddLinearAndSifting(
 
     for (i = 0; i < size; i++) {
         x = table->perm[i];
-        entry[i] = table->subtables[x].keys;
+        table->entry[i] = table->subtables[x].keys;
         var[i] = i;
     }
 
-    qsort((void *)var,(size_t)size,sizeof(int),(DD_QSFP)ddLinearUniqueCompare);
+    Abc_QuickSortIntContext(var, size, (int (*)(int, int, const void *)) ddLinearUniqueCompare, table->entry);
 
     /* Now sift. */
     for (i = 0; i < ddMin(table->siftMaxVar,size); i++) {
@@ -323,7 +320,7 @@ cuddLinearAndSifting(
     }
 
     ABC_FREE(var);
-    ABC_FREE(entry);
+    ABC_FREE(table->entry);
 
 #ifdef DD_STATS
     (void) fprintf(table->out,"\n#:L_LINSIFT %8d: linear trans.",
@@ -334,7 +331,7 @@ cuddLinearAndSifting(
 
 cuddLinearAndSiftingOutOfMem:
 
-    if (entry != NULL) ABC_FREE(entry);
+    if (table->entry != NULL) ABC_FREE(table->entry);
     if (var != NULL) ABC_FREE(var);
 
     return(0);
@@ -870,15 +867,11 @@ cuddResizeLinear(
 ******************************************************************************/
 static int
 ddLinearUniqueCompare(
-  int * ptrX,
-  int * ptrY)
+  int  x,
+  int  y,
+  int *entry)
 {
-#if 0
-    if (entry[*ptrY] == entry[*ptrX]) {
-        return((*ptrX) - (*ptrY));
-    }
-#endif
-    return(entry[*ptrY] - entry[*ptrX]);
+    return(entry[y] - entry[x]);
 
 } /* end of ddLinearUniqueCompare */
 

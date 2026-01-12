@@ -100,7 +100,6 @@ static char rcsid[] DD_UNUSED = "$Id: cuddAnneal.c,v 1.14 2004/08/13 18:04:46 fa
 #endif
 
 #ifdef DD_STATS
-extern  int     ddTotalNumberSwapping;
 extern  int     ddTotalNISwaps;
 static  int     tosses;
 static  int     acceptances;

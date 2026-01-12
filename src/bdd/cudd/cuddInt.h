@@ -488,6 +488,9 @@ struct DdManager {      /* specialized DD symbol table */
     DdNode * bFunc;
     DdNode * bFunc2;
     abctime TimeStop;           /* timeout for reordering */
+
+    int ddTotalNumberSwapping; /* count of swapping */ // TODO Ellie, does this need the dd?
+    int *entry;
 };
 
 typedef struct Move {

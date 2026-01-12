@@ -104,7 +104,6 @@ static char rcsid[] DD_UNUSED = "$Id: cuddReorder.c,v 1.69 2009/02/21 18:24:10 f
 
 static  int     *entry;
 
-int     ddTotalNumberSwapping;
 #ifdef DD_STATS
 int     ddTotalNISwaps;
 #endif
@@ -214,7 +213,7 @@ Cudd_ReduceHeap(
     }
 
     if (!ddReorderPreprocess(table)) return(0);
-    ddTotalNumberSwapping = 0;
+    table->ddTotalNumberSwapping = 0;
 
     if (table->keys > table->peakLiveNodes) {
         table->peakLiveNodes = table->keys;
@@ -280,7 +279,7 @@ Cudd_ReduceHeap(
     (void) fprintf(table->out,"#:T_REORDER %8g: total time (sec)\n",
                    ((double)(util_cpu_time() - localTime)/1000.0));
     (void) fprintf(table->out,"#:N_REORDER %8d: total swaps\n",
-                   ddTotalNumberSwapping);
+                   table->ddTotalNumberSwapping);
     (void) fprintf(table->out,"#:M_REORDER %8d: NI swaps\n",ddTotalNISwaps);
 #endif
 
@@ -545,7 +544,7 @@ cuddSifting(
 
     /* Now sift. */
     for (i = 0; i < ddMin(table->siftMaxVar,size); i++) {
-        if (ddTotalNumberSwapping >= table->siftMaxSwap)
+        if (table->ddTotalNumberSwapping >= table->siftMaxSwap)
             break;
         x = table->perm[var[i]];
 
@@ -629,7 +628,7 @@ cuddSwapping(
     iterate = nvars;
 
     for (i = 0; i < iterate; i++) {
-        if (ddTotalNumberSwapping >= table->siftMaxSwap)
+        if (table->ddTotalNumberSwapping >= table->siftMaxSwap)
             break;
         if (heuristic == CUDD_REORDER_RANDOM_PIVOT) {
             max = -1;
@@ -797,7 +796,7 @@ cuddSwapInPlace(
     assert(table->subtables[y].dead == 0);
 #endif
 
-    ddTotalNumberSwapping++;
+    table->ddTotalNumberSwapping++;
 
     /* Get parameters of x subtable. */
     xindex = table->invperm[x];
@@ -1911,7 +1910,7 @@ ddShuffle(
     int         previousSize;
 #endif
 
-    ddTotalNumberSwapping = 0;
+    table->ddTotalNumberSwapping = 0;
 #ifdef DD_STATS
     localTime = util_cpu_time();
     initialSize = table->keys - table->isolated;
@@ -1949,7 +1948,7 @@ ddShuffle(
     (void) fprintf(table->out,"#:T_SHUFFLE %8g: total time (sec)\n",
         ((double)(util_cpu_time() - localTime)/1000.0));
     (void) fprintf(table->out,"#:N_SHUFFLE %8d: total swaps\n",
-                   ddTotalNumberSwapping);
+                   table->ddTotalNumberSwapping);
     (void) fprintf(table->out,"#:M_SHUFFLE %8d: NI swaps\n",ddTotalNISwaps);
 #endif
 
