@@ -32,13 +32,13 @@ ABC_NAMESPACE_IMPL_START
 ///                        DECLARATIONS                              ///
 ////////////////////////////////////////////////////////////////////////
 
-static Dec_Edge_t       Dec_Factor_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover );
-static Dec_Edge_t       Dec_FactorLF_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover, Mvc_Cover_t * pSimple );
-static Dec_Edge_t       Dec_FactorTrivial( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover );
+static Dec_Edge_t       Dec_Factor_rec( Dec_Man_t * pManDec, Dec_Graph_t * pFForm, Mvc_Cover_t * pCover );
+static Dec_Edge_t       Dec_FactorLF_rec( Dec_Man_t * pManDec, Dec_Graph_t * pFForm, Mvc_Cover_t * pCover, Mvc_Cover_t * pSimple );
+static Dec_Edge_t       Dec_FactorTrivial( Dec_Man_t * pManDec, Dec_Graph_t * pFForm, Mvc_Cover_t * pCover );
 static Dec_Edge_t       Dec_FactorTrivialCube( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover, Mvc_Cube_t * pCube, Vec_Int_t * vEdgeLits );
 static Dec_Edge_t       Dec_FactorTrivialTree_rec( Dec_Graph_t * pFForm, Dec_Edge_t * peNodes, int nNodes, int fNodeOr );
 static int              Dec_FactorVerify( char * pSop, Dec_Graph_t * pFForm );
-static Mvc_Cover_t *    Dec_ConvertSopToMvc( char * pSop );
+static Mvc_Cover_t *    Dec_ConvertSopToMvc( Dec_Man_t * pManDec, char * pSop );
 
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
@@ -60,13 +60,17 @@ Dec_Graph_t * Dec_Factor( char * pSop )
     Mvc_Cover_t * pCover;
     Dec_Graph_t * pFForm;
     Dec_Edge_t eRoot;
+    Dec_Man_t *pManDec;
     if ( Abc_SopIsConst0(pSop) )
         return Dec_GraphCreateConst0();
     if ( Abc_SopIsConst1(pSop) )
         return Dec_GraphCreateConst1();
 
+    // Create a new Decomposition manager
+    pManDec = Dec_ManStart();
+
     // derive the cover from the SOP representation
-    pCover = Dec_ConvertSopToMvc( pSop );
+    pCover = Dec_ConvertSopToMvc( pManDec, pSop );
 
     // make sure the cover is CCS free (should be done before CST)
     Mvc_CoverContain( pCover );
@@ -80,7 +84,7 @@ Dec_Graph_t * Dec_Factor( char * pSop )
     // start the factored form
     pFForm = Dec_GraphCreate( Abc_SopGetVarNum(pSop) );
     // factor the cover
-    eRoot = Dec_Factor_rec( pFForm, pCover );
+    eRoot = Dec_Factor_rec( pManDec, pFForm, pCover );
     // finalize the factored form
     Dec_GraphSetRoot( pFForm, eRoot );
     // complement the factored form if SOP is complemented
@@ -91,6 +95,7 @@ Dec_Graph_t * Dec_Factor( char * pSop )
 //        printf( "Verification has failed.\n" );
 //    Mvc_CoverInverse( pCover ); // undo CST
     Mvc_CoverFree( pCover );
+    Dec_ManStop(pManDec);
     return pFForm;
 }
 
@@ -105,7 +110,7 @@ Dec_Graph_t * Dec_Factor( char * pSop )
   SeeAlso     []
 
 ***********************************************************************/
-Dec_Edge_t Dec_Factor_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover )
+Dec_Edge_t Dec_Factor_rec( Dec_Man_t * pManDec, Dec_Graph_t * pFForm, Mvc_Cover_t * pCover )
 {
     Mvc_Cover_t * pDiv, * pQuo, * pRem, * pCom;
     Dec_Edge_t eNodeDiv, eNodeQuo, eNodeRem;
@@ -117,7 +122,7 @@ Dec_Edge_t Dec_Factor_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover )
     // get the divisor
     pDiv = Mvc_CoverDivisor( pCover );
     if ( pDiv == NULL )
-        return Dec_FactorTrivial( pFForm, pCover );
+        return Dec_FactorTrivial( pManDec, pFForm, pCover );
 
     // divide the cover by the divisor
     Mvc_CoverDivideInternal( pCover, pDiv, &pQuo, &pRem );
@@ -129,7 +134,7 @@ Dec_Edge_t Dec_Factor_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover )
     // check the trivial case
     if ( Mvc_CoverReadCubeNum(pQuo) == 1 )
     {
-        eNode = Dec_FactorLF_rec( pFForm, pCover, pQuo );
+        eNode = Dec_FactorLF_rec( pManDec, pFForm, pCover, pQuo );
         Mvc_CoverFree( pQuo );
         return eNode;
     }
@@ -143,8 +148,8 @@ Dec_Edge_t Dec_Factor_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover )
     // check the trivial case
     if ( Mvc_CoverIsCubeFree( pDiv ) )
     {
-        eNodeDiv = Dec_Factor_rec( pFForm, pDiv );
-        eNodeQuo = Dec_Factor_rec( pFForm, pQuo );
+        eNodeDiv = Dec_Factor_rec( pManDec, pFForm, pDiv );
+        eNodeQuo = Dec_Factor_rec( pManDec, pFForm, pQuo );
         Mvc_CoverFree( pDiv );
         Mvc_CoverFree( pQuo );
         eNodeAnd = Dec_GraphAddNodeAnd( pFForm, eNodeDiv, eNodeQuo );
@@ -155,7 +160,7 @@ Dec_Edge_t Dec_Factor_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover )
         }
         else
         {
-            eNodeRem = Dec_Factor_rec( pFForm, pRem );
+            eNodeRem = Dec_Factor_rec( pManDec, pFForm, pRem );
             Mvc_CoverFree( pRem );
             return Dec_GraphAddNodeOr( pFForm, eNodeAnd, eNodeRem );
         }
@@ -168,7 +173,7 @@ Dec_Edge_t Dec_Factor_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover )
     Mvc_CoverFree( pRem );
 
     // solve the simple problem
-    eNode = Dec_FactorLF_rec( pFForm, pCover, pCom );
+    eNode = Dec_FactorLF_rec( pManDec, pFForm, pCover, pCom );
     Mvc_CoverFree( pCom );
     return eNode;
 }
@@ -185,9 +190,8 @@ Dec_Edge_t Dec_Factor_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover )
   SeeAlso     []
 
 ***********************************************************************/
-Dec_Edge_t Dec_FactorLF_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover, Mvc_Cover_t * pSimple )
+Dec_Edge_t Dec_FactorLF_rec( Dec_Man_t * pManDec, Dec_Graph_t * pFForm, Mvc_Cover_t * pCover, Mvc_Cover_t * pSimple )
 {
-    Dec_Man_t * pManDec = (Dec_Man_t *)Abc_FrameReadManDec();
     Vec_Int_t * vEdgeLits  = pManDec->vLits;
     Mvc_Cover_t * pDiv, * pQuo, * pRem;
     Dec_Edge_t eNodeDiv, eNodeQuo, eNodeRem;
@@ -201,7 +205,7 @@ Dec_Edge_t Dec_FactorLF_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover, Mvc_Cov
     eNodeDiv = Dec_FactorTrivialCube( pFForm, pDiv, Mvc_CoverReadCubeHead(pDiv), vEdgeLits );
     Mvc_CoverFree( pDiv );
     // factor the quotient and remainder
-    eNodeQuo = Dec_Factor_rec( pFForm, pQuo );
+    eNodeQuo = Dec_Factor_rec( pManDec, pFForm, pQuo );
     Mvc_CoverFree( pQuo );
     eNodeAnd = Dec_GraphAddNodeAnd( pFForm, eNodeDiv, eNodeQuo );
     if ( Mvc_CoverReadCubeNum(pRem) == 0 )
@@ -211,7 +215,7 @@ Dec_Edge_t Dec_FactorLF_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover, Mvc_Cov
     }
     else
     {
-        eNodeRem = Dec_Factor_rec( pFForm, pRem );
+        eNodeRem = Dec_Factor_rec( pManDec, pFForm, pRem );
         Mvc_CoverFree( pRem );
         return Dec_GraphAddNodeOr( pFForm,  eNodeAnd, eNodeRem );
     }
@@ -230,9 +234,8 @@ Dec_Edge_t Dec_FactorLF_rec( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover, Mvc_Cov
   SeeAlso     []
 
 ***********************************************************************/
-Dec_Edge_t Dec_FactorTrivial( Dec_Graph_t * pFForm, Mvc_Cover_t * pCover )
+Dec_Edge_t Dec_FactorTrivial( Dec_Man_t * pManDec, Dec_Graph_t * pFForm, Mvc_Cover_t * pCover )
 {
-    Dec_Man_t * pManDec = (Dec_Man_t *)Abc_FrameReadManDec();
     Vec_Int_t * vEdgeCubes = pManDec->vCubes;
     Vec_Int_t * vEdgeLits  = pManDec->vLits;
     Dec_Edge_t eNode;
@@ -323,9 +326,8 @@ Dec_Edge_t Dec_FactorTrivialTree_rec( Dec_Graph_t * pFForm, Dec_Edge_t * peNodes
   SeeAlso     []
 
 ***********************************************************************/
-Mvc_Cover_t * Dec_ConvertSopToMvc( char * pSop )
+Mvc_Cover_t * Dec_ConvertSopToMvc( Dec_Man_t * pManDec, char * pSop )
 {
-    Dec_Man_t * pManDec = (Dec_Man_t *)Abc_FrameReadManDec();
     Mvc_Manager_t * pMem = (Mvc_Manager_t *)pManDec->pMvcMem;
     Mvc_Cover_t * pMvc;
     Mvc_Cube_t * pMvcCube;
