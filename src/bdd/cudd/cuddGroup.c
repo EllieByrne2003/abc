@@ -113,6 +113,8 @@ ABC_NAMESPACE_IMPL_START
 static char rcsid[] DD_UNUSED = "$Id: cuddGroup.c,v 1.44 2009/02/21 18:24:10 fabio Exp $";
 #endif
 
+static  int     *entry;
+extern  int     ddTotalNumberSwapping;
 #ifdef DD_STATS
 extern  int     ddTotalNISwaps;
 static  int     extsymmcalls;
@@ -143,7 +145,7 @@ static int ddCountInternalMtrNodes (DdManager *table, MtrNode *treenode);
 #endif
 static int ddReorderChildren (DdManager *table, MtrNode *treenode, Cudd_ReorderingType method);
 static void ddFindNodeHiLo (DdManager *table, MtrNode *treenode, int *lower, int *upper);
-static int ddUniqueCompareGroup (int x, int y, int *entry);
+static int ddUniqueCompareGroup (int *ptrX, int *ptrY);
 static int ddGroupSifting (DdManager *table, int lower, int upper, DD_CHKFP checkFunction, int lazyFlag);
 static void ddCreateGroup (DdManager *table, int x, int y);
 static int ddGroupSiftingAux (DdManager *table, int x, int xLow, int xHigh, DD_CHKFP checkFunction, int lazyFlag);
@@ -674,11 +676,16 @@ ddFindNodeHiLo(
 ******************************************************************************/
 static int
 ddUniqueCompareGroup(
-  int  x,
-  int  y,
-  int *entry)
+  int * ptrX,
+  int * ptrY)
 {
-    return(entry[y] - entry[x]);
+#if 0
+    if (entry[*ptrY] == entry[*ptrX]) {
+        return((*ptrX) - (*ptrY));
+    }
+#endif
+    return(entry[*ptrY] - entry[*ptrX]);
+
 } /* end of ddUniqueCompareGroup */
 
 
@@ -719,15 +726,15 @@ ddGroupSifting(
     nvars = table->size;
 
     /* Order variables to sift. */
-    table->entry = NULL;
+    entry = NULL;
     sifted = NULL;
     var = ABC_ALLOC(int,nvars);
     if (var == NULL) {
         table->errorCode = CUDD_MEMORY_OUT;
         goto ddGroupSiftingOutOfMem;
     }
-    table->entry = ABC_ALLOC(int,nvars);
-    if (table->entry == NULL) {
+    entry = ABC_ALLOC(int,nvars);
+    if (entry == NULL) {
         table->errorCode = CUDD_MEMORY_OUT;
         goto ddGroupSiftingOutOfMem;
     }
@@ -742,13 +749,14 @@ ddGroupSifting(
         sifted[i] = 0;
         x = table->perm[i];
         if ((unsigned) x >= table->subtables[x].next) {
-            table->entry[i] = table->subtables[x].keys;
+            entry[i] = table->subtables[x].keys;
             var[classes] = i;
             classes++;
         }
     }
 
-    Abc_QuickSortIntContext(var, classes, (int (*)(int, int, const void*)) ddUniqueCompareGroup, table->entry);
+    qsort((void *)var,(size_t)classes,sizeof(int),
+          (DD_QSFP) ddUniqueCompareGroup);
 
     if (lazyFlag) {
         for (i = 0; i < nvars; i ++) {
@@ -758,7 +766,7 @@ ddGroupSifting(
 
     /* Now sift. */
     for (i = 0; i < ddMin(table->siftMaxVar,classes); i++) {
-        if (table->ddTotalNumberSwapping >= table->siftMaxSwap)
+        if (ddTotalNumberSwapping >= table->siftMaxSwap)
             break;
         xindex = var[i];
         if (sifted[xindex] == 1) /* variable already sifted as part of group */
@@ -863,12 +871,12 @@ ddGroupSifting(
 
     ABC_FREE(sifted);
     ABC_FREE(var);
-    ABC_FREE(table->entry);
+    ABC_FREE(entry);
 
     return(1);
 
 ddGroupSiftingOutOfMem:
-    if (table->entry != NULL)  ABC_FREE(table->entry);
+    if (entry != NULL)  ABC_FREE(entry);
     if (var != NULL)    ABC_FREE(var);
     if (sifted != NULL) ABC_FREE(sifted);
 
