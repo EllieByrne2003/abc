@@ -74,6 +74,7 @@
 
 #include "misc/util/util_hack.h"
 #include "cuddInt.h"
+#include <threads.h>
 
 ABC_NAMESPACE_IMPL_START
 
@@ -102,9 +103,9 @@ ABC_NAMESPACE_IMPL_START
 static char rcsid[] DD_UNUSED = "$Id: cuddReorder.c,v 1.69 2009/02/21 18:24:10 fabio Exp $";
 #endif
 
-static  int     *entry;
+static thread_local int *entry;
 
-int     ddTotalNumberSwapping;
+thread_local int ddTotalNumberSwapping;
 #ifdef DD_STATS
 int     ddTotalNISwaps;
 #endif

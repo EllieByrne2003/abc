@@ -99,7 +99,7 @@ ABC_NAMESPACE_IMPL_START
 static char rcsid[] DD_UNUSED = "$Id: cuddLinear.c,v 1.28 2009/02/19 16:21:03 fabio Exp $";
 #endif
 
-static  int     *entry;
+static thread_local int *entry;
 
 #ifdef DD_STATS
 extern  int     ddTotalNumberSwapping;

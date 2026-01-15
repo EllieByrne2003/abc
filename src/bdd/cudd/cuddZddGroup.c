@@ -94,7 +94,7 @@ ABC_NAMESPACE_IMPL_START
 static char rcsid[] DD_UNUSED = "$Id: cuddZddGroup.c,v 1.20 2009/02/19 16:25:36 fabio Exp $";
 #endif
 
-static  int     *entry;
+static thread_local int *entry;
 extern  int     zddTotalNumberSwapping;
 #ifdef DD_STATS
 static  int     extsymmcalls;

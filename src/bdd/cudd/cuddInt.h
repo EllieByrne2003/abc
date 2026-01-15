@@ -70,6 +70,7 @@
 #endif
 
 #include <math.h>
+#include <threads.h>
 #include "cudd.h"
 #include "misc/st/st.h"
 
