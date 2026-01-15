@@ -411,15 +411,15 @@ cuddDynamicAllocNode(
     DdNodePtr *mem;
     DdNode *list, *node;
     extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // DD_OOMFP saveHandler;
 
     if (table->nextFree == NULL) {        /* free list is empty */
         /* Try to allocate a new block. */
-        saveHandler = MMoutOfMemory;
-        MMoutOfMemory = Cudd_OutOfMem;
+        // saveHandler = MMoutOfMemory;
+        // MMoutOfMemory = Cudd_OutOfMem;
 //        mem = (DdNodePtr *) ABC_ALLOC(DdNode, DD_MEM_CHUNK + 1);
         mem = (DdNodePtr *) ABC_ALLOC(DdNode, DD_MEM_CHUNK + 2);
-        MMoutOfMemory = saveHandler;
+        // MMoutOfMemory = saveHandler;
         if (mem == NULL && table->stash != NULL) {
             ABC_FREE(table->stash);
             table->stash = NULL;
@@ -782,8 +782,8 @@ cuddSwapInPlace(
     DdNodePtr *previousP;
     DdNode *tmp;
     DdNode *sentinel = &(table->sentinel);
-    extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // extern DD_OOMFP MMoutOfMemory;
+    // DD_OOMFP saveHandler;
 
 #ifdef DD_DEBUG
     int    count,idcheck;
@@ -900,10 +900,10 @@ cuddSwapInPlace(
                 newxslots >>= 1;
             }
             /* Try to allocate new table. Be ready to back off. */
-            saveHandler = MMoutOfMemory;
-            MMoutOfMemory = Cudd_OutOfMem;
+            // saveHandler = MMoutOfMemory;
+            // MMoutOfMemory = Cudd_OutOfMem;
             newxlist = ABC_ALLOC(DdNodePtr, newxslots);
-            MMoutOfMemory = saveHandler;
+            // MMoutOfMemory = saveHandler;
             if (newxlist == NULL) {
                 (void) fprintf(table->err, "Unable to resize subtable %d for lack of memory\n", i);
                 newxlist = xlist;

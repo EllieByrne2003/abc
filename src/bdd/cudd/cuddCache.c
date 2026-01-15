@@ -931,8 +931,8 @@ cuddCacheResize(
     unsigned int slots, oldslots;
     double offset;
     int moved = 0;
-    extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // extern DD_OOMFP MMoutOfMemory;
+    // DD_OOMFP saveHandler;
 #ifndef DD_CACHE_PROFILE
     ptruint misalignment;
     DdNodePtr *mem;
@@ -952,11 +952,11 @@ cuddCacheResize(
                    table->cacheHits / (table->cacheHits + table->cacheMisses));
 #endif
 
-    saveHandler = MMoutOfMemory;
-    MMoutOfMemory = Cudd_OutOfMem;
+    // saveHandler = MMoutOfMemory;
+    // MMoutOfMemory = Cudd_OutOfMem;
 //    table->acache = cache = ABC_ALLOC(DdCache,slots+1);
     table->acache = cache = ABC_ALLOC(DdCache,slots+2);
-    MMoutOfMemory = saveHandler;
+    // MMoutOfMemory = saveHandler;
     /* If we fail to allocate the new table we just give up. */
     if (cache == NULL) {
 #ifdef DD_VERBOSE

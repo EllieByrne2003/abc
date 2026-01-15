@@ -239,7 +239,7 @@ cuddAllocNode(
     DdNodePtr *mem;
     DdNode *list, *node;
     extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // DD_OOMFP saveHandler;
 
     if (unique->nextFree == NULL) {     /* free list is empty */
         /* Check for exceeded limits. */
@@ -258,11 +258,11 @@ cuddAllocNode(
                 return(NULL);
             }
             /* Try to allocate a new block. */
-            saveHandler = MMoutOfMemory;
-            MMoutOfMemory = Cudd_OutOfMem;
+            // saveHandler = MMoutOfMemory;
+            // MMoutOfMemory = Cudd_OutOfMem;
 //            mem = (DdNodePtr *) ABC_ALLOC(DdNode,DD_MEM_CHUNK + 1);
             mem = (DdNodePtr *) ABC_ALLOC(DdNode,DD_MEM_CHUNK + 2);
-            MMoutOfMemory = saveHandler;
+            // MMoutOfMemory = saveHandler;
             if (mem == NULL) {
                 /* No more memory: Try collecting garbage. If this succeeds,
                 ** we end up with mem still NULL, but unique->nextFree !=
@@ -1540,7 +1540,7 @@ cuddRehash(
     DdNode *sentinel = &(unique->sentinel);
     hack split;
     extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // DD_OOMFP saveHandler;
 
     if (unique->gcFrac == DD_GC_FRAC_HI && unique->slots > unique->looseUpTo) {
         unique->gcFrac = DD_GC_FRAC_LO;
@@ -1571,10 +1571,10 @@ cuddRehash(
         slots = oldslots << 1;
         shift = oldshift - 1;
 
-        saveHandler = MMoutOfMemory;
-        MMoutOfMemory = Cudd_OutOfMem;
+        // saveHandler = MMoutOfMemory;
+        // MMoutOfMemory = Cudd_OutOfMem;
         nodelist = ABC_ALLOC(DdNodePtr, slots);
-        MMoutOfMemory = saveHandler;
+        // MMoutOfMemory = saveHandler;
         if (nodelist == NULL) {
             (void) fprintf(unique->err,
                            "Unable to resize subtable %d for lack of memory\n",
@@ -1638,10 +1638,10 @@ cuddRehash(
         */
         slots = oldslots << 1;
         shift = oldshift - 1;
-        saveHandler = MMoutOfMemory;
-        MMoutOfMemory = Cudd_OutOfMem;
+        // saveHandler = MMoutOfMemory;
+        // MMoutOfMemory = Cudd_OutOfMem;
         nodelist = ABC_ALLOC(DdNodePtr, slots);
-        MMoutOfMemory = saveHandler;
+        // MMoutOfMemory = saveHandler;
         if (nodelist == NULL) {
             (void) fprintf(unique->err,
                            "Unable to resize constant subtable for lack of memory\n");
@@ -1711,15 +1711,15 @@ cuddShrinkSubtable(
     DdNode *sentinel = &(unique->sentinel);
     unsigned int slots, oldslots;
     extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // DD_OOMFP saveHandler;
 
     oldnodelist = unique->subtables[i].nodelist;
     oldslots = unique->subtables[i].slots;
     slots = oldslots >> 1;
-    saveHandler = MMoutOfMemory;
-    MMoutOfMemory = Cudd_OutOfMem;
+    // saveHandler = MMoutOfMemory;
+    // MMoutOfMemory = Cudd_OutOfMem;
     nodelist = ABC_ALLOC(DdNodePtr, slots);
-    MMoutOfMemory = saveHandler;
+    // MMoutOfMemory = saveHandler;
     if (nodelist == NULL) {
         return;
     }
@@ -2429,8 +2429,8 @@ ddRehashZdd(
     int j, pos;
     DdNodePtr *nodelist, *oldnodelist;
     DdNode *node, *next;
-    extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // extern DD_OOMFP MMoutOfMemory;
+    // DD_OOMFP saveHandler;
 
     if (unique->slots > unique->looseUpTo) {
         unique->minDead = (unsigned) (DD_GC_FRAC_LO * (double) unique->slots);
@@ -2459,10 +2459,10 @@ ddRehashZdd(
         shift--;
     } while (slots * DD_MAX_SUBTABLE_DENSITY < unique->subtableZ[i].keys);
 
-    saveHandler = MMoutOfMemory;
-    MMoutOfMemory = Cudd_OutOfMem;
+    // saveHandler = MMoutOfMemory;
+    // MMoutOfMemory = Cudd_OutOfMem;
     nodelist = ABC_ALLOC(DdNodePtr, slots);
-    MMoutOfMemory = saveHandler;
+    // MMoutOfMemory = saveHandler;
     if (nodelist == NULL) {
         (void) fprintf(unique->err,
                        "Unable to resize ZDD subtable %d for lack of memory.\n",

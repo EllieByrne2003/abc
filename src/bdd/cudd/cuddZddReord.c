@@ -1443,8 +1443,8 @@ zddReorderPostprocess(
     DdNodePtr *nodelist, *oldnodelist;
     DdNode *node, *next;
     unsigned int slots, oldslots;
-    extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // extern DD_OOMFP MMoutOfMemory;
+    // DD_OOMFP saveHandler;
 
 #ifdef DD_VERBOSE
     (void) fflush(table->out);
@@ -1466,10 +1466,10 @@ zddReorderPostprocess(
             oldslots <= table->initSlots) continue;
         oldnodelist = table->subtableZ[i].nodelist;
         slots = oldslots >> 1;
-        saveHandler = MMoutOfMemory;
-        MMoutOfMemory = Cudd_OutOfMem;
+        // saveHandler = MMoutOfMemory;
+        // MMoutOfMemory = Cudd_OutOfMem;
         nodelist = ABC_ALLOC(DdNodePtr, slots);
-        MMoutOfMemory = saveHandler;
+        // MMoutOfMemory = saveHandler;
         if (nodelist == NULL) {
             return(1);
         }

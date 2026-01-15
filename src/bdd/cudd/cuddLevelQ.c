@@ -524,19 +524,19 @@ hashResize(
 #endif
     int shift;
     int oldNumBuckets = queue->numBuckets;
-    extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // extern DD_OOMFP MMoutOfMemory;
+    // DD_OOMFP saveHandler;
 
     /* Compute the new size of the subtable. */
     numBuckets = oldNumBuckets << 1;
-    saveHandler = MMoutOfMemory;
-    MMoutOfMemory = Cudd_OutOfMem;
+    // saveHandler = MMoutOfMemory;
+    // MMoutOfMemory = Cudd_OutOfMem;
 #ifdef __osf__
 #pragma pointer_size save
 #pragma pointer_size short
 #endif
     buckets = queue->buckets = ABC_ALLOC(DdQueueItem *, numBuckets);
-    MMoutOfMemory = saveHandler;
+    // MMoutOfMemory = saveHandler;
     if (buckets == NULL) {
         queue->maxsize <<= 1;
         return(1);

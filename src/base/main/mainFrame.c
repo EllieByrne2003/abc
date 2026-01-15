@@ -181,7 +181,6 @@ Abc_Frame_t * Abc_FrameAllocate()
     p->vStore = Vec_PtrAlloc( 16 );
     p->vAbcObjIds = Vec_IntAlloc( 0 );
     // initialize decomposition manager
-    p->pManDec = Dec_ManStart();
 //    define_cube_size(20);
 //    set_espresso_flags();
     // initialize the trace manager

@@ -134,8 +134,8 @@ Cudd_Init(
     DdNode *one, *zero;
     unsigned int maxCacheSize;
     unsigned int looseUpTo;
-    extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // extern DD_OOMFP MMoutOfMemory;
+    // DD_OOMFP saveHandler;
 
     if (maxMemory == 0) {
         maxMemory = getSoftDataLimit();
@@ -150,10 +150,10 @@ Cudd_Init(
     result = cuddInitCache(unique,cacheSize,maxCacheSize);
     if (result == 0) return(NULL);
 
-    saveHandler = MMoutOfMemory;
-    MMoutOfMemory = Cudd_OutOfMem;
+    // saveHandler = MMoutOfMemory;
+    // MMoutOfMemory = Cudd_OutOfMem;
     unique->stash = ABC_ALLOC(char,(maxMemory / DD_STASH_FRACTION) + 4);
-    MMoutOfMemory = saveHandler;
+    // MMoutOfMemory = saveHandler;
     if (unique->stash == NULL) {
         (void) fprintf(unique->err,"Unable to set aside memory\n");
     }

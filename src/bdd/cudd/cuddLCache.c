@@ -1104,8 +1104,8 @@ cuddLocalCacheResize(
     int i, shift;
     unsigned int posn;
     unsigned int slots, oldslots;
-    extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // extern DD_OOMFP MMoutOfMemory;
+    // DD_OOMFP saveHandler;
 
     olditem = cache->item;
     oldslots = cache->slots;
@@ -1120,11 +1120,11 @@ cuddLocalCacheResize(
                    cache->hits, cache->lookUps, cache->hits / cache->lookUps);
 #endif
 
-    saveHandler = MMoutOfMemory;
-    MMoutOfMemory = Cudd_OutOfMem;
+    // saveHandler = MMoutOfMemory;
+    // MMoutOfMemory = Cudd_OutOfMem;
     cache->item = item =
         (DdLocalCacheItem *) ABC_ALLOC(char, slots * cache->itemsize);
-    MMoutOfMemory = saveHandler;
+    // MMoutOfMemory = saveHandler;
     /* If we fail to allocate the new table we just give up. */
     if (item == NULL) {
 #ifdef DD_VERBOSE
@@ -1294,19 +1294,19 @@ cuddHashTableResize(
 #endif
     int shift;
     int oldNumBuckets = hash->numBuckets;
-    extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // extern DD_OOMFP MMoutOfMemory;
+    // DD_OOMFP saveHandler;
 
     /* Compute the new size of the table. */
     numBuckets = oldNumBuckets << 1;
-    saveHandler = MMoutOfMemory;
-    MMoutOfMemory = Cudd_OutOfMem;
+    // saveHandler = MMoutOfMemory;
+    // MMoutOfMemory = Cudd_OutOfMem;
 #ifdef __osf__
 #pragma pointer_size save
 #pragma pointer_size short
 #endif
     buckets = ABC_ALLOC(DdHashItem *, numBuckets);
-    MMoutOfMemory = saveHandler;
+    // MMoutOfMemory = saveHandler;
     if (buckets == NULL) {
         hash->maxsize <<= 1;
         return(1);
@@ -1395,8 +1395,8 @@ cuddHashTableAlloc(
 {
     int i;
     unsigned int itemsize = hash->itemsize;
-    extern DD_OOMFP MMoutOfMemory;
-    DD_OOMFP saveHandler;
+    // extern DD_OOMFP MMoutOfMemory;
+    // DD_OOMFP saveHandler;
 #ifdef __osf__
 #pragma pointer_size save
 #pragma pointer_size short
@@ -1404,10 +1404,10 @@ cuddHashTableAlloc(
     DdHashItem **mem, *thisOne, *next, *item;
 
     if (hash->nextFree == NULL) {
-        saveHandler = MMoutOfMemory;
-        MMoutOfMemory = Cudd_OutOfMem;
+        // saveHandler = MMoutOfMemory;
+        // MMoutOfMemory = Cudd_OutOfMem;
         mem = (DdHashItem **) ABC_ALLOC(char,(DD_MEM_CHUNK+1) * itemsize);
-        MMoutOfMemory = saveHandler;
+        // MMoutOfMemory = saveHandler;
 #ifdef __osf__
 #pragma pointer_size restore
 #endif
