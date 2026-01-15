@@ -67,6 +67,7 @@
 
 #include "misc/util/util_hack.h"
 #include "cuddInt.h"
+#include <threads.h>
 
 ABC_NAMESPACE_IMPL_START
 
@@ -94,6 +95,9 @@ ABC_NAMESPACE_IMPL_START
 static char rcsid[] DD_UNUSED = "$Id: cuddSymmetry.c,v 1.26 2009/02/19 16:23:54 fabio Exp $";
 #endif
 
+static thread_local int *entry;
+extern thread_local int ddTotalNumberSwapping;
+
 #ifdef DD_STATS
 extern  int     ddTotalNISwaps;
 #endif
@@ -108,7 +112,7 @@ extern  int     ddTotalNISwaps;
 /* Static function prototypes                                                */
 /*---------------------------------------------------------------------------*/
 
-static int ddSymmUniqueCompare (int x, int y, int *entry);
+static int ddSymmUniqueCompare (int *ptrX, int *ptrY);
 static int ddSymmSiftingAux (DdManager *table, int x, int xLow, int xHigh);
 static int ddSymmSiftingConvAux (DdManager *table, int x, int xLow, int xHigh);
 static Move * ddSymmSiftingUp (DdManager *table, int y, int xLow);
@@ -336,8 +340,8 @@ cuddSymmSifting(
 
     /* Find order in which to sift variables. */
     var = NULL;
-    table->entry = ABC_ALLOC(int,size);
-    if (table->entry == NULL) {
+    entry = ABC_ALLOC(int,size);
+    if (entry == NULL) {
         table->errorCode = CUDD_MEMORY_OUT;
         goto ddSymmSiftingOutOfMem;
     }
@@ -349,11 +353,11 @@ cuddSymmSifting(
 
     for (i = 0; i < size; i++) {
         x = table->perm[i];
-        table->entry[i] = table->subtables[x].keys;
+        entry[i] = table->subtables[x].keys;
         var[i] = i;
     }
 
-    Abc_QuickSortIntContext(var, size, (int (*)(int, int, const void *)) ddSymmUniqueCompare, table->entry);
+    qsort((void *)var,(size_t)size,sizeof(int),(DD_QSFP)ddSymmUniqueCompare);
 
     /* Initialize the symmetry of each subtable to itself. */
     for (i = lower; i <= upper; i++) {
@@ -361,7 +365,7 @@ cuddSymmSifting(
     }
 
     for (i = 0; i < ddMin(table->siftMaxVar,size); i++) {
-        if (table->ddTotalNumberSwapping >= table->siftMaxSwap)
+        if (ddTotalNumberSwapping >= table->siftMaxSwap)
             break;
         // enable timeout during variable reodering - alanmi 2/13/11
         if ( table->TimeStop && Abc_Clock() > table->TimeStop )
@@ -389,7 +393,7 @@ cuddSymmSifting(
     }
 
     ABC_FREE(var);
-    ABC_FREE(table->entry);
+    ABC_FREE(entry);
 
     ddSymmSummary(table, lower, upper, &symvars, &symgroups);
 
@@ -404,7 +408,7 @@ cuddSymmSifting(
 
 ddSymmSiftingOutOfMem:
 
-    if (table->entry != NULL) ABC_FREE(table->entry);
+    if (entry != NULL) ABC_FREE(entry);
     if (var != NULL) ABC_FREE(var);
 
     return(0);
@@ -460,8 +464,8 @@ cuddSymmSiftingConv(
 
     /* Find order in which to sift variables. */
     var = NULL;
-    table->entry = ABC_ALLOC(int,size);
-    if (table->entry == NULL) {
+    entry = ABC_ALLOC(int,size);
+    if (entry == NULL) {
         table->errorCode = CUDD_MEMORY_OUT;
         goto ddSymmSiftingConvOutOfMem;
     }
@@ -473,7 +477,7 @@ cuddSymmSiftingConv(
 
     for (i = 0; i < size; i++) {
         x = table->perm[i];
-        table->entry[i] = table->subtables[x].keys;
+        entry[i] = table->subtables[x].keys;
         var[i] = i;
     }
 
@@ -487,7 +491,7 @@ cuddSymmSiftingConv(
     }
 
     for (i = 0; i < ddMin(table->siftMaxVar, table->size); i++) {
-        if (table->ddTotalNumberSwapping >= table->siftMaxSwap)
+        if (ddTotalNumberSwapping >= table->siftMaxSwap)
             break;
         x = table->perm[var[i]];
         if (x < lower || x > upper) continue;
@@ -528,7 +532,7 @@ cuddSymmSiftingConv(
             ** Hence, the next increment of x will move it to a new group.
             */
             i = table->invperm[x];
-            table->entry[i] = table->subtables[x].keys;
+            entry[i] = table->subtables[x].keys;
             var[classes] = i;
         }
 
@@ -536,7 +540,7 @@ cuddSymmSiftingConv(
 
         /* Now sift. */
         for (i = 0; i < ddMin(table->siftMaxVar,classes); i++) {
-            if (table->ddTotalNumberSwapping >= table->siftMaxSwap)
+            if (ddTotalNumberSwapping >= table->siftMaxSwap)
                 break;
             x = table->perm[var[i]];
             if ((unsigned) x >= table->subtables[x].next) {
@@ -570,13 +574,13 @@ cuddSymmSiftingConv(
 #endif
 
     ABC_FREE(var);
-    ABC_FREE(table->entry);
+    ABC_FREE(entry);
 
     return(1+symvars);
 
 ddSymmSiftingConvOutOfMem:
 
-    if (table->entry != NULL) ABC_FREE(table->entry);
+    if (entry != NULL) ABC_FREE(entry);
     if (var != NULL) ABC_FREE(var);
 
     return(0);
@@ -603,11 +607,15 @@ ddSymmSiftingConvOutOfMem:
 ******************************************************************************/
 static int
 ddSymmUniqueCompare(
-  int x,
-  int y,
-  int *entry)
+  int * ptrX,
+  int * ptrY)
 {
-    return(entry[y] - entry[x]);
+#if 0
+    if (entry[*ptrY] == entry[*ptrX]) {
+        return((*ptrX) - (*ptrY));
+    }
+#endif
+    return(entry[*ptrY] - entry[*ptrX]);
 
 } /* end of ddSymmUniqueCompare */
 

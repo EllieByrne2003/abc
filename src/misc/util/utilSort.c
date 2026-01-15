@@ -929,44 +929,6 @@ int * Abc_QuickSortCost( int * pCosts, int nSize, int fDecrease )
     return pResult;
 }
 
-void Abc_QuickSortIntContextRec(int * pData, int low, int high, int (*comp)(int, int, const void*), void *context) {
-    if(low >= high) {
-        return;
-    }
-    
-    // Partition data
-    const int pivot = pData[(high + low) / 2];
-
-    int i = low - 1;
-    int j = high + 1;
-
-    while(1) {
-        while(comp(pData[++i], pivot, context) > 0);
-        while(comp(pData[--j], pivot, context) < 0);
-        if(i >= j) break;
-
-        // Swap
-        int temp = pData[i];
-        pData[i] = pData[j];
-        pData[j] = temp;
-    }
-
-    Abc_QuickSortIntContextRec(pData, low, j, comp, context);
-    Abc_QuickSortIntContextRec(pData, j+1, high, comp, context);
-}
-
-void Abc_QuickSortIntContext(int * pData, int count, int (*comp)(int, int, const void*), void *context) {
-    if(count <= 1) {
-        return;
-    }
-
-    if(!pData || !comp) {
-        return;
-    }
-
-    Abc_QuickSortIntContextRec(pData, 0, count - 1, comp, context);
-}
-
 //        extern void Abc_QuickSortTest();
 //        Abc_QuickSortTest();
 

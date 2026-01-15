@@ -89,6 +89,7 @@ static char rcsid[] DD_UNUSED = "$Id: cuddWindow.c,v 1.14 2009/02/20 02:14:58 fa
 #endif
 
 #ifdef DD_STATS
+extern  int     ddTotalNumberSwapping;
 extern  int     ddTotalNISwaps;
 #endif
 
