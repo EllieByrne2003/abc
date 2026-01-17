@@ -42,9 +42,6 @@ static int Abc_NtkRenodeEvalSop( If_Man_t * p, If_Cut_t * pCut );
 static int Abc_NtkRenodeEvalCnf( If_Man_t * p, If_Cut_t * pCut );
 static int Abc_NtkRenodeEvalMv( If_Man_t * p, If_Cut_t * pCut );
 
-static reo_man * s_pReo       = NULL;
-static DdManager * s_pDd      = NULL;
-
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
 ////////////////////////////////////////////////////////////////////////
@@ -96,6 +93,8 @@ Abc_Ntk_t * Abc_NtkRenode( Abc_Ntk_t * pNtk, int nFaninMax, int nCubeMax, int nF
     pPars->fUseSops    =  fUseSops;
     pPars->fUseCnfs    =  fUseCnfs;
     pPars->fUseMv      =  fUseMv;
+    pPars->pReoMan     =  NULL;
+    pPars->pDdMan      =  NULL;
     if ( fUseBdds )
         pPars->pFuncCost = Abc_NtkRenodeEvalBdd;
     else if ( fUseSops )
@@ -113,10 +112,10 @@ Abc_Ntk_t * Abc_NtkRenode( Abc_Ntk_t * pNtk, int nFaninMax, int nCubeMax, int nF
     // start the manager
     if ( fUseBdds )
     {
-        assert( s_pReo == NULL );
-        s_pDd  = Cudd_Init( nFaninMax, 0, CUDD_UNIQUE_SLOTS, CUDD_CACHE_SLOTS, 0 );
-        s_pReo = Extra_ReorderInit( nFaninMax, 100 );
-        pPars->pReoMan  = s_pReo;
+        assert( pPars->pReoMan == NULL );
+        pPars->pDdMan  = Cudd_Init( nFaninMax, 0, CUDD_UNIQUE_SLOTS, CUDD_CACHE_SLOTS, 0 );
+        pPars->pReoMan = Extra_ReorderInit( nFaninMax, 100 );
+        pPars->pReoMan = pPars->pReoMan;
     }
 
     // perform mapping/renoding
@@ -125,10 +124,10 @@ Abc_Ntk_t * Abc_NtkRenode( Abc_Ntk_t * pNtk, int nFaninMax, int nCubeMax, int nF
     // start the manager
     if ( fUseBdds )
     {
-        Extra_StopManager( s_pDd );
-        Extra_ReorderQuit( s_pReo );
-        s_pReo = NULL;
-        s_pDd  = NULL;
+        Extra_StopManager( pPars->pDdMan );
+        Extra_ReorderQuit( pPars->pReoMan );
+        pPars->pReoMan = NULL;
+        pPars->pDdMan  = NULL;
     }
 
     return pNtkNew;
@@ -183,14 +182,14 @@ int Abc_NtkRenodeEvalBdd( If_Man_t * p, If_Cut_t * pCut )
     int i, k, nNodes;
     for ( i = 0; i < If_CutLeaveNum(pCut); i++ )
         pPerm[i] = pOrder[i] = -100;
-    bFunc = Kit_TruthToBdd( s_pDd, If_CutTruth(p, pCut), If_CutLeaveNum(pCut), 0 );  Cudd_Ref( bFunc );
-    bFuncNew = Extra_Reorder( s_pReo, s_pDd, bFunc, pOrder );                     Cudd_Ref( bFuncNew );
+    bFunc = Kit_TruthToBdd( p->pPars->pDdMan, If_CutTruth(p, pCut), If_CutLeaveNum(pCut), 0 );  Cudd_Ref( bFunc );
+    bFuncNew = Extra_Reorder( p->pPars->pReoMan, p->pPars->pDdMan, bFunc, pOrder );                     Cudd_Ref( bFuncNew );
     for ( i = k = 0; i < If_CutLeaveNum(pCut); i++ )
         if ( pOrder[i] >= 0 )
             pPerm[pOrder[i]] = ++k; // double-check this!
     nNodes = -1 + Cudd_DagSize( bFuncNew );
-    Cudd_RecursiveDeref( s_pDd, bFuncNew );
-    Cudd_RecursiveDeref( s_pDd, bFunc );
+    Cudd_RecursiveDeref( p->pPars->pDdMan, bFuncNew );
+    Cudd_RecursiveDeref( p->pPars->pDdMan, bFunc );
     return nNodes; 
 }
 
