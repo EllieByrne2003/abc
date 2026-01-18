@@ -64,3 +64,5 @@ tags
 /cmake
 /cscope
 abc.history
+oldabc
+compile_commands.json
