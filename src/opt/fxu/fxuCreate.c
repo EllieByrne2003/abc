@@ -27,10 +27,9 @@ ABC_NAMESPACE_IMPL_START
 ////////////////////////////////////////////////////////////////////////
 
 static void        Fxu_CreateMatrixAddCube( Fxu_Matrix * p, Fxu_Cube * pCube, char * pSopCube, Vec_Int_t * vFanins, int * pOrder );
-static int         Fxu_CreateMatrixLitCompare( int * ptrX, int * ptrY );
+static int         Fxu_CreateMatrixLitCompare( int * ptrX, int * ptrY, int *pLits );
 static void        Fxu_CreateCoversNode( Fxu_Matrix * p, Fxu_Data_t * pData, int iNode, Fxu_Cube * pCubeFirst, Fxu_Cube * pCubeNext );
 static Fxu_Cube *  Fxu_CreateCoversFirstCube( Fxu_Matrix * p, Fxu_Data_t * pData, int iNode );
-static int * s_pLits;
 
 extern int         Fxu_PreprocessCubePairs( Fxu_Matrix * p, Vec_Ptr_t * vCovers, int nPairsTotal, int nPairsMax );
 
@@ -146,14 +145,14 @@ Fxu_Matrix * Fxu_CreateMatrix( Fxu_Data_t * pData )
         // in the increasing order of the numbers of the corresponding nodes
         // because literals should be added to the matrix in this order
         vFanins = (Vec_Int_t *)pData->vFanins->pArray[i];
-        s_pLits = vFanins->pArray;
+        int *pLits = vFanins->pArray;
         // start the variable order
         nFanins = Abc_SopGetVarNum( pSopCover );
         for ( v = 0; v < nFanins; v++ )
             pOrder[v] = v;
         // reorder the fanins
-        qsort( (void *)pOrder, (size_t)nFanins, sizeof(int),(int (*)(const void *, const void *))Fxu_CreateMatrixLitCompare);
-        assert( s_pLits[ pOrder[0] ] < s_pLits[ pOrder[nFanins-1] ] );
+        sort_r( (void *)pOrder, (size_t)nFanins, sizeof(int),(int (*)(const void *, const void *, void *))Fxu_CreateMatrixLitCompare, pLits);
+        assert( pLits[ pOrder[0] ] < pLits[ pOrder[nFanins-1] ] );
         // create the corresponding cubes in the matrix
         pCubeFirst = NULL;
         c = 0;
@@ -435,9 +434,9 @@ Fxu_Cube * Fxu_CreateCoversFirstCube( Fxu_Matrix * p, Fxu_Data_t * pData, int iV
   SeeAlso     []
 
 ***********************************************************************/
-int Fxu_CreateMatrixLitCompare( int * ptrX, int * ptrY )
+int Fxu_CreateMatrixLitCompare( int * ptrX, int * ptrY, int *pLits )
 {
-    return s_pLits[*ptrX] - s_pLits[*ptrY];
+    return pLits[*ptrX] - pLits[*ptrY];
 } 
 
 ////////////////////////////////////////////////////////////////////////
