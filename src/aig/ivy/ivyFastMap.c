@@ -83,9 +83,6 @@ static int  Ivy_FastMapNodeRef( Ivy_Man_t * pAig, Ivy_Obj_t * pObj );
 static int  Ivy_FastMapNodeDeref( Ivy_Man_t * pAig, Ivy_Obj_t * pObj );
 
 
-extern abctime s_MappingTime;
-extern int s_MappingMem;
-
 
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
@@ -165,9 +162,6 @@ clk = Abc_Clock();
         Ivy_FastMapPrint( pAig, Delay, Area, Abc_Clock() - clk, "Area recovery 2       : " );
     }
 
-
-    s_MappingTime = Abc_Clock() - clkTotal;
-    s_MappingMem = pMan->nObjs * pMan->nSize;
 /*
     {
         Vec_Ptr_t * vNodes;

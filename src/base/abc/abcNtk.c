@@ -39,6 +39,55 @@ ABC_NAMESPACE_IMPL_START
 ///                     FUNCTION DEFINITIONS                         ///
 ////////////////////////////////////////////////////////////////////////
 
+
+int Abc_NtkIsNetlist( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkType == ABC_NTK_NETLIST;     
+}
+
+int Abc_NtkIsLogic( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkType == ABC_NTK_LOGIC;       
+}
+
+int Abc_NtkIsStrash( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkType == ABC_NTK_STRASH;     
+}
+
+int Abc_NtkIsSopNetlist( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkFunc == ABC_FUNC_SOP && pNtk->ntkType == ABC_NTK_NETLIST;  
+}
+
+int Abc_NtkIsBddNetlist( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkFunc == ABC_FUNC_BDD && pNtk->ntkType == ABC_NTK_NETLIST;  
+}
+
+int Abc_NtkIsAigNetlist( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkFunc == ABC_FUNC_AIG && pNtk->ntkType == ABC_NTK_NETLIST;  
+}
+
+int Abc_NtkIsMappedNetlist( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkFunc == ABC_FUNC_MAP && pNtk->ntkType == ABC_NTK_NETLIST;  
+}
+
+int Abc_NtkIsBlifMvNetlist( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkFunc == ABC_FUNC_BLIFMV && pNtk->ntkType == ABC_NTK_NETLIST;  
+}
+
+int Abc_NtkIsSopLogic( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkFunc == ABC_FUNC_SOP && pNtk->ntkType == ABC_NTK_LOGIC;  
+}
+
+int Abc_NtkIsBddLogic( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkFunc == ABC_FUNC_BDD && pNtk->ntkType == ABC_NTK_LOGIC;  
+}
+
+int Abc_NtkIsAigLogic( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkFunc == ABC_FUNC_AIG && pNtk->ntkType == ABC_NTK_LOGIC;  
+}
+
+int Abc_NtkIsMappedLogic( Abc_Ntk_t * pNtk ) { 
+    return pNtk->ntkFunc == ABC_FUNC_MAP && pNtk->ntkType == ABC_NTK_LOGIC;  
+}
+
 int Abc_NtkNodeNum( Abc_Ntk_t * pNtk ) {
     return pNtk->nObjCounts[ABC_OBJ_NODE];  
 }
@@ -473,7 +522,7 @@ void Abc_NtkFinalizeRead( Abc_Ntk_t * pNtk )
   SeeAlso     []
 
 ***********************************************************************/
-Abc_Ntk_t * Abc_NtkDup( Abc_Ntk_t * pNtk )
+Abc_Ntk_t * Abc_NtkDup( Abc_Ntk_t * const pNtk )
 {
     Abc_Ntk_t * pNtkNew; 
     Abc_Obj_t * pObj, * pFanin;

@@ -30,9 +30,6 @@ ABC_NAMESPACE_IMPL_START
 extern Fxu_Matrix * Fxu_CreateMatrix( Fxu_Data_t * pData );
 extern void         Fxu_CreateCovers( Fxu_Matrix * p, Fxu_Data_t * pData );
 
-static int s_MemoryTotal;
-static int s_MemoryPeak;
-
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
 ////////////////////////////////////////////////////////////////////////
@@ -63,9 +60,6 @@ int Fxu_FastExtract( Fxu_Data_t * pData )
     Fxu_Double * pDouble;
     int Weight1, Weight2, Weight3;
     int Counter = 0;
-
-    s_MemoryTotal = 0;
-    s_MemoryPeak  = 0;
 
     // create the matrix
     p = Fxu_CreateMatrix( pData );
@@ -226,9 +220,6 @@ void Fxu_MatrixRingVarsUnmark( Fxu_Matrix * p )
 ***********************************************************************/
 char * Fxu_MemFetch( Fxu_Matrix * p, int nBytes )
 {
-    s_MemoryTotal += nBytes;
-    if ( s_MemoryPeak < s_MemoryTotal )
-        s_MemoryPeak = s_MemoryTotal;
 //    return ABC_ALLOC( char, nBytes );
     return Extra_MmFixedEntryFetch( p->pMemMan );
 }
@@ -246,7 +237,6 @@ char * Fxu_MemFetch( Fxu_Matrix * p, int nBytes )
 ***********************************************************************/
 void Fxu_MemRecycle( Fxu_Matrix * p, char * pItem, int nBytes )
 {
-    s_MemoryTotal -= nBytes;
 //    ABC_FREE( pItem );
     Extra_MmFixedEntryRecycle( p->pMemMan, pItem );
 }

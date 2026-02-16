@@ -249,9 +249,9 @@ static inline int         Abc_InfoIsOrOne( unsigned * p, unsigned * q, int nWord
 static inline int         Abc_InfoIsOrOne3( unsigned * p, unsigned * q, unsigned * r, int nWords ){ int i; for ( i = nWords - 1; i >= 0; i-- ) if ( ~(p[i] | q[i] | r[i]) ) return 0; return 1; } 
 
 // checking the network type
-static inline int         Abc_NtkIsNetlist( Abc_Ntk_t * pNtk )       { return pNtk->ntkType == ABC_NTK_NETLIST;     }
-static inline int         Abc_NtkIsLogic( Abc_Ntk_t * pNtk )         { return pNtk->ntkType == ABC_NTK_LOGIC;       }
-static inline int         Abc_NtkIsStrash( Abc_Ntk_t * pNtk )        { return pNtk->ntkType == ABC_NTK_STRASH;      }
+extern ABC_DLL int         Abc_NtkIsNetlist( Abc_Ntk_t * pNtk );
+extern ABC_DLL int         Abc_NtkIsLogic( Abc_Ntk_t * pNtk );
+extern ABC_DLL int         Abc_NtkIsStrash( Abc_Ntk_t * pNtk );
 
 static inline int         Abc_NtkHasSop( Abc_Ntk_t * pNtk )          { return pNtk->ntkFunc == ABC_FUNC_SOP;        }
 static inline int         Abc_NtkHasBdd( Abc_Ntk_t * pNtk )          { return pNtk->ntkFunc == ABC_FUNC_BDD;        }
@@ -260,15 +260,15 @@ static inline int         Abc_NtkHasMapping( Abc_Ntk_t * pNtk )      { return pN
 static inline int         Abc_NtkHasBlifMv( Abc_Ntk_t * pNtk )       { return pNtk->ntkFunc == ABC_FUNC_BLIFMV;     }
 static inline int         Abc_NtkHasBlackbox( Abc_Ntk_t * pNtk )     { return pNtk->ntkFunc == ABC_FUNC_BLACKBOX;   }
 
-static inline int         Abc_NtkIsSopNetlist( Abc_Ntk_t * pNtk )    { return pNtk->ntkFunc == ABC_FUNC_SOP && pNtk->ntkType == ABC_NTK_NETLIST;  }
-static inline int         Abc_NtkIsBddNetlist( Abc_Ntk_t * pNtk )    { return pNtk->ntkFunc == ABC_FUNC_BDD && pNtk->ntkType == ABC_NTK_NETLIST;  }
-static inline int         Abc_NtkIsAigNetlist( Abc_Ntk_t * pNtk )    { return pNtk->ntkFunc == ABC_FUNC_AIG && pNtk->ntkType == ABC_NTK_NETLIST;  }
-static inline int         Abc_NtkIsMappedNetlist( Abc_Ntk_t * pNtk ) { return pNtk->ntkFunc == ABC_FUNC_MAP && pNtk->ntkType == ABC_NTK_NETLIST;  }
-static inline int         Abc_NtkIsBlifMvNetlist( Abc_Ntk_t * pNtk ) { return pNtk->ntkFunc == ABC_FUNC_BLIFMV && pNtk->ntkType == ABC_NTK_NETLIST;  }
-static inline int         Abc_NtkIsSopLogic( Abc_Ntk_t * pNtk )      { return pNtk->ntkFunc == ABC_FUNC_SOP && pNtk->ntkType == ABC_NTK_LOGIC  ;  }
-static inline int         Abc_NtkIsBddLogic( Abc_Ntk_t * pNtk )      { return pNtk->ntkFunc == ABC_FUNC_BDD && pNtk->ntkType == ABC_NTK_LOGIC  ;  }
-static inline int         Abc_NtkIsAigLogic( Abc_Ntk_t * pNtk )      { return pNtk->ntkFunc == ABC_FUNC_AIG && pNtk->ntkType == ABC_NTK_LOGIC  ;  }
-static inline int         Abc_NtkIsMappedLogic( Abc_Ntk_t * pNtk )   { return pNtk->ntkFunc == ABC_FUNC_MAP && pNtk->ntkType == ABC_NTK_LOGIC  ;  }
+extern ABC_DLL int         Abc_NtkIsSopNetlist( Abc_Ntk_t * pNtk );
+extern ABC_DLL int         Abc_NtkIsBddNetlist( Abc_Ntk_t * pNtk );
+extern ABC_DLL int         Abc_NtkIsAigNetlist( Abc_Ntk_t * pNtk );
+extern ABC_DLL int         Abc_NtkIsMappedNetlist( Abc_Ntk_t * pNtk );
+extern ABC_DLL int         Abc_NtkIsBlifMvNetlist( Abc_Ntk_t * pNtk );
+extern ABC_DLL int         Abc_NtkIsSopLogic( Abc_Ntk_t * pNtk );
+extern ABC_DLL int         Abc_NtkIsBddLogic( Abc_Ntk_t * pNtk );
+extern ABC_DLL int         Abc_NtkIsAigLogic( Abc_Ntk_t * pNtk );
+extern ABC_DLL int         Abc_NtkIsMappedLogic( Abc_Ntk_t * pNtk );
 
 // reading data members of the network
 static inline char *      Abc_NtkName( Abc_Ntk_t * pNtk )            { return pNtk->pName;            }
@@ -778,7 +778,7 @@ extern ABC_DLL Abc_Ntk_t *        Abc_NtkStartFromNoLatches( Abc_Ntk_t * pNtk, A
 extern ABC_DLL void               Abc_NtkFinalize( Abc_Ntk_t * pNtk, Abc_Ntk_t * pNtkNew );
 extern ABC_DLL Abc_Ntk_t *        Abc_NtkStartRead( char * pName );
 extern ABC_DLL void               Abc_NtkFinalizeRead( Abc_Ntk_t * pNtk );
-extern ABC_DLL Abc_Ntk_t *        Abc_NtkDup( Abc_Ntk_t * pNtk );
+extern ABC_DLL Abc_Ntk_t *        Abc_NtkDup( Abc_Ntk_t * const pNtk );
 extern ABC_DLL Abc_Ntk_t *        Abc_NtkDupDfs( Abc_Ntk_t * pNtk );
 extern ABC_DLL Abc_Ntk_t *        Abc_NtkDupDfsNoBarBufs( Abc_Ntk_t * pNtk );
 extern ABC_DLL Abc_Ntk_t *        Abc_NtkDupTransformMiter( Abc_Ntk_t * pNtk );
