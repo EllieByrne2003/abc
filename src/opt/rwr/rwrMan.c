@@ -46,18 +46,15 @@ ABC_NAMESPACE_IMPL_START
 ***********************************************************************/
 Rwr_Man_t * Rwr_ManStart( int  fPrecompute )
 {
-    Dec_Man_t * pManDec;
     Rwr_Man_t * p;
+
     abctime clk = Abc_Clock();
 clk = Abc_Clock();
     p = ABC_ALLOC( Rwr_Man_t, 1 );
     memset( p, 0, sizeof(Rwr_Man_t) );
     p->nFuncs = (1<<16);
-    pManDec   = (Dec_Man_t *)Abc_FrameReadManDec();
-    p->puCanons = pManDec->puCanons; 
-    p->pPhases  = pManDec->pPhases; 
-    p->pPerms   = pManDec->pPerms; 
-    p->pMap     = pManDec->pMap; 
+
+    Extra_Truth4VarNPN( &p->puCanons, &p->pPhases, &p->pPerms, &p->pMap );
     // initialize practical NPN classes
     p->pPractical  = Rwr_ManGetPractical( p );
     // create the table
@@ -126,6 +123,10 @@ void Rwr_ManStop( Rwr_Man_t * p )
     ABC_FREE( p->pTable );
     ABC_FREE( p->pPractical );
     ABC_FREE( p->pPerms4 );
+    ABC_FREE( p->puCanons );
+    ABC_FREE( p->pPhases );
+    ABC_FREE( p->pPerms );
+    ABC_FREE( p->pMap );
     ABC_FREE( p );
 }
 
