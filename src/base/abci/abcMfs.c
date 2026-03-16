@@ -169,7 +169,8 @@ Sfm_Ntk_t * Abc_NtkExtractMfs( Abc_Ntk_t * pNtk, int nFirstFixed )
     {
         if ( Abc_ObjFaninNum(pObj) <= 6 )
         {
-            word uTruth = Abc_SopToTruth((char *)pObj->pData, Abc_ObjFaninNum(pObj));
+            word uTruth = 0;
+            assert(Abc_SopToTruth((char *)pObj->pData, Abc_ObjFaninNum(pObj), &uTruth) == 0);
             int Offset  = Vec_IntEntry( vStarts, pObj->iTemp );
             Vec_WrdWriteEntry( vTruths2, Offset, uTruth );
             Vec_WrdWriteEntry( vTruths, pObj->iTemp, uTruth );
@@ -245,7 +246,8 @@ Sfm_Ntk_t * Abc_NtkExtractMfs2( Abc_Ntk_t * pNtk, int iPivot )
     {
         if ( Abc_ObjFaninNum(pObj) <= 6 )
         {
-            word uTruth = Abc_SopToTruth((char *)pObj->pData, Abc_ObjFaninNum(pObj));
+            word uTruth = 0;
+            assert(Abc_SopToTruth((char *)pObj->pData, Abc_ObjFaninNum(pObj), &uTruth) == 0);
             Vec_WrdWriteEntry( vTruths, pObj->iTemp, uTruth );
             if ( uTruth == 0 || ~uTruth == 0 )
                 continue;

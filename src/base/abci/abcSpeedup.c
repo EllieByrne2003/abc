@@ -519,6 +519,10 @@ Abc_Ntk_t * Abc_NtkSpeedup( Abc_Ntk_t * pNtk, int fUseLutLib, int Percentage, in
     unsigned * puTCEdges;
     // perform delay trace
     tArrival = Abc_NtkDelayTraceLut( pNtk, fUseLutLib );
+    if(tArrival == -ABC_INFINITY) {
+        return NULL; // -ABC_INFINITY is a sentinel value, it means Abc_NtkDelayTraceLut failed
+    }
+
     tDelta = fUseLutLib ? tArrival*Percentage/100.0 : 1.0;
     if ( fVerbose )
     {

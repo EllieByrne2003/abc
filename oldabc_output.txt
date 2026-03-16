@@ -1,0 +1,2 @@
+ABC command line: "read i10.aig; multi ; sop ; fx; write i10-old.v".
+

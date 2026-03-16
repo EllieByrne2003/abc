@@ -1311,7 +1311,7 @@ char * Abc_SopDecoderLog( Mem_Flex_t * pMan, int nValues )
   SeeAlso     []
 
 ***********************************************************************/
-word Abc_SopToTruth( char * pSop, int nInputs )
+int Abc_SopToTruth( char * pSop, int nInputs, word * Result )
 {
     static word Truth[8] = {
         ABC_CONST(0xAAAAAAAAAAAAAAAA),
@@ -1323,11 +1323,22 @@ word Abc_SopToTruth( char * pSop, int nInputs )
         ABC_CONST(0x0000000000000000),
         ABC_CONST(0xFFFFFFFFFFFFFFFF)
     };
-    word Cube, Result = 0;
+    word Cube = 0;
     int v, lit = 0;
     int nVars = Abc_SopGetVarNum(pSop);
-    assert( nVars >= 0 && nVars <= 6 );
-    assert( nVars == nInputs );
+    // assert( nVars >= 0 && nVars <= 6 );
+    // assert( nVars == nInputs );
+
+    if(!(nVars >= 0 && nVars <= 6)) {
+        printf("Abc_SopToTruth: nVars out of range 0->6 inclusive.\n");
+        return -1;
+    }
+
+    if(nVars != nInputs) {
+        printf("Abc_SopToTruth: mismatch between nInputs and nVars.\n");
+        return -1;
+    }
+
     do {
         Cube = Truth[7];
         for ( v = 0; v < nVars; v++, lit++ )
@@ -1339,7 +1350,7 @@ word Abc_SopToTruth( char * pSop, int nInputs )
             else if ( pSop[lit] != '-' )
                 assert( 0 );
         }
-        Result |= Cube;
+        *Result |= Cube;
         assert( pSop[lit] == ' ' );
         lit++;
         lit++;
@@ -1347,8 +1358,9 @@ word Abc_SopToTruth( char * pSop, int nInputs )
         lit++;
     } while ( pSop[lit] );
     if ( Abc_SopIsComplement(pSop) )
-        Result = ~Result;
-    return Result;
+        *Result = ~*Result;
+
+    return 0;
 }
 
 /**Function*************************************************************

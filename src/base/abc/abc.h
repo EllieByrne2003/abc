@@ -933,7 +933,8 @@ extern ABC_DLL char *             Abc_SopEncoderPos( Mem_Flex_t * pMan, int iVal
 extern ABC_DLL char *             Abc_SopEncoderLog( Mem_Flex_t * pMan, int iBit, int nValues );
 extern ABC_DLL char *             Abc_SopDecoderPos( Mem_Flex_t * pMan, int nValues );
 extern ABC_DLL char *             Abc_SopDecoderLog( Mem_Flex_t * pMan, int nValues );
-extern ABC_DLL word               Abc_SopToTruth( char * pSop, int nInputs );
+// extern ABC_DLL word               Abc_SopToTruth( char * pSop, int nInputs );
+extern ABC_DLL int                Abc_SopToTruth( char * pSop, int nInputs, word * Result );
 extern ABC_DLL void               Abc_SopToTruth7( char * pSop, int nInputs, word r[2] );
 extern ABC_DLL void               Abc_SopToTruthBig( char * pSop, int nInputs, word ** pVars, word * pCube, word * pRes );
 /*=== abcStrash.c ==========================================================*/

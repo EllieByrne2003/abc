@@ -1,0 +1,8 @@
+=== ABC Comparison Test Results ===
+Command: multi ; sop ; fx
+Test date: Sun 18 Jan 2026 20:25:23 GMT
+Exit codes: old=0, new=0
+Verilog match (timestamps ignored): PASS
+Console output similarity: PASS
+
+Note: Timestamp differences in 'written by ABC on' lines are ignored.

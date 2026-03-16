@@ -524,6 +524,7 @@ void Abc_NtkComputePaths( Abc_Ntk_t * p )
 {
     extern Acb_Ntk_t * Acb_NtkFromAbc( Abc_Ntk_t * p );
     Acb_Ntk_t * pNtk = Acb_NtkFromAbc( p );
+    assert(pNtk != NULL);
     Acb_NtkCreateFanout( pNtk );
     Acb_NtkCleanObjCounts( pNtk );
     printf( "Computed %d paths.\n", Acb_NtkComputePaths(pNtk) );

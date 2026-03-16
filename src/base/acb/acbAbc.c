@@ -64,8 +64,11 @@ Acb_Ntk_t * Acb_NtkFromAbc2( Abc_Ntk_t * p )
     Abc_NtkForEachCo( p, pObj, i )
         Acb_ObjAddFanin( pNtk, pObj->iTemp, Abc_ObjFanin(pObj, 0)->iTemp );
     Acb_NtkCleanObjTruths( pNtk );
-    Abc_NtkForEachNode( p, pObj, i )
-        Acb_ObjSetTruth( pNtk, pObj->iTemp, Abc_SopToTruth((char *)pObj->pData, Abc_ObjFaninNum(pObj)) );
+    Abc_NtkForEachNode( p, pObj, i ) {
+        word uTruth = 0;
+        assert(Abc_SopToTruth((char *)pObj->pData, Abc_ObjFaninNum(pObj), &uTruth) == 0);
+        Acb_ObjSetTruth( pNtk, pObj->iTemp, uTruth );
+    }
     Acb_NtkSetRegNum( pNtk, Abc_NtkLatchNum(p) );
     Acb_NtkAdd( pMan, pNtk );
     return pNtk;
@@ -98,8 +101,15 @@ Acb_Ntk_t * Acb_NtkFromAbc( Abc_Ntk_t * p )
     Abc_NtkForEachCo( p, pObj, i )
         Acb_ObjAddFanin( pNtk, pObj->iTemp, Abc_ObjFanin(pObj, 0)->iTemp );
     Acb_NtkCleanObjTruths( pNtk );
-    Abc_NtkForEachNode( p, pObj, i )
-        Acb_ObjSetTruth( pNtk, pObj->iTemp, Abc_SopToTruth((char *)pObj->pData, Abc_ObjFaninNum(pObj)) );
+    Abc_NtkForEachNode( p, pObj, i ) {
+        word uTruth = 0;
+
+        if(Abc_SopToTruth((char *)pObj->pData, Abc_ObjFaninNum(pObj), &uTruth) != 0) {
+            Acb_NtkFree(pNtk);
+            return NULL;
+        }
+        Acb_ObjSetTruth( pNtk, pObj->iTemp, uTruth );
+    }
     Acb_NtkSetRegNum( pNtk, Abc_NtkLatchNum(p) );
     Acb_NtkAdd( pMan, pNtk );
     return pNtk;
@@ -137,7 +147,14 @@ Abc_Ntk_t * Acb_NtkToAbc( Abc_Ntk_t * pNtk, Acb_Ntk_t * p )
         Abc_Obj_t * pObjNew = Abc_NtkObj(pNtkNew, Acb_ObjCopy(p, iObj));
         Acb_ObjForEachFanin( p, iObj, iFanin, k )
             Abc_ObjAddFanin( pObjNew, Abc_NtkObj(pNtkNew, Acb_ObjCopy(p, iFanin)) );
-        assert( Abc_SopGetVarNum((char *)pObjNew->pData) == Abc_ObjFaninNum(pObjNew) );
+
+        // assert( Abc_SopGetVarNum((char *)pObjNew->pData) == Abc_ObjFaninNum(pObjNew) );
+        if(Abc_SopGetVarNum((char *)pObjNew->pData) != Abc_ObjFaninNum(pObjNew))
+        {
+            printf( "Acb_NtkToAbc: Failed to construct network.\n" );
+            Abc_NtkDelete( pNtkNew );
+            return NULL;
+    }
     }
     Acb_NtkForEachCoDriver( p, iFanin, i )
         Abc_ObjAddFanin( Abc_NtkCo(pNtkNew, i), Abc_NtkObj(pNtkNew, Acb_ObjCopy(p, iFanin)) );
@@ -278,6 +295,7 @@ Abc_Ntk_t * Abc_NtkOptMfse( Abc_Ntk_t * pNtk, Acb_Par_t * pPars )
     extern void Acb_NtkOpt( Acb_Ntk_t * p, Acb_Par_t * pPars );
     Abc_Ntk_t * pNtkNew;
     Acb_Ntk_t * p = Acb_NtkFromAbc( pNtk );
+    if(p == NULL) return NULL;
     Acb_NtkOpt( p, pPars );
     pNtkNew = Acb_NtkToAbc( pNtk, p );
     Acb_ManFree( p->pDesign );
@@ -297,10 +315,11 @@ Abc_Ntk_t * Abc_NtkOptMfse( Abc_Ntk_t * pNtk, Acb_Par_t * pPars )
 ***********************************************************************/
 Abc_Ntk_t * Abc_NtkOptPush( Abc_Ntk_t * pNtk, int nLutSize, int fVerbose )
 {
-    extern void Acb_NtkPushLogic( Acb_Ntk_t * p, int nLutSize, int fVerbose );
+    extern int Acb_NtkPushLogic( Acb_Ntk_t * p, int nLutSize, int fVerbose );
     Abc_Ntk_t * pNtkNew;
     Acb_Ntk_t * p = Acb_NtkFromAbc( pNtk );
-    Acb_NtkPushLogic( p, nLutSize, fVerbose );
+    if(p == NULL) return NULL;
+    if(Acb_NtkPushLogic( p, nLutSize, fVerbose )) return NULL;
     pNtkNew = Acb_NtkToAbc( pNtk, p );
     Acb_ManFree( p->pDesign );
     return pNtkNew;

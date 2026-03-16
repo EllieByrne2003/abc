@@ -827,7 +827,8 @@ void Io_WriteVerilogObjectsLut( FILE * pFile, Abc_Ntk_t * pNtk, int nLutSize, in
         }
         else
         {
-            word Truth = Abc_SopToTruth( (char *)pObj->pData, Abc_ObjFaninNum(pObj) );
+            word Truth = 0;
+            assert(Abc_SopToTruth( (char *)pObj->pData, Abc_ObjFaninNum(pObj), &Truth ) == 0);
             fprintf( pFile, "  LUT6 #(64\'h" );
             fprintf( pFile, "%08x%08x", (unsigned)(Truth >> 32), (unsigned)Truth );
             fprintf( pFile, ") lut_%0*d (", nDigits, Counter++ );
@@ -842,7 +843,8 @@ void Io_WriteVerilogObjectsLut( FILE * pFile, Abc_Ntk_t * pNtk, int nLutSize, in
     else
     Abc_NtkForEachNode( pNtk, pObj, i )
     {
-        word Truth = Abc_SopToTruth( (char *)pObj->pData, Abc_ObjFaninNum(pObj) );
+        word Truth = 0;
+        assert(Abc_SopToTruth( (char *)pObj->pData, Abc_ObjFaninNum(pObj), &Truth ) == 0);
         fprintf( pFile, "  lut%d #(%d\'h", nLutSize, 1<<nLutSize );
         if ( nLutSize == 6 )
             fprintf( pFile, "%08x%08x", (unsigned)(Truth >> 32), (unsigned)Truth );

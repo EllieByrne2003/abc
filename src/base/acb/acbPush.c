@@ -217,13 +217,17 @@ void Acb_ObjRemoveConst( Acb_Ntk_t * p, int iObj )
     if ( Acb_ObjFanoutNum(p, iObj) == 0 )
         Acb_ObjCleanType( p, iObj );
 }
-void Acb_ObjRemoveBufInv( Acb_Ntk_t * p, int iObj )
+int Acb_ObjRemoveBufInv( Acb_Ntk_t * p, int iObj )
 {
     int iFanout;
     word uTruth = Acb_ObjTruth( p, iObj );
-    assert( !Acb_ObjIsCio(p, iObj) );
-    assert( Acb_ObjFaninNum(p, iObj) == 1 );
-    assert( uTruth == s_Truths6[0] || ~uTruth == s_Truths6[0] );
+
+    if(!Acb_ObjIsCio(p, iObj) || Acb_ObjFaninNum(p, iObj) == 1 || !(uTruth == s_Truths6[0] || ~uTruth == s_Truths6[0])) {
+        return -1;
+    }
+    // assert( !Acb_ObjIsCio(p, iObj) );
+    // assert( Acb_ObjFaninNum(p, iObj) == 1 );
+    // assert( uTruth == s_Truths6[0] || ~uTruth == s_Truths6[0] );
     while ( (iFanout = Acb_ObjFindNodeFanout(p, iObj)) >= 0 )
     {
         int iFanin = Acb_ObjFanin( p, iObj, 0 );
@@ -249,6 +253,8 @@ void Acb_ObjRemoveBufInv( Acb_Ntk_t * p, int iObj )
         Acb_ObjRemoveFanins( p, iObj );
         Acb_ObjCleanType( p, iObj );
     }
+
+    return 0;
 }
 
 /**Function*************************************************************
@@ -322,7 +328,7 @@ int Acb_ObjPushToFanins( Acb_Ntk_t * p, int iObj, int nLutSize )
   SeeAlso     []
 
 ***********************************************************************/
-void Acb_NtkPushLogic( Acb_Ntk_t * p, int nLutSize, int fVerbose )
+int Acb_NtkPushLogic( Acb_Ntk_t * p, int nLutSize, int fVerbose )
 {
     int n = 0, iObj, nNodes = Acb_NtkNodeNum(p), nPushes = 0;
     Acb_NtkCreateFanout( p );  // fanout data structure
@@ -339,6 +345,7 @@ void Acb_NtkPushLogic( Acb_Ntk_t * p, int nLutSize, int fVerbose )
                 Acb_ObjRemoveBufInv( p, iObj );
         }
     printf( "Saved %d nodes after %d pushes.\n", nNodes - Acb_NtkNodeNum(p), nPushes );
+    return 0;
 }
 
 /**Function*************************************************************

@@ -61,7 +61,7 @@ iwls_scripts=(
 )
 
 # Output file: <circuit>_results.txt
-outfile="${circuit}_results.txt"
+outfile="${circuit}_LUT6_results.txt"
 
 # Clear (or create) the output file
 > "$outfile"

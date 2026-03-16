@@ -6418,6 +6418,12 @@ int Abc_CommandLogicPush( Abc_Frame_t * pAbc, int argc, char ** argv )
     nLutSize = Abc_MaxInt( nLutSize, Abc_NtkGetFaninMax(pNtk) );
     Abc_NtkToSop( pNtk, -1, ABC_INFINITY );
     pNtkRes = Abc_NtkOptPush( pNtk, nLutSize, fVerbose );
+    if(pNtkRes == NULL) {
+        Abc_Print( -1, "Error ocurred during logicpush command.\n" );
+        
+        return 1;
+    }
+
     Abc_FrameReplaceCurrentNetwork( pAbc, pNtkRes );
     return 0;
 usage:

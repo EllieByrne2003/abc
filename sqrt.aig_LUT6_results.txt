@@ -1,0 +1,669 @@
+================================================================================
+=== Standard script: resyn (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; resyn; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  4976  edge =  22219  aig  = 34102  lev = 1008
+
+================================================================================
+=== Standard script: resyn2 (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; resyn2; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  4620  edge =  21258  aig  = 33576  lev = 1005
+
+================================================================================
+=== Standard script: resyn2a (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; resyn2a; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  4976  edge =  22250  aig  = 34176  lev = 1008
+
+================================================================================
+=== Standard script: resyn3 (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; resyn3; if -K 6; print_stats".
+
+sqrt                          : i/o =  128/   64  lat =    0  nd =  4632  edge =  21837  aig  = 31282  lev = 1024
+
+================================================================================
+=== Standard script: compress (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; compress; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  3348  edge =  16159  aig  = 27293  lev = 1032
+
+================================================================================
+=== Standard script: compress2 (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; compress2; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  3298  edge =  16116  aig  = 27171  lev = 1032
+
+================================================================================
+=== Standard script: choice (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; choice; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Fraiging part    1  (out of    1)  PI =   128. PO =    64. And =  63215. Lev = 5026.                                                                                          sqrt                          : i/o =  128/   64  lat =    0  nd =  5689  edge =  25280  aig  = 34971  lev = 1001
+
+================================================================================
+=== Standard script: choice2 (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; choice2; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Fraiging part    1  (out of    1)  PI =   128. PO =    64. And = 106956. Lev = 5024.                                                                                          sqrt                          : i/o =  128/   64  lat =    0  nd =  5689  edge =  25332  aig  = 34887  lev = 1001
+
+================================================================================
+=== Standard script: rwsat (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; rwsat; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  3367  edge =  16474  aig  = 27800  lev = 1023
+
+================================================================================
+=== Standard script: drwsat2 (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; drwsat2; if -K 6; print_stats".
+
+sqrt                          : i/o =  128/   64  lat =    0  nd =  3140  edge =  15480  aig  = 26640  lev = 1023
+
+================================================================================
+=== Standard script: share (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; share; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  3150  edge =  15578  aig  = 26718  lev = 1023
+
+================================================================================
+=== Standard script: addinit (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; addinit; if -K 6; print_stats".
+
+Io_ReadBenchInit(): Failed to open file "sqrt.init".
+Warning: The current network is combinational.
+Warning: The current network is combinational.
+sqrt                          : i/o =  128/   64  lat =    0  nd =  5724  edge =  26936  aig  = 38251  lev = 1033
+
+================================================================================
+=== Standard script: blif2aig (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; blif2aig; if -K 6; print_stats".
+
+Warning: The current network is combinational.
+Warning: The current network is combinational.
+sqrt                          : i/o =  128/   64  lat =    0  nd =  5724  edge =  26936  aig  = 38251  lev = 1033
+
+================================================================================
+=== Standard script: v2p (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; v2p; if -K 6; print_stats".
+
+Error: Abc_CommandAbc9Vta2Gla(): There is no AIG.
+Error: Abc_CommandAbc9Ps(): There is no AIG.
+
+================================================================================
+=== Standard script: g2p (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; g2p; if -K 6; print_stats".
+
+Error: Abc_CommandAbc9Ps(): There is no AIG.
+
+================================================================================
+=== Standard script: &sw_ (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; &sw_; if -K 6; print_stats".
+
+Error: Empty network.
+
+================================================================================
+=== Standard script: &fx_ (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; &fx_; if -K 6; print_stats".
+
+Error: Empty network.
+
+================================================================================
+=== Standard script: &dc3 (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; &dc3; if -K 6; print_stats".
+
+Error: Abc_CommandAbc9Balance(): There is no AIG.
+
+================================================================================
+=== Standard script: &dc4 (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; &dc4; if -K 6; print_stats".
+
+Error: Abc_CommandAbc9Balance(): There is no AIG.
+
+================================================================================
+=== IWLS script: src_rw (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; src_rw; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  3268  edge =  15970  aig  = 27108  lev = 1032
+
+================================================================================
+=== IWLS script: src_rs (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; src_rs; if -K 6; print_stats".
+
+sqrt                          : i/o =  128/   64  lat =    0  nd =  3388  edge =  16406  aig  = 31410  lev = 1024
+
+================================================================================
+=== IWLS script: src_rws (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; src_rws; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  3318  edge =  16040  aig  = 26871  lev = 1032
+
+================================================================================
+=== IWLS script: resyn2rs (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; resyn2rs; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  4691  edge =  21010  aig  = 32561  lev = 1004
+
+================================================================================
+=== IWLS script: r2rs (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; r2rs; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  4691  edge =  21010  aig  = 32561  lev = 1004
+
+================================================================================
+=== IWLS script: compress2rs (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; compress2rs; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  3351  edge =  16251  aig  = 27015  lev = 1031
+
+================================================================================
+=== IWLS script: c2rs (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; c2rs; if -K 6; print_stats".
+
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+Bi-decomposition stats: Calls = 0.  Nodes = 0. Reuse = 0.
+ANDs = 0.  ORs = 0.  Weak = 0.  Muxes = 0.  Memory = 4.00 K
+Cache =     0.00 sec
+Check =     0.00 sec
+Muxes =     0.00 sec
+Supps =     0.00 sec
+TOTAL =     0.00 sec
+sqrt                          : i/o =  128/   64  lat =    0  nd =  3351  edge =  16251  aig  = 27015  lev = 1031
+
+================================================================================
+=== IWLS script: &resyn2rs (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; &resyn2rs; if -K 6; print_stats".
+
+Error: Empty network.
+
+================================================================================
+=== IWLS script: &compress2rs (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; &compress2rs; if -K 6; print_stats".
+
+Error: Empty network.
+
+================================================================================
+=== Lazy mans synthesis: recadd3 (with print_stats) ===
+================================================================================
+ABC command line: "read sqrt.aig; rec_start3; recadd3; if -K 6; print_stats".
+
+File name is not given on the command line. Starting a new record.
+sqrt                          : i/o =  128/   64  lat =    0  nd = 11186  edge =  44270  aig  = 54714  lev = 408
+
+================================================================================
+=== Custom script: logic; logicpush -K 4; strash; renode -K 3 -C 1 -F 1; sop; fx -W 2 -M 12 -z -c -n; fx -W 1 -M 11 -d -z -x; logicpush -K 2; logicpush -K 6; sop; fx -W 3 -M 6 -d; logicpush -K 4; strash; logic; strash ===
+================================================================================
+ABC command line: "read sqrt.aig; logic; logicpush -K 4; strash; renode -K 3 -C 1 -F 1; sop; fx -W 2 -M 12 -z -c -n; fx -W 1 -M 11 -d -z -x; logicpush -K 2; logicpush -K 6; sop; fx -W 3 -M 6 -d; logicpush -K 4; strash; logic; strash; if -K 6; print_stats".
+
+Saved 0 nodes after 34440 pushes.
+Saved 0 nodes after 52 pushes.
+Saved 0 nodes after 25818 pushes.
+Saved 0 nodes after 14155 pushes.
+sqrt                          : i/o =  128/   64  lat =    0  nd =  3037  edge =  14930  aig  = 26444  lev = 1053
+

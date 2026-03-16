@@ -814,7 +814,7 @@ void Io_NtkEdgelistWriteNodeInt( FILE * pFile, Abc_Obj_t * pNode, Vec_Int_t * vC
         }
         else
         {
-            uTruth6 = Abc_SopToTruth( (char*)Abc_ObjData(pNode), nVars );
+            assert(Abc_SopToTruth( (char*)Abc_ObjData(pNode), nVars, &uTruth6 ) == 0);
             iVar = If_Dec6PickBestMux( uTruth6, Cofs6 );
         }
 
