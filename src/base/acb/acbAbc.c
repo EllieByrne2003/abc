@@ -319,7 +319,10 @@ Abc_Ntk_t * Abc_NtkOptPush( Abc_Ntk_t * pNtk, int nLutSize, int fVerbose )
     Abc_Ntk_t * pNtkNew;
     Acb_Ntk_t * p = Acb_NtkFromAbc( pNtk );
     if(p == NULL) return NULL;
-    if(Acb_NtkPushLogic( p, nLutSize, fVerbose )) return NULL;
+    if(Acb_NtkPushLogic( p, nLutSize, fVerbose )) {
+        Acb_NtkFree(p);
+        return NULL;
+    }
     pNtkNew = Acb_NtkToAbc( pNtk, p );
     Acb_ManFree( p->pDesign );
     return pNtkNew;

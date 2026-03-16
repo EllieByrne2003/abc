@@ -177,7 +177,7 @@ int Abc_NtkResubstitute( Abc_Ntk_t * pNtk, int nCutMax, int nStepsMax, int nMinS
         printf( "Collecting resub problems into binary file \"%s\" expected to take %.3f MB...\n", pFileName, 1.0*(1 << Log2Probs)*(1 << Log2Divs)*(1 << (nCutMax-3)) / (1 << 20) );
     }
     if ( nLevelsOdc > 0 )
-    pManOdc = Abc_NtkDontCareAlloc( nCutMax, nLevelsOdc, fVerbose, fVeryVerbose );
+        pManOdc = Abc_NtkDontCareAlloc( nCutMax, nLevelsOdc, fVerbose, fVeryVerbose );
 
     // compute the reverse levels if level update is requested
     if ( fUpdateLevel )
