@@ -222,9 +222,9 @@ int Acb_ObjRemoveBufInv( Acb_Ntk_t * p, int iObj )
     int iFanout;
     word uTruth = Acb_ObjTruth( p, iObj );
 
-    if(!Acb_ObjIsCio(p, iObj) || Acb_ObjFaninNum(p, iObj) == 1 || !(uTruth == s_Truths6[0] || ~uTruth == s_Truths6[0])) {
-        return -1;
-    }
+    if(Acb_ObjIsCio(p, iObj)) return -1;
+    if(!(Acb_ObjFaninNum(p, iObj) == 1)) return -1;
+    if(uTruth != s_Truths6[0] && ~uTruth != s_Truths6[0]) return -1;
     // assert( !Acb_ObjIsCio(p, iObj) );
     // assert( Acb_ObjFaninNum(p, iObj) == 1 );
     // assert( uTruth == s_Truths6[0] || ~uTruth == s_Truths6[0] );
@@ -335,14 +335,14 @@ int Acb_NtkPushLogic( Acb_Ntk_t * p, int nLutSize, int fVerbose )
     Acb_NtkForEachNodeSupp( p, iObj, 0 )
         Acb_ObjRemoveConst( p, iObj );
     Acb_NtkForEachNodeSupp( p, iObj, 1 )
-        Acb_ObjRemoveBufInv( p, iObj );
+        if(Acb_ObjRemoveBufInv( p, iObj )) return -1;
     for ( n = 2; n <= nLutSize; n++ )
         Acb_NtkForEachNodeSupp( p, iObj, n )
         {
             while ( Acb_ObjPushToFanins(p, iObj, nLutSize) )
                 nPushes++;
             if ( Acb_ObjFaninNum(p, iObj) == 1 )
-                Acb_ObjRemoveBufInv( p, iObj );
+                if(Acb_ObjRemoveBufInv( p, iObj )) return -1;
         }
     printf( "Saved %d nodes after %d pushes.\n", nNodes - Acb_NtkNodeNum(p), nPushes );
     return 0;
