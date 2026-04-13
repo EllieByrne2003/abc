@@ -3082,7 +3082,10 @@ static inline int Abc_Tt6CheckOutDec( word t, int i, word * pOut )
 {
     word c0 = Abc_Tt6Cofactor0( t, i );
     word c1 = Abc_Tt6Cofactor1( t, i );
+
     assert( c0 != c1 );
+    // if(c0 == c1) return -1;
+
     if ( c0 == 0 ) //  F = i * G
     {
         if ( pOut ) *pOut = c1;

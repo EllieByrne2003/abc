@@ -42,7 +42,7 @@ ABC_NAMESPACE_IMPL_START
   SeeAlso     []
 
 ***********************************************************************/
-void Acb_ObjPushToFanout( Acb_Ntk_t * p, int iObj, int iFaninIndex, int iFanout )
+int Acb_ObjPushToFanout( Acb_Ntk_t * p, int iObj, int iFaninIndex, int iFanout )
 {
     word c0, uTruthObjNew = 0, uTruthObj = Acb_ObjTruth( p, iObj ), Gate;
     word c1, uTruthFanNew = 0, uTruthFan = Acb_ObjTruth( p, iFanout );
@@ -70,7 +70,8 @@ void Acb_ObjPushToFanout( Acb_Ntk_t * p, int iObj, int iFaninIndex, int iFanout 
         Gate =  s_Truths6[iFanoutFaninIndex] | s_Truths6[iFanoutObjIndex];
     else if ( DecType == 4 ) //  F = i # G
         Gate =  s_Truths6[iFanoutFaninIndex] ^ s_Truths6[iFanoutObjIndex];
-    else assert( 0 );
+    else return -1;
+    // else assert( 0 );
     uTruthFanNew = (~Gate & c0) | (Gate & c1);
     // update functions
     Vec_WrdWriteEntry( &p->vObjTruth, iObj, Abc_Tt6RemoveVar(uTruthObjNew, iFaninIndex) );
@@ -79,6 +80,8 @@ void Acb_ObjPushToFanout( Acb_Ntk_t * p, int iObj, int iFaninIndex, int iFanout 
     Acb_ObjRemoveFaninFanoutOne( p, iObj, iFanin );
     if ( iFanoutFaninIndex == Acb_ObjFaninNum(p, iFanout) ) // adding new
         Acb_ObjAddFaninFanoutOne( p, iFanout, iFanin );
+    
+    return 0;
 }
 
 /**Function*************************************************************
@@ -244,7 +247,8 @@ int Acb_ObjRemoveBufInv( Acb_Ntk_t * p, int iObj )
     {
         int iFanin = Acb_ObjFanin( p, iObj, 0 );
         int iFanout = Acb_ObjFanout( p, iObj, 0 );
-        assert( Acb_ObjIsCo(p, iFanout) );
+        // assert( Acb_ObjIsCo(p, iFanout) );
+        if(!Acb_ObjIsCo(p, iFanout)) return -1;
         Acb_ObjPatchFanin( p, iFanout, iObj, iFanin );
     }
     if ( Acb_ObjFanoutNum(p, iObj) == 0 )
@@ -310,7 +314,7 @@ int Acb_ObjPushToFanins( Acb_Ntk_t * p, int iObj, int nLutSize )
         {
             k2 = Acb_ObjFindFanoutPushableIndex( p, iObj );
             //printf( "Object %4d : Pushing fanin %d (%d) into fanout %d.\n", iObj, Acb_ObjFanin(p, iObj, k2), k2, iFanout );
-            Acb_ObjPushToFanout( p, iObj, k2, iFanout );
+            if(Acb_ObjPushToFanout( p, iObj, k2, iFanout ) == -1) return 0;
             return 1;
         }
     }

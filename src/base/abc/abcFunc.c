@@ -739,6 +739,10 @@ int Abc_NtkAigToBdd( Abc_Ntk_t * pNtk )
     // set the mapping of elementary AIG nodes into the elementary BDD nodes
     pMan = (Hop_Man_t *)pNtk->pManFunc;
     assert( Hop_ManPiNum(pMan) >= nFaninsMax ); 
+    if(Hop_ManPiNum(pMan) < nFaninsMax) {
+        printf( "Abc_NtkAigToBdd: Error while converting AIG into BDD.\n" );
+        return 0;
+    }
     for ( i = 0; i < nFaninsMax; i++ )
         Hop_ManPi(pMan, i)->pData = Cudd_bddIthVar(ddTemp, i);
 
